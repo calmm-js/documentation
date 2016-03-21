@@ -12,7 +12,7 @@ Personally I find styling, or CSS, to be a zone of discomfort, but, fortunately,
 the undesirable side-effects that CSS can cause are rather limited.  But what is
 really difficult?
 
-> Maintaining consistent state in the face of async inputs.
+**Maintaining consistent state in the face of async inputs.**
 
 That is what we believe is inherently difficult in UI programming.  All UIs must
 maintain some internal state, must maintain the consistency of that state and
