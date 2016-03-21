@@ -144,9 +144,9 @@ UI state as observables.  When we need to compute something that depends on that
 state, we use observable combinators to declare those computations.  This means
 that those dependent computations are essentially always consistent with respect
 to the state.  One could stop right here, because observable combinators solve
-the consistency problem and are a Golden Hammer: powerful enough for nearly
-everything.  However, we do not stop here, because we don't want to stop at
-consistency.  We also want to eliminate boilerplate and glue, we want
+the consistency problem and are often seen as a Golden Hammer: powerful enough
+for nearly everything.  However, we do not stop here, because we don't want to
+stop at consistency.  We also want to eliminate boilerplate and glue, we want
 plug-and-play, structural programming (at higher levels) and efficiency.  None
 of these happens directly as a consequence of simply using observable
 combinators.
@@ -158,10 +158,11 @@ life-cycle management can be implemented once and for all by exploiting the
 React VDOM life-cycle mechanism.  This also allows us to obtain an amount of
 algorithmic efficiency, because we can make it so that VDOM is updated only when
 the values produced by observables actually change.  We essentially only use so
-called stateless React components and never use `createClass`.  That has been
-done once and for all for us.  The React VDOM itself adheres to the structural
-programming paradigm, which we preserve by embedding observables directly into
-VDOM.
+called
+[stateless React components](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions)
+and never use `createClass`.  That has been done once and for all for us.  The
+React VDOM itself adheres to the structural programming paradigm, which we
+preserve by embedding observables directly into VDOM.
 
 Storing state in modifiable observable atoms allows the state to be both
 observed and modified.  Atoms are actually used to store immutable data.  To
@@ -179,11 +180,11 @@ components.  A component, that is given a modifiable atom to access state, does
 not need to know whether that atom actually stores the root state or whether the
 atom is in fact only a small portion of root state or even a property computed
 from state.  Lenses allow state to be stored as a whole, to reap benefits such
-as undo-redo, and then selectively transmitted step-by-step trough the component
-hierarchy to leaf components that are only interested in some specific part of
-the state.  Like VDOM, lenses enable structural programming, but in this case
-following the structure of the data rather than that of the desired display
-elements.
+as [undo-redo](https://github.com/calmm-js/atom.undo), and then selectively
+transmitted step-by-step trough the component hierarchy to leaf components that
+are only interested in some specific part of the state.  Like VDOM, lenses
+enable structural programming, but in this case following the structure of the
+data rather than that of the desired display elements.
 
 The combination of atoms and lenses realizes the ability to plug-and-play
 components.  The transmission of state to components becomes concise and
