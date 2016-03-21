@@ -222,10 +222,10 @@ unnecessarily complected models with observables.
 ### Model :: JSON
 
 In the Calm^2 architecture, model refers to the object or state being displayed
-by and manipulated through the UI.  Usually it just a JSON object or array that
-adheres to some schema.  Most importantly, the model is just simple data.  The
-model knows nothing about observables or anything else about the UI.  It just
-is.
+by and manipulated through the UI.  Usually it is just a JSON object or array
+that adheres to some schema.  Most importantly, the model is just simple data.
+The model knows nothing about observables or anything else about the UI.  It
+just is.
 
 ### Meta :: JSON -> JSON
 
@@ -246,8 +246,8 @@ writing a JSON expression.
 Atoms take care of serializing access to their contents.  They are created by
 giving some initial contents.  Atoms then allow the contents to be shared,
 dependent upon and modified.  In the context of Calm^2, the contents of atoms
-hold the state of the UI and the contents are modified using operations from a
-meta object.
+hold the state of the UI and the contents are modified using operations from
+meta objects.
 
 Atoms can be created in a variety of ways and with a variety of properties, such
 as undo-redo capability or local storage persistence or both, and then passed to
@@ -277,11 +277,11 @@ to compute the arguments are referentially transparent then so is the VDOM
 expression as a whole.  However, once a control is mounted, the function is
 invoked and the control as a whole is allowed to perform side-effects.
 
-In Calm^2 we choose to keep the bulk of VDOM expressions referentially
-transparent.  Note that basic observable combinators are referentially
-transparent and so is the act of creating a lensed atom.  By keeping VDOM
-expressions referentially transparent, we gain important benefits such as being
-able to cache VDOM and being able to compose VDOM and components liberally.
+In Calm^2 we choose to keep VDOM expressions referentially transparent.  Note
+that basic observable combinators are referentially transparent and so is the
+act of creating a lensed atom.  By keeping VDOM expressions referentially
+transparent, we gain important benefits such as being able to cache VDOM and
+being able to compose VDOM and components liberally.
 
 ## Putting it all together
 
