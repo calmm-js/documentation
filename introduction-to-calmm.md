@@ -60,11 +60,12 @@ ways.  That is clearly something we want to avoid.  We want our approach to be
 able to work both as subordinate and as a master in conjunction with other
 approaches.
 
-By declarative programming we refer to the idea of writing referentially
-transparent descriptions of programs or program components.  To use those
-declarations one has to run or instantiate them.  Declarative programming tends
-to have many desirable properties such as composability and testability, but
-that is not given.
+By declarative programming we refer to the idea of writing
+[referentially transparent](https://en.wikipedia.org/wiki/Referential_transparency)
+descriptions of programs or program components.  To use those declarations one
+has to run or instantiate them.  Declarative programming tends to have many
+desirable properties such as composability and testability, but that is not
+given.
 
 Fundamentalist declarative programming leads to having to encode all
 side-effects.  This is something that is necessary in a language such as
@@ -179,11 +180,11 @@ components.  A component, that is given a modifiable atom to access state, does
 not need to know whether that atom actually stores the root state or whether the
 atom is in fact only a small portion of root state or even a property computed
 from state.  Lenses allow state to be stored as a whole, to reap benefits such
-as [undo-redo](https://github.com/calmm-js/atom.undo), and then selectively
-transmitted step-by-step trough the component hierarchy to leaf components that
-are only interested in some specific part of the state.  Like VDOM, lenses
-enable structural programming, but in this case following the structure of the
-data rather than that of the desired display elements.
+as [trivial undo-redo](https://github.com/calmm-js/atom.undo), and then
+selectively transmitted step-by-step trough the component hierarchy to leaf
+components that are only interested in some specific part of the state.  Like
+VDOM, lenses enable structural programming, but in this case following the
+structure of the data rather than that of the desired display elements.
 
 The combination of atoms and lenses realizes the plug-and-play vision for
 components.  The transmission of state to components becomes concise and
@@ -208,22 +209,79 @@ implement more complex components with these ingredients.
 
 ### Lenses
 
-## A recipe for combining the ingredients
+## The architecture
 
 Ingredients are a start, but not enough.  To bake a cake, we need a proper
-recipe.  In fact, when we started using the ingredients, we had some ideas on
-how they could be combined, but it wasn't until we had gathered some experience
-using them that we started to see how to really combine them effectively.  For
-example, we didn't initially realize the full potential of combining lenses and
-atoms.
+recipe.  In fact, when we started using the Calm^2 ingredients, we had some
+ideas on how we could break down UI logic and combine the ingredients to solve
+problems, but it wasn't until we had gathered some experience using them that we
+started to see how to really do that effectively.  For example, we didn't
+initially understand the full potential of combining lenses and atoms.  We also
+unnecessarily complected models with observables.
 
-### Model
+### Model :: JSON
 
-### Meta
+In the Calm^2 architecture, model refers to the object or state being displayed
+by and manipulated through the UI.  Usually it just a JSON object or array that
+adheres to some schema.  Most importantly, the model is just simple data.  The
+model knows nothing about observables or anything else about the UI.  It just
+is.
 
-### Atoms and Lenses
+### Meta :: JSON -> JSON
 
-### Control
+Meta refers to operations on the model.  The term "meta" literally refers to the
+idea that it is
+["about the model"](https://en.wikipedia.org/wiki/Meta#About_.28its_own_category.29).
+The operations are just simple synchronous functions, lenses and other kinds of
+operations on JSON.  The meta is typically represented as either an object or a
+module containing functions or a combination of both.
+
+The fact that models are just simple data and meta is just simple operations on
+said data means that meta becomes extremely simple to test.  One does not need
+to worry about asynchronicity or observables.  Mocking the model is as simple as
+writing a JSON expression.
+
+### Atoms :: Modifiable<model>
+
+Atoms take care of serializing access to their contents.  They are created by
+giving some initial contents.  Atoms then allow the contents to be shared,
+dependent upon and modified.  In the context of Calm^2, the contents of atoms
+hold the state of the UI and the contents are modified using operations from a
+meta object.
+
+Atoms can be created in a variety of ways and with a variety of properties, such
+as undo-redo capability or local storage persistence or both, and then passed to
+controls that do not necessarily need to know about the special properties of
+the atom or about other controls that have been passed the same atom.
+
+### Lensed Atoms :: Modifiable<whole> -> (whole <=> part) -> Modifiable<part>
+
+Atoms can also be created from existing atoms by specifying a lens through which
+the contents of the existing atom are to be viewed and mutated.  Unlike when
+creating a new atom with an initial value, an expression to create a lensed atom
+is referentially transparent.
+
+### &lt;Control/&gt; :: [Observable<prop> | Modifiable<model> | data]* -> VDOM
+
+A control is a function from observables, modifiables and constants to VDOM.
+
+We don't actually directly invoke the `Control` function.  Instead we construct
+VDOM that contains a reference to the function and the actual arguments with
+which the control is to be called with.  In other words, the evaluation of a JSX
+expression, `<Control {...{arguments}}/>`, to create VDOM, does not actually
+invoke the `Control` function, but it does evaluate the `arguments`.  The
+function is invoked if and when the component is actually mounted for display.
+
+This latent invocation has the effect that as long as the expression that we use
+to compute the arguments are referentially transparent then so is the VDOM
+expression as a whole.  However, once a control is mounted, the function is
+invoked and the control as a whole is allowed to perform side-effects.
+
+In Calm^2 we choose to keep the bulk of VDOM expressions referentially
+transparent.  Note that basic observable combinators are referentially
+transparent and so is the act of creating a lensed atom.  By keeping VDOM
+expressions referentially transparent, we gain important benefits such as being
+able to cache VDOM and being able to compose VDOM and components liberally.
 
 ## Putting it all together
 
