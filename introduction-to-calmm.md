@@ -144,7 +144,7 @@ UI state as observables.  When we need to compute something that depends on that
 state, we use observable combinators to declare those computations.  This means
 that those dependent computations are essentially always consistent with respect
 to the state.  One could stop right here, because observable combinators solve
-the consistency problem and are powerful enough, a Golden Hammer, for nearly
+the consistency problem and are a Golden Hammer: powerful enough for nearly
 everything.  However, we do not stop here, because we don't want to stop at
 consistency.  We also want to eliminate boilerplate and glue, we want
 plug-and-play, structural programming (at higher levels) and efficiency.  None
