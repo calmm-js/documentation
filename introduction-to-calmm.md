@@ -186,7 +186,7 @@ are only interested in some specific part of the state.  Like VDOM, lenses
 enable structural programming, but in this case following the structure of the
 data rather than that of the desired display elements.
 
-The combination of atoms and lenses realizes the ability to plug-and-play
+The combination of atoms and lenses realizes the plug-and-play vision for
 components.  The transmission of state to components becomes concise and
 effective.
 
