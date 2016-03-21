@@ -114,8 +114,11 @@ desirable.  But what is simple?  Is an approach based on one
 [Golden Hammer](https://en.wikipedia.org/wiki/Law_of_the_instrument) concept
 simple?  Not necessarily.  In his talk,
 [Simple made Easy](https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/SimpleMadeEasy.md),
-Rich Hickey makes the point that "when you simplify things, you often end up
-with more things".  In our approach, we have identified several parts, all of
+Rich Hickey makes the point that:
+
+> [...] when you simplify things, you often end up with more things.
+
+In our approach, we have identified several parts, all of
 which are quite simple on their own and solve a particular problem well, but not
 everything.  The selective composition of those parts, while perhaps difficult
 to understand at first, is what gives the ability to solve a variety of problems
