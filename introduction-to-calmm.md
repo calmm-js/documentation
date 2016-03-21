@@ -143,7 +143,13 @@ that aims to solve the consistency problem.  It simply means that we express the
 UI state as observables.  When we need to compute something that depends on that
 state, we use observable combinators to declare those computations.  This means
 that those dependent computations are essentially always consistent with respect
-to the state.
+to the state.  One could stop right here, because observable combinators solve
+the consistency problem and are powerful enough, a Golden Hammer, for nearly
+everything.  However, we do not stop here, because we don't want to stop at
+consistency.  We also want to eliminate boilerplate and glue, we want
+plug-and-play, structural programming (at higher levels) and efficiency.  None
+of these happens directly as a consequence of simply using observable
+combinators.
 
 To make the use of observables convenient we extend VDOM to allow observables as
 direct properties and children.  This eliminates a ton of boilerplate and glue
@@ -153,7 +159,7 @@ React VDOM life-cycle mechanism.  This also allows us to obtain an amount of
 algorithmic efficiency, because we can make it so that VDOM is updated only when
 the values produced by observables actually change.  We essentially only use so
 called stateless React components and never use `createClass`.  That has been
-done once and for all.  The React VDOM itself adheres to the structural
+done once and for all for us.  The React VDOM itself adheres to the structural
 programming paradigm, which we preserve by embedding observables directly into
 VDOM.
 
