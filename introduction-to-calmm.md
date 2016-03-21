@@ -197,7 +197,7 @@ observables and embed those into VDOM and might even use lenses, because they
 can be convenient even when one is only reading state.
 
 At the end of the day, the end result of all this is just a set of React
-component that you can use as parts of React based UIs that otherwise make no
+components that you can use as parts of React based UIs that otherwise make no
 use of the ingredients.  You can also use other React components as parts to
 implement more complex components with these ingredients.
 
