@@ -30,7 +30,7 @@ approach.  For example, an approach might be to route all changes to state via a
 dedicated set of operations, serialize the execution of said operations and
 notify other parts of UI after each change of state.
 
-## Desire
+## Goals
 
 When developing or choosing an approach out of many potential approaches, it may
 help to articulate some criteria for making choices.  Here are some of the
@@ -41,7 +41,7 @@ things we desire from our solution(s):
 * Be declarative where it matters
 * Avoid unnecessary encoding of effects
 * Structural programming
-* Plug and play components
+* Plug-and-play components
 * Testability
 * Efficiency
 
@@ -103,7 +103,7 @@ asynchronous, which tends to complicate things.
 
 We also want our approach to be efficient.  But what does that mean?  It is
 important to distinguish between performance and efficiency.  We want our
-approach to be algorithmically efficient, e.g., by avoiding unnecessary work.
+approach to be algorithmically efficient, e.g. by avoiding unnecessary work.
 OTOH, sometimes good performance, especially in simple scenarios, can be
 achieved using poor algorithms, but optimized code.  We, however, generally
 prefer approaches that lend themselves to algorithmically efficient solutions.
@@ -119,6 +119,96 @@ but not everything.  The selective composition of those parts, while perhaps
 difficult to understand at a glance, is what gives the ability to solve a
 variety of problems in UI programming.
 
+## The ingredients
 
+The basic ingredients of the Calm^2 approach can be summarized, in order of
+importance, as follows:
+
+1. We specify dependent computations as *observables*.
+2. We *embed* observables directly into React VDOM.
+3. We store state in modifiable observable *atoms*.
+4. We use *lenses* to selectively transmit state via atoms.
+
+The following subsections go into the details of the above ingredients.
+However, let's briefly describe how these ingredients relate to our problem and
+goals.
+
+The use of observables to specify dependent computations is the key ingredient
+that aims to solve the consistency problem.  It simply means that we express the
+UI state as observables.  When we need to compute something that depends on that
+state, we use observable combinators to declare those computations.  This means
+that those dependent computations are essentially always consistent with respect
+to the state.
+
+To make the use of observables convenient we extend VDOM to allow observables as
+direct properties and children.  This eliminates a ton of boilerplate and glue
+and helps to keep the code declarative, because the side-effects of observable
+life-cycle management can be implemented once and for all by exploiting the
+React VDOM life-cycle mechanism.  This also allows us to obtain an amount of
+algorithmic efficiency, because we can make it so that VDOM is updated only when
+the values produced by observables actually change.  We essentially only use so
+called stateless React components and never use `createClass`.  That has been
+done once and for all.  The React VDOM itself adheres to the structural
+programming paradigm, which we preserve by embedding observables directly into
+VDOM.
+
+Storing state in modifiable observable atoms allows the state to be both
+observed and modified.  Atoms are actually used to store immutable data.  To
+modify an atom means that the immutable data structure stored by the atom is
+replaced by some new immutable data structure.  Modifications are serialized by
+the Atom implementation.  Unlike in fundamentalist declarative approaches, we
+only partially encode mutation of state.  Once a component is instantiated (or
+mounted) it can directly attach callbacks to VDOM that call operations to modify
+atoms.  This way we do lose a bit of testability.  However, this also makes the
+implementation of components more direct as we don't have to encode it all and
+implement new mechanisms to execute side-effects.
+
+In combination with atoms, lenses provide a way to selectively transmit state to
+components.  A component, that is given a modifiable atom to access state, does
+not need to know whether that atom actually stores the root state or whether the
+atom is in fact only a small portion of root state or even a property computed
+from state.  Lenses allow state to be stored as a whole, to reap benefits such
+as undo-redo, and then selectively transmitted step-by-step trough the component
+hierarchy to leaf components that are only interested in some specific part of
+the state.  Like VDOM, lenses enable structural programming, but in this case
+following the structure of the data rather than that of the desired display
+elements.
+
+The combination of atoms and lenses realizes the ability to plug-and-play
+components.  The transmission of state to components becomes concise and
+effective.
+
+It must be emphasized that all parts of the above are essentially optional.  For
+example, a component that only needs to display state, and doesn't need to
+modify it, does not need atoms.  Such a component would likely still use
+observables and embed those into VDOM and might even use lenses, because they
+can be convenient even when one is only reading state.
+
+### Atoms
+
+### Dependent computations
+
+### Embedding Observables into JSX
+
+### Lenses
+
+## A recipe for combining the ingredients
+
+Ingredients are a start, but not enough.  To bake a cake, we need a proper
+recipe.  In fact, when we started using the ingredients, we had some ideas on
+how they could be combined, but it wasn't until we had gathered some experience
+using them that we started to see how to really combine them effectively.  For
+example, we didn't initially realize the full potential of combining lenses and
+atoms.
+
+### Model
+
+### Meta
+
+### Atoms and Lenses
+
+### Control
+
+## Putting it all together
 
 This document is WORK-IN-PROGRESS.  Feedback is welcome!
