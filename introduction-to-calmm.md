@@ -43,6 +43,7 @@ things we desire from our solution(s):
 * Structural programming
 * Plug and play components
 * Testability
+* Efficiency
 
 Let's open up those a little bit.
 
@@ -99,6 +100,13 @@ testing.  Besides having parts than can be tested, it is also important to avoid
 having to make testing otherwise difficult.  For example, if an approach
 requires everything to be asynchronous, it means that unit-tests also have to be
 asynchronous, which tends to complicate things.
+
+We also want our approach to be efficient.  But what does that mean?  It is
+important to distinguish between performance and efficiency.  We want our
+approach to be algorithmically efficient, e.g., by avoiding unnecessary work.
+OTOH, sometimes good performance, especially in simple scenarios, can be
+achieved using poor algorithms, but optimized code.  We, however, generally
+prefer approaches that lend themselves to algorithmically efficient solutions.
 
 Note that we have not explicitly listed simplicity as a goal.  We have yet to
 see an approach to programming that claims to be complex and therefore
