@@ -241,7 +241,7 @@ said data means that meta becomes extremely simple to test.  One does not need
 to worry about asynchronicity or observables.  Mocking the model is as simple as
 writing a JSON expression.
 
-### Atoms :: Modifiable&lt;model&gt;
+### Atoms :: Modifiable model
 
 Atoms take care of serializing access to their contents.  They are created by
 giving some initial contents.  Atoms then allow the contents to be shared,
@@ -254,14 +254,14 @@ as undo-redo capability or local storage persistence or both, and then passed to
 controls that do not necessarily need to know about the special properties of
 the atom or about other controls that have been passed the same atom.
 
-### Lensed Atoms :: Modifiable&lt;whole&gt; -&gt; (whole &lt;=&gt; part) -&gt; Modifiable&lt;part&gt;
+### Lensed Atoms :: Modifiable whole -&gt; (whole &lt;=&gt; part) -&gt; Modifiable part
 
 Atoms can also be created from existing atoms by specifying a lens through which
 the contents of the existing atom are to be viewed and mutated.  Unlike when
 creating a new atom with an initial value, an expression to create a lensed atom
 is referentially transparent.
 
-### &lt;Control/&gt; :: [Observable&lt;prop&gt; | Modifiable&lt;model&gt; | data]* -&gt; VDOM
+### &lt;Control/&gt; :: [Observable prop | Modifiable model | data]* -&gt; VDOM
 
 A control is a function from observables, modifiables and constants to VDOM.
 
