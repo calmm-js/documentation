@@ -18,9 +18,9 @@ That is what we believe is inherently difficult in UI programming.  All UIs must
 maintain some internal state, must maintain the consistency of that state and
 must project a consistent view of that state to the user.  We further want UIs
 to be mostly non-modal and, especially in web apps, we also have lots of
-asynchronous operations happening &mdash; some of which may be out of the
-control of our UI code.  This means that requests to change the state of the UI
-can come from a multitude of sources and at the most inconvenient moments.
+asynchronous operations happening&mdash;some of which may be out of the control
+of our UI code.  This means that requests to change the state of the UI can come
+from a multitude of sources and at the most inconvenient moments.
 
 In this particular document we will try to avoid referring to other concrete
 approaches to implementing UIs, but, in our opinion, many approaches to UI
@@ -158,9 +158,9 @@ life-cycle management can be implemented once and for all by exploiting the
 React VDOM life-cycle mechanism.  This also allows us to obtain an amount of
 algorithmic efficiency, because we can make it so that VDOM is updated only when
 the values produced by observables actually change.  Like with so called
-[stateless React components](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions)
-we only use simple functions and never use `createClass`: that has been done
-once and for all for us.  The React VDOM itself adheres to the structural
+[stateless React components](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions),
+we only use simple functions and never use `createClass`&mdash;that has been
+done once and for all for us.  The React VDOM itself adheres to the structural
 programming paradigm, which we preserve by embedding observables directly into
 VDOM.
 
