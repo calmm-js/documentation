@@ -148,8 +148,7 @@ the consistency problem and are often seen as a Golden Hammer: powerful enough
 for nearly everything.  However, we do not stop here, because we don't want to
 stop at consistency.  We also want to eliminate boilerplate and glue, we want
 plug-and-play, structural programming (at higher levels) and efficiency.  None
-of these happens directly as a consequence of simply using observable
-combinators.
+of these happens simply as a consequence of using observable combinators.
 
 To make the use of observables convenient we extend VDOM to allow observables as
 direct properties and children.  This eliminates a ton of boilerplate and glue
