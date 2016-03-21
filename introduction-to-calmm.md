@@ -3,8 +3,8 @@
 Calmm or Calm^2, pronounced "calm squared", is an architecture and a concrete
 collection of libraries for implementing reactive UIs.  It was born when we
 started a project to implement a custom CMS for a customer.  The customer
-requested that we use JavaScript and React, but we were otherwise given free
-hands to choose the tools for the job.
+requested that we use JavaScript and [React](https://facebook.github.io/react/),
+but we were otherwise given free hands to choose the tools for the job.
 
 ## What is difficult in UI programming?
 
@@ -82,9 +82,9 @@ structure of problems, such as the structure of the desired HTML, into
 declarations.  Note that declarative programming isn't necessarily structural.
 In some declarative approaches you may need to invent significant amounts of
 structure that is not unique to the problem, which means that there are many
-ways to do it.  This tends to go hand-in-hand with having to write boilerplate
-or glue code.  When possible, it is typically preferable to pick one effective
-way to do the plumbing and make that free of boilerplate.
+solutions to the problem.  This tends to go hand-in-hand with having to write
+boilerplate or glue code.  When possible, it is typically preferable to pick one
+effective way to do the plumbing and make that free of boilerplate.
 
 UI code is by no means trivial, so being able to modularize parts of UI code
 into reusable components that play on their own and can be just plugged in,
@@ -110,14 +110,16 @@ prefer approaches that lend themselves to algorithmically efficient solutions.
 
 Note that we have not explicitly listed simplicity as a goal.  We have yet to
 see an approach to programming that claims to be complex and therefore
-desirable.  But what is simple?  Is an approach based on one Golden Hammer
-concept simple?  Not necessarily.  In his talk, Simple made Easy, Rich Hickey
-makes the point that simple approaches tend to have more parts rather than one
-complex intertwined thing.  In our approach, we have identified several parts,
-all of which are quite simple on their own and solve a particular problem well,
-but not everything.  The selective composition of those parts, while perhaps
-difficult to understand at a glance, is what gives the ability to solve a
-variety of problems in UI programming.
+desirable.  But what is simple?  Is an approach based on one
+[Golden Hammer](https://en.wikipedia.org/wiki/Law_of_the_instrument) concept
+simple?  Not necessarily.  In his talk,
+[Simple made Easy](https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/SimpleMadeEasy.md),
+Rich Hickey makes the point that "when you simplify things, you often end up
+with more things".  In our approach, we have identified several parts, all of
+which are quite simple on their own and solve a particular problem well, but not
+everything.  The selective composition of those parts, while perhaps difficult
+to understand at first, is what gives the ability to solve a variety of problems
+in UI programming.
 
 ## The ingredients
 
