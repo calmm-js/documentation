@@ -271,17 +271,17 @@ which the control is to be called with.  In other words, the evaluation of a JSX
 expression, `<Control {...{arguments}}/>`, to create VDOM, does not actually
 invoke the `Control` function, but it does evaluate the `arguments`.  The
 function is invoked if and when the component is actually mounted for display.
-
-This latent invocation has the effect that as long as the expression that we use
-to compute the arguments are referentially transparent then so is the VDOM
-expression as a whole.  However, once a control is mounted, the function is
-invoked and the control as a whole is allowed to perform side-effects.
+This latent invocation has the effect that as long as the expressions that we
+use to compute the arguments are referentially transparent then so is the VDOM
+expression as a whole.
 
 In Calm^2 we choose to keep VDOM expressions referentially transparent.  Note
 that basic observable combinators are referentially transparent and so is the
 act of creating a lensed atom.  By keeping VDOM expressions referentially
 transparent, we gain important benefits such as being able to cache VDOM and
-being able to compose VDOM and components liberally.
+being able to compose VDOM and components liberally.  However, once a control is
+mounted, the function is invoked and the control as a whole is allowed to
+perform side-effects.
 
 ## Putting it all together
 
