@@ -201,6 +201,10 @@ components that you can use as parts of React based UIs that otherwise make no
 use of the ingredients.  You can also use other React components as parts to
 implement more complex components with these ingredients.
 
+### Observables
+
+<p align="center"><img width="40%" height="40%" src="http://calmm-js.github.io/documentation/images/Observables.svg"></p>
+
 ### Atoms
 
 ### Dependent computations
@@ -218,6 +222,8 @@ problems, but it wasn't until we had gathered some experience using them that we
 started to see how to really do that effectively.  For example, we didn't
 initially understand the full potential of combining lenses and atoms.  We also
 unnecessarily complected models with observables.
+
+<p align="center"><img width="30%" height="30%" src="http://calmm-js.github.io/documentation/images/CALMM.svg"></p>
 
 ### Model :: JSON
 
