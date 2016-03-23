@@ -358,7 +358,7 @@ a few corners, in Rx, for example, streams can be obtained by applying
 
 As the above diagram shows, an **Atom** is also a **Property**.  In addition to
 having a current value, an atom also just directly allows the current value to
-be modified (using the `modify` operation introduced previously).  It turns out
+be modified using the `modify` operation introduced previously.  It turns out
 that in order to support such modification, it isn't actually necessary to store
 the value.  We can introduce the concept of a **LensedAtom** that doesn't
 actually store a value, but, rather, only declares a way to get and modify some
