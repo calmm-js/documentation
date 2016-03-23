@@ -562,7 +562,7 @@ const who = Atom("world")
 
 and try to render it, the result would be an error message.  Indeed, React's
 `div` (pseudo) class knows nothing about observables.  What if we had a function
-that, given any React class, would return a new class that renders the same, but
+that, given any React class, would return a class that renders the same, but
 also works with observables?  Let's import such a function
 
 ```js
@@ -595,6 +595,37 @@ and
 
 would render the same.  If we'd assign to `who`, e.g. `hello.set("there")` the
 latter element would be rerendered.
+
+The default import of the
+[`kefir.react.html`](https://github.com/calmm-js/kefir.react.html) library
+
+```js
+import K from "kefir.react.html"
+```
+
+which we introduced in the previous section as generalized combine combinator,
+also contains prelifted versions of all the pseudo HTML classes that React
+provides and the same goes for the Bacon version:
+[`bacon.react.html`](https://github.com/calmm-js/bacon.react.html).  Using it we
+could write the `Hello` class as follows:
+
+```jsx
+const Hello = ({who}) => <K.div>Hello, {who}!</K.div>
+```
+
+Let's create something a little bit more interesting.  Here is a toy React class
+that converts Celcius to Fahrenheit:
+
+```jsx
+const Converter = ({value = Atom("0")}) =>
+  <K.div>
+    <K.input onChange={e => value.set(e.target.value)}
+             value={value}/>°C is {K(value, c => c * 9 / 5 + 32)}°F
+  </K.div>
+```
+
+An equivalent version can be seen live
+[here](http://calmm-js.github.io/kral-examples/public/index.html#converter).
 
 ### Lenses
 
