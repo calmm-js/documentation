@@ -235,14 +235,14 @@ Atoms are essentially first-class storage locations or variables.  We can create
 a new atom using the `Atom` constructor function:
 
 ```js
-> const elems = Atom(["earth", "water", "air"])
+> const elems = Atom(["earth", "water", "air", "fire"])
 ```
 
 And we can get the value of an atom:
 
 ```js
 > elems.get()
-[ 'earth', 'water', 'air' ]
+[ 'earth', 'water', 'air', 'fire' ]
 ```
 
 And we can also set the value of an atom:
