@@ -531,7 +531,70 @@ understand.
 
 ### Embedding Observables into VDOM
 
-**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
+What we ultimately want to do with observables is to create VDOM that contains
+values obtained from the observables.  One could use the ordinary observable
+combinators for that purpose, but it leaves a lot to be desired.  First of all,
+we would then need to somehow manage the subscriptions of observables and be
+careful avoid leaks.  Combining observables manually would also add a lot of
+boilerplate code.
+
+Instead of manually combining observables to form VDOM expressions, we choose to
+extend VDOM to admit observables as properties and children.  Consider the
+following example:
+
+```jsx
+const Hello = ({who}) => <div>Hello, {who}!</div>
+```
+
+If we'd pass an ordinary constant to the above component
+
+```jsx
+<Hello who="world"/>
+```
+
+it would render as expected.  If, instead, we'd pass it an observable
+
+```jsx
+const who = Atom("world")
+...
+<Hello who={who}/>
+```
+
+the result would be an error message.  Indeed, React's `div` (pseudo) class
+knows nothing about observables.  What if we had a function that, given an
+ordinary React class, would return a new class that renders the same, but also
+works with observables?  Let's import such a function
+
+```js
+import {fromClass} from "kefir.react.html"
+```
+
+apply it to `div`
+
+```js
+const Kdiv = fromClass("div")
+```
+
+and redefine our component
+
+```jsx
+const Hello = ({who}) => <Kdiv>Hello, {who}!</Kdiv>
+```
+
+Now both
+
+```jsx
+<Hello who="world"/>
+```
+
+and
+
+```jsx
+<Hello who={who}/>
+```
+
+would render the same.  If we'd assign to `who`, e.g. `hello.set("there")` the
+latter element would be rerendered.
 
 ### Lenses
 
