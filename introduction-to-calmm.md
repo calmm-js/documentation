@@ -299,7 +299,7 @@ On the other hand, there are other forms of spaghetti, such as complicated
 observable expressions.  We have, in fact, more than once, initially written
 components using just observable computations that maintained state, using
 `scan` or some other observable combinator, in response to events from UI
-elements, because we thought it would be simpler.  Later we have found that by
+elements, because we thought it would be simpler.  Later we found out that by
 identifying the essential root state and creating an atom for that state we were
 able to simplify the logic significantly&mdash;typically by a factor of about
 two.
