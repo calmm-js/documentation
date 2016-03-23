@@ -349,12 +349,12 @@ observables:
 
 The concepts **Observable**, **Stream** and **Property** can be directly found
 in Bacon and [Kefir](http://rpominov.github.io/kefir/#about-observables), but
-many other observable frameworks, such as Rx, which can considered a lower level
-framework, do not identify the concepts of streams and properties.  However, in
-most of those other frameworks it is possible to create observables that have
-the same or nearly same semantics as streams and properties.  Cutting a few
-corners, in Rx, for example, streams can be obtained by applying `.share()` and
-properties can be obtained by applying `.shareReplay(1)`.
+many other observable frameworks, such as Rx, which can be considered as a lower
+level framework, do not identify the concepts of streams and properties.
+However, in most of those other frameworks it is possible to create observables
+that have the same or nearly same semantics as streams and properties.  Cutting
+a few corners, in Rx, for example, streams can be obtained by applying
+`.share()` and properties can be obtained by applying `.shareReplay(1)`.
 
 As the above diagram shows, an **Atom** is also a **Property**.  In addition to
 having a current value, an atom also just directly allows the current value to
