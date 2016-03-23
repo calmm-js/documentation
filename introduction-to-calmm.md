@@ -400,3 +400,18 @@ perform side-effects.
 ## Putting it all together
 
 **This document is WORK-IN-PROGRESS.  Feedback is welcome!**
+
+## History
+
+> Most papers in computer science describe how their author learned what someone
+> else already knew. -- Peter Landin
+
+Ideas do not exist in vacuum.  All of the ingredients of Calm^2 are actually old
+news and we make absolutely no claim of originality in any way.  In fact, much
+of Calm^2 was initially shaped by a search of way to make it possible to program
+in ways similar to what could be done using
+[Reagent](https://reagent-project.github.io/) and
+[WebSharper.UI.Next](http://websharper.com/docs/ui.next).  The combination that
+we ultimately realized, however, is not identical to either.
+
+**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
