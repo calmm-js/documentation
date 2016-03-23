@@ -331,44 +331,44 @@ choose to categorize observables into:
 
 <p align="center"><img width="40%" height="40%" src="http://calmm-js.github.io/documentation/images/Observables.svg"></p>
 
-Basically, and to simplify a bit, an *Observable* is just an object that you can
-*subscribe to* in order to get notifications that include a value.  The
+Basically, and to simplify a bit, an **Observable** is just an object that you
+can *subscribe to* in order to get notifications that include a value.  The
 semantics of when exactly you get such notifications is one way to distinguish
 observables:
 
-* A *Stream* gives you notifications only when some discrete event occurs.
+* A **Stream** gives you notifications only when some discrete event occurs.
   Streams know nothing about past events and do not have a current
   value&mdash;when you subscribe to a stream, you will not get a notification
   until some new event occurs.
 
-* A *Property* has the concept of a current value.  In other words, properties
+* A **Property** has the concept of a current value.  In other words, properties
   can recall the value that they previously notified their subscribers with.
   When you subscribe to a property, and assuming the property has a value, you
   will subsequently get a notification.  After that, just like with streams, you
   will get notifications whenever new events occur.
 
-The concepts *Observable*, *Stream* and *Property* can be directly found in
-Bacon and [Kefir](http://rpominov.github.io/kefir/#about-observables), but many
-other observable frameworks, such as Rx, which can considered a lower level
+The concepts **Observable**, **Stream** and **Property** can be directly found
+in Bacon and [Kefir](http://rpominov.github.io/kefir/#about-observables), but
+many other observable frameworks, such as Rx, which can considered a lower level
 framework, do not identify the concepts of streams and properties.  However, in
 most of those other frameworks it is possible to create observables that have
 the same or nearly same semantics as streams and properties.  Cutting a few
 corners, in Rx, for example, streams can be obtained by applying `.share()` and
 properties can be obtained by applying `.shareReplay(1)`.
 
-As the above diagram shows, an *Atom* is also a *Property*.  In addition to
+As the above diagram shows, an **Atom** is also a **Property**.  In addition to
 having a current value, an atom also just directly allows the current value to
 be modified (using the `modify` operation introduced previously).  It turns out
 that in order to support such modification, it isn't actually necessary to store
-the value.  We can introduce the concept of a *LensedAtom* that doesn't actually
-store a value, but, rather, only declares a way to get and modify some part of
-an actual root *Atom*.  For this reason we also identify the concept of an
-*AbstractMutable*, which is actually the concept that most of our code using
-atoms depends upon: we don't typically care whether we are given an actual root
-atom or a lensed atom.  Once created, the interfaces, and, essentially, the
-semantics of *AbstractMutable*, *Atom* and *LensedAtom* are the same.  To talk
-more about *LensedAtom*s we need to introduce the concept of lenses, which are a
-topic of a later section.
+the value.  We can introduce the concept of a **LensedAtom** that doesn't
+actually store a value, but, rather, only declares a way to get and modify some
+part of an actual root **Atom**.  For this reason we also identify the concept
+of an **AbstractMutable**, which is actually the concept that most of our code
+using atoms depends upon: we don't typically care whether we are given an actual
+root atom or a lensed atom.  Once created, the interfaces, and, essentially, the
+semantics of **AbstractMutable**, **Atom** and **LensedAtom** are the same.  To
+talk more about **LensedAtom**s we need to introduce the concept of lenses,
+which are a topic of a later section.
 
 #### Observable combinators
 
