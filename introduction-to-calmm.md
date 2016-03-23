@@ -474,6 +474,8 @@ computed immediately:
 'Hello, there!'
 ```
 
+This reduces the construction of unnecessary observables.
+
 The second special feature of `K` is that when the constructor of an argument is
 `Array` or `Object`, then that argument is treated as a template that may
 contain observables.  The values from observables found inside the template are
