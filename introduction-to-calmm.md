@@ -282,10 +282,8 @@ introducing new atoms to a system.  Each time one creates a new atom, one should
 pause and think for a moment:
 
 * Is this really an independent variable?  *If not, it shouldn't be an atom.*
-
 * Is this actually a substate of some existing variable?  *If true, then extend
   the state space of that variable instead.*
-
 * Does the value of this variable need to change in response to a change of some
   other variable?  *If true, then this should be a dependent computation rather
   than a new atom.*
