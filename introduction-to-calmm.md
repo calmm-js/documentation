@@ -489,6 +489,17 @@ result <value:current> b
 In other words, `K` also includes the functionality of
 [`combineTemplate`](https://github.com/baconjs/bacon.js#bacon-combinetemplate).
 
+Unlike with Kefir's [`combine`](http://rpominov.github.io/kefir/#combine), the
+combiner function can also be a observable.  For example:
+
+```js
+> const f = Atom(x => x + 1)
+> K(1, f).log("result")
+result <value:current> 2
+> f.set(x => x * 2 + 1)
+result <value> 3
+```
+
 Finally, like with Kefir's [`combine`](http://rpominov.github.io/kefir/#combine)
 the combiner function is optional.  If the combiner is omitted, the result is an
 array.  For example:
