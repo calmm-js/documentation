@@ -203,15 +203,109 @@ components that you can use as parts of React based UIs that otherwise make no
 use of the ingredients.  You can also use other React components as parts to
 implement more complex components with these ingredients.
 
-### Observables
-
-<p align="center"><img width="40%" height="40%" src="http://calmm-js.github.io/documentation/images/Observables.svg"></p>
-
 ### Atoms
 
-**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
+As described earlier, atoms are *not* the most important ingredient of Calm^2.
+The most important ingredient is the use of observable combinators to express
+dependent computations to solve the consistency problem.  However, atoms are a
+simple way to create root observables, which is what we will need in order to
+talk about dependent computations.  Therefore we will first take a brief look at
+atoms and later take a closer look when we talk about lenses.
+
+Let's start by importing an implementation of Atoms.  In this introduction we
+will be using [Kefir](http://rpominov.github.io/kefir/) as our observable
+implementation.  Therefore we will import the Kefir based
+[Atom](https://github.com/calmm-js/kefir.atom) implementation:
+
+```js
+import Atom from "kefir.atom"
+```
+
+There also exists a [Bacon](https://baconjs.github.io/) based
+[Atom](https://github.com/calmm-js/bacon.atom) implementation, which is actually
+the implementation that our original project uses in production, and it should
+be possible to port the concept to pretty much any observable framework
+(e.g. Rx).
+
+Atoms are essentially first-class storage locations or variables.  We can create
+a new atom using the `Atom` constructor function:
+
+```js
+const counter = Atom([0, 1, 2])
+```
+
+And we can get the value of an atom:
+
+```js
+> counter.get()
+[0, 1, 2]
+```
+
+And we can also set the value of an atom:
+
+```js
+> counter.set([1, 2])
+> counter.get()
+[1, 2]
+```
+
+However, as we will learn, getting and, to lesser degree, setting the values of
+atoms generally is generally discouraged, because doing so makes it harder to
+keep the state of our program consistent.  There are better ways.
+
+We can also modify the value of the atom, by passing it a function, that will be
+called with the current value of the atom and must return the new value:
+
+```js
+> counter.modify(xs => xs.concat([3]))
+> counter.get()
+[1, 2, 3]
+```
+
+The `modify` operation is, in fact, the primitive operation used to modify atoms
+and `set` is just for convenience.  Modifications are executed one by one.  Each
+operation to modify an atom therefore gets to see the current value of the atom
+before deciding what the new value should be.  This helps to keep the state of
+an atom consistent.
+
+The term "atom" perhaps gives the idea that one should only use atoms to store
+simple primitive values.  That is not the case.  The term "atom" is borrowed
+from [Clojure](http://clojure.org/reference/atoms) and comes from the idea that
+one only performs "atomic", or race-condition free, operations on individual
+atoms.  We will later see how a lenses make it practical to store arbitrarily
+complex data structures in atoms.
+
+Atoms are the variables of our system.  They are used to hold the essential
+state that is being modified by the UI.  But there really should be tax on
+introducing new atoms to a system.  Each time one creates a new atom, one should
+pause and think for a moment:
+
+* Is this really an independent variable?  *If not, it shouldn't be an atom.*
+
+* Is this actually a substate of some existing variable?  *If true, then extend
+  the state space of that variable instead.*
+
+* Does the value of this variable need to change in response to a change of some
+  other variable?  *If true, then this should be a dependent computation rather
+  than a new atom.*
+
+Overuse of atoms can lead to imperative spaghetti code, which is something that
+we do not want.  One of the most common code review results in our experience
+has been to notice that a particular atom could be eliminated completely, which
+has simplified the code.
+
+On the other hand, there are other forms of spaghetti, such as complicated
+observable expressions.  We have, in fact, more than once, initially written
+components using just observable computations that maintained state, using
+`scan` or some other observable combinator, in response to events from UI
+elements, because we thought it would be simpler.  Later we have found that by
+identifying the essential root state and creating an atom for that state we have
+been able to simplify the logic significantly&mdash;typically by a factor of
+about two.
 
 ### Dependent computations
+
+<p align="center"><img width="40%" height="40%" src="http://calmm-js.github.io/documentation/images/Observables.svg"></p>
 
 **This document is WORK-IN-PROGRESS.  Feedback is welcome!**
 
