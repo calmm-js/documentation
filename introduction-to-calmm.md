@@ -535,7 +535,7 @@ What we ultimately want to do with observables is to create VDOM that contains
 values obtained from the observables.  One could use the ordinary observable
 combinators for that purpose, but it leaves a lot to be desired.  First of all,
 we would then need to somehow manage the subscriptions of observables and be
-careful avoid leaks.  Combining observables manually would also add a lot of
+careful to avoid leaks.  Combining observables manually would also add a lot of
 boilerplate code.
 
 Instead of manually combining observables to form VDOM expressions, we choose to
@@ -546,13 +546,13 @@ following example:
 const Hello = ({who}) => <div>Hello, {who}!</div>
 ```
 
-If we'd pass an ordinary constant to the above component
+If we'd create VDOM that specifies an ordinary constant for the `Hello` class
 
 ```jsx
 <Hello who="world"/>
 ```
 
-it would render as expected.  If, instead, we'd pass it an observable
+it would render as expected.  If, instead, we'd specify an observable
 
 ```jsx
 const who = Atom("world")
@@ -560,10 +560,10 @@ const who = Atom("world")
 <Hello who={who}/>
 ```
 
-the result would be an error message.  Indeed, React's `div` (pseudo) class
-knows nothing about observables.  What if we had a function that, given an
-ordinary React class, would return a new class that renders the same, but also
-works with observables?  Let's import such a function
+and try to render it, the result would be an error message.  Indeed, React's
+`div` (pseudo) class knows nothing about observables.  What if we had a function
+that, given any React class, would return a new class that renders the same, but
+also works with observables?  Let's import such a function
 
 ```js
 import {fromClass} from "kefir.react.html"
