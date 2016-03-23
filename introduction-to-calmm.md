@@ -225,7 +225,7 @@ There also exists a [Bacon](https://baconjs.github.io/) based
 [Atom](https://github.com/calmm-js/bacon.atom) implementation, which is actually
 the implementation that our original project uses in production, and it should
 be possible to port the concept to pretty much any observable framework
-(e.g. Rx).
+(e.g. [Rx](https://github.com/Reactive-Extensions/RxJS)).
 
 Atoms are essentially first-class storage locations or variables.  We can create
 a new atom using the `Atom` constructor function:
@@ -277,7 +277,7 @@ immutable value.  We will later see how lenses make it practical to store
 arbitrarily complex immutable data structures in atoms.
 
 Atoms are the variables of our system.  They are used to hold the essential
-state that is being modified by the UI.  But there really should be tax on
+state that is being modified by the UI.  But there really should be a tax on
 introducing new atoms to a system.  Each time one creates a new atom, one should
 pause and think for a moment:
 
