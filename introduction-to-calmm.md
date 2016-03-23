@@ -272,8 +272,9 @@ The term "atom" perhaps gives the idea that one should only use atoms to store
 simple primitive values.  That is not the case.  The term "atom" is borrowed
 from [Clojure](http://clojure.org/reference/atoms) and comes from the idea that
 one only performs "atomic", or race-condition free, operations on individual
-atoms.  We will later see how lenses make it practical to store arbitrarily
-complex data structures in atoms.
+atoms.  For this to work, the value stored by an atom must be treated as an
+immutable value.  We will later see how lenses make it practical to store
+arbitrarily complex immutable data structures in atoms.
 
 Atoms are the variables of our system.  They are used to hold the essential
 state that is being modified by the UI.  But there really should be tax on
