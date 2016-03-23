@@ -404,7 +404,7 @@ perform side-effects.
 ## History
 
 > Most papers in computer science describe how their author learned what someone
-> else already knew. -- Peter Landin
+> else already knew. &mdash; Peter Landin
 
 Ideas do not exist in vacuum.  All of the ingredients of Calm^2 are actually old
 news and we make absolutely no claim of originality in any way.  In fact, much
