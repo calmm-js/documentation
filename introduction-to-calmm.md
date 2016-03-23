@@ -462,8 +462,8 @@ argument of `K` is allowed to a constant.  For example:
 
 ```js
 > const a = 2
-> const b = Atom(2)
-> const a_times_b = K(a, b, (a, b) => a * b)
+> const b = Atom(3)
+> K(a, b, (a, b) => a * b).log("a * b")
 a * b <value:current> 6
 ```
 
