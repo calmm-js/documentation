@@ -235,22 +235,22 @@ Atoms are essentially first-class storage locations or variables.  We can create
 a new atom using the `Atom` constructor function:
 
 ```js
-const elems = Atom([0, 1, 2])
+> const elems = Atom(["earth", "water", "air"])
 ```
 
 And we can get the value of an atom:
 
 ```js
 > elems.get()
-[0, 1, 2]
+[ 'earth', 'water', 'air' ]
 ```
 
 And we can also set the value of an atom:
 
 ```js
-> elems.set([1, 2])
+> elems.set(["observables", "embedding", "atoms"])
 > elems.get()
-[1, 2]
+[ 'observables', 'embedding', 'atoms' ]
 ```
 
 However, as we will learn, getting and, to a lesser degree, setting the values
@@ -261,9 +261,9 @@ We can also modify the value of the atom, by passing it a function, that will be
 called with the current value of the atom and must return the new value:
 
 ```js
-> elems.modify(xs => xs.concat([3]))
+> elems.modify(xs => xs.concat(["lenses"]))
 > elems.get()
-[1, 2, 3]
+[ 'observables', 'embedding', 'atoms', 'lenses' ]
 ```
 
 The `modify` operation is, in fact, the primitive operation used to modify atoms
@@ -368,11 +368,150 @@ using atoms depends upon: we don't typically care whether we are given an actual
 root atom or a lensed atom.  Once created, the interfaces, and, essentially, the
 semantics of **AbstractMutable**, **Atom** and **LensedAtom** are the same.  To
 talk more about **LensedAtom**s we need to introduce the concept of lenses,
-which are a topic of a later section.
+which are the topic of a later section.
 
-#### Observable combinators
+#### Combining properties
 
-**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
+Both streams and properties, as described in the previous section, are relevant
+to programming in Calm^2.  However, we mostly make use of properties.  One
+reason for this is that, when we create components that display state obtained
+from observables, we expect that, when such components are hidden or removed
+from view and subsequently redisplayed, they will actually display a value
+immediately rather than only after notifications of new values.  So, we
+typically mostly use observables that have the concept of a current value and
+those are properties.
+
+Observable frameworks such as Bacon and Kefir provide a large number of
+combinators for observables.  While most of those combinators have uses in
+conjunction with Calm^2, we are frequently only interested in combining, with
+some function, a bunch of properties, possibly contained in some data structure,
+into a new property that is kept up-to-date with respect to the latest values of
+the original properties.  We also do a lot of this.  Everywhere.  That is one
+the two main reasons why we have defined a generalized combinator for that use
+case.  Let's just import the Kefir based version of the combinator from the
+[kefir.react.html](https://github.com/calmm-js/kefir.react.html) library:
+
+```js
+import K from "kefir.react.html"
+```
+
+There is also a similar Bacon based combinator in the
+[bacon.react.html](https://github.com/calmm-js/kefir.react.html) library.
+
+The basic semantics of the combinator can be described as
+
+```js
+K(x1, ..., xN, fn) === combine([x1, ..., xN], fn).skipDuplicates(equals)
+```
+
+where [`combine`](http://rpominov.github.io/kefir/#combine) and
+[`skipDuplicates`](http://rpominov.github.io/kefir/#skip-duplicates) come from
+Kefir and [`equals`](http://ramdajs.com/0.19.0/docs/#equals) from Ramda.  We
+skip duplicates, because that avoids some unnecessary updates.  Ramda's `equals`
+provides a semantics of equality that works, for immutable data, just the way we
+like.
+
+Suppose, for example, that we define two atoms representing independent
+variables:
+
+```js
+> const x = Atom(1)
+> const y = Atom(2)
+```
+
+Using `K` we could specify a computation of their sum as follows:
+
+```js
+> const x_plus_y = K(x, y, (x, y) => x + y)
+```
+
+To see the value, we can use the Kefir's
+[`log`](http://rpominov.github.io/kefir/#log) operation:
+
+```js
+> x_plus_y.log("x + y")
+x + y <value:current> 3
+```
+
+Now, if we modify the variables, we can see that the sum is recomputed:
+
+```js
+> x.set(-2)
+x + y <value> 0
+> y.set(3)
+x + y <value> 1
+```
+
+We can, of course, create computations that depend on dependent computations:
+
+```js
+> const z = Atom(1)
+> const x_plus_y_minus_z = K(x_plus_y, z, (x_plus_y, z) => x_plus_y - z)
+> x_plus_y_minus_z.log("(x + y) - z")
+(x + y) - z <value:current> 0
+> x.modify(x => x + 1)
+x + y <value> 2
+(x + y) - z <value> 1
+```
+
+The `K` combinator is actually somewhat more powerful, or complex, than what the
+previous basic semantics claimed.  First of all, as we are using `K` to compute
+properties to be embedded to VDOM, we don't usually care whether we are really
+dealing with constants or with observable properties.  For this reason any
+argument of `K` is allowed to a constant.  For example:
+
+```js
+> const a = 2
+> const b = Atom(2)
+> const a_times_b = K(a, b, (a, b) => a * b)
+a * b <value:current> 6
+```
+
+Even further, when all the arguments to `K` are constants, the value is simply
+computed immediately:
+
+```js
+> K("there", who => "Hello, " + who + "!")
+'Hello, there!'
+```
+
+The second special feature of `K` is that when the constructor of an argument is
+`Array` or `Object`, then that argument is treated as a template that may
+contain observables.  The values from observables found inside the template are
+substituted into the template to form an instance of the template that is then
+passed to the combiner function.  For example:
+
+```js
+> K({i: Atom(1), xs: ["a", Atom("b"), Atom("c")]}, r => r.xs[r.i]).log()
+result <value:current> b
+```
+
+In other words, `K` also includes the functionality of
+[`combineTemplate`](https://github.com/baconjs/bacon.js#bacon-combinetemplate).
+
+Finally, like with Kefir's [`combine`](http://rpominov.github.io/kefir/#combine)
+the combiner function is optional.  If the combiner is omitted, the result is an
+array.  For example:
+
+```js
+> K()
+[]
+> K(1, 2, 3)
+[ 1, 2, 3 ]
+> K({x: Atom(1)}, 2, [Atom(3)]).log("result")
+result <value:current> [ { x: 1 }, 2, [ 3 ] ]
+```
+
+Phew!  This might seem overwhelming at first, but the `K` combinator gives us a
+lot of leverage to reduce boilerplate and also helps by avoiding some
+unnecessary updates.  The Kefir based implementation of `K` is actually
+carefully optimized for space.  For example, `K(x, f)`, which, assuming `x` is a
+property and `f` is a function, is equivalent to
+`x.map(f).skipDuplicates(equals)`.  Of those two, `K(x, f)` takes less space.
+
+It should be mentioned, however, there is nothing magical about `K`.  We use it,
+because it helps to eliminate boilerplate.  As we will see shortly, it also
+helps with keeping things easier to understand.
 
 ### Embedding Observables into VDOM
 
