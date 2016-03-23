@@ -159,8 +159,9 @@ and helps to keep the code declarative, because the side-effects of observable
 life-cycle management can be implemented once and for all by exploiting the
 [React VDOM life-cycle mechanism](https://facebook.github.io/react/docs/component-specs.html).
 This also allows us to obtain an amount of algorithmic efficiency, because we
-can make it so that VDOM is updated only when the values produced by observables
-actually change.  Like with so called
+can make it so that VDOM is updated
+[incrementally](http://www.umut-acar.org/self-adjusting-computation) only when
+the values produced by observables actually change.  Like with so called
 [stateless React components](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions),
 we only use simple functions and never use `createClass`&mdash;that has been
 done once and for all for us.  The React VDOM itself adheres to the structural
@@ -178,16 +179,18 @@ atoms.  This way we do lose a bit of testability.  However, this also makes the
 implementation of components more direct as we don't have to encode it all and
 implement new mechanisms to execute side-effects.
 
-In combination with atoms, lenses provide a way to selectively transmit state to
-components.  A component, that is given a modifiable atom to access state, does
-not need to know whether that atom actually stores the root state or whether the
-atom is in fact only a small portion of root state or even a property computed
-from state.  Lenses allow state to be stored as a whole, to reap benefits such
-as [trivial undo-redo](https://github.com/calmm-js/atom.undo), and then
-selectively transmitted step-by-step trough the component hierarchy to leaf
-components that are only interested in some specific part of the state.  Like
-VDOM, lenses enable structural programming, but in this case following the
-structure of the data rather than that of the desired display elements.
+[Lenses](http://sebfisch.github.io/research/pub/Fischer+MPC15.pdf) are a form of
+bidirectional programs.  In combination with atoms, lenses provide a way to
+selectively transmit state to components.  A component, that is given a
+modifiable atom to access state, does not need to know whether that atom
+actually stores the root state or whether the atom is in fact only a small
+portion of root state or even a property computed from state.  Lenses allow
+state to be stored as a whole, to reap benefits such as
+[trivial undo-redo](https://github.com/calmm-js/atom.undo), and then selectively
+transmitted step-by-step trough the component hierarchy to leaf components that
+are only interested in some specific part of the state.  Like VDOM, lenses
+enable structural programming, but in this case following the structure of the
+data rather than that of the desired display elements.
 
 The combination of atoms and lenses realizes the plug-and-play vision for
 components.  The transmission of state to components becomes concise and
