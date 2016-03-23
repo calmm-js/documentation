@@ -490,7 +490,7 @@ In other words, `K` also includes the functionality of
 [`combineTemplate`](https://github.com/baconjs/bacon.js#bacon-combinetemplate).
 
 Unlike with Kefir's [`combine`](http://rpominov.github.io/kefir/#combine), the
-combiner function can also be a observable.  For example:
+combiner function is also allowed to be an observable.  For example:
 
 ```js
 > const f = Atom(x => x + 1)
