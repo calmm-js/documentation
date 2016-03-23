@@ -250,7 +250,7 @@ And we can also set the value of an atom:
 ```
 
 However, as we will learn, getting and, to a lesser degree, setting the values
-of atoms is generally discouraged, because doing so makes it harder to keep the
+of atoms is generally discouraged, because doing so does not help to keep the
 state of our program consistent.  There are better ways.
 
 We can also modify the value of the atom, by passing it a function, that will be
