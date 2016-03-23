@@ -617,7 +617,7 @@ perform side-effects.
 
 **This document is WORK-IN-PROGRESS.  Feedback is welcome!**
 
-## History
+## Related work
 
 > Most papers in computer science describe how their author learned what someone
 > else already knew. &mdash; Peter Landin
