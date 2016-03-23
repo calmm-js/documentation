@@ -316,7 +316,7 @@ Always be looking for *simple solutions* and be wary of holding onto a
 
 **This document is WORK-IN-PROGRESS.  Feedback is welcome!**
 
-### Embedding Observables into JSX
+### Embedding Observables into VDOM
 
 **This document is WORK-IN-PROGRESS.  Feedback is welcome!**
 
