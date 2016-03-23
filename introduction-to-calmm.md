@@ -1,3 +1,5 @@
+**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
+
 # Introduction to Calm^2
 
 Calmm or Calm^2, pronounced "calm squared", is an architecture and a concrete
@@ -207,11 +209,19 @@ implement more complex components with these ingredients.
 
 ### Atoms
 
+**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
+
 ### Dependent computations
+
+**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
 
 ### Embedding Observables into JSX
 
+**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
+
 ### Lenses
+
+**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
 
 ## The architecture
 
@@ -291,4 +301,4 @@ perform side-effects.
 
 ## Putting it all together
 
-This document is WORK-IN-PROGRESS.  Feedback is welcome!
+**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
