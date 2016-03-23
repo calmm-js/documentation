@@ -303,7 +303,7 @@ identifying the essential root state and creating an atom for that state we were
 able to simplify the logic significantly&mdash;typically by a factor of about
 two.
 
-Always look for *simple solutions* and be wary of holding onto a
+Always be looking for *simple solutions* and be wary of holding onto a
 [Golden Hammer](http://c2.com/cgi/wiki?GoldenHammer).
 
 ### Dependent computations
