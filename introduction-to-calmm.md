@@ -323,10 +323,9 @@ using observable combinators.
 
 Atoms are observable, but there are, in fact, many kinds of observables.  The
 purpose of this document is not to serve as an extensive introduction to
-programming with observables, but to put things into perspective in the context
-of Calm^2.  There are many introductions, including full length books, to
-programming with observables already.  However, in order to put things into
-perspective, we should take a brief look at a hierarchy of concepts that we
+programming with observables.  There are many introductions, including full
+length books, to programming with observables already.  However, in order to put
+things into perspective, we take a brief look at a hierarchy of concepts that we
 choose to categorize observables into:
 
 <p align="center"><img width="40%" height="40%" src="http://calmm-js.github.io/documentation/images/Observables.svg"></p>
