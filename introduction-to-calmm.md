@@ -613,8 +613,8 @@ could write the `Hello` class as follows:
 const Hello = ({who}) => <K.div>Hello, {who}!</K.div>
 ```
 
-Let's create something a little bit more interesting.  Here is a toy React class
-that converts Celcius to Fahrenheit:
+Now that we have the tools for it, let's create something just a little bit more
+interesting.  Here is a toy React class that converts Celcius to Fahrenheit:
 
 ```jsx
 const Converter = ({value = Atom("0")}) =>
