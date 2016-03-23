@@ -312,7 +312,48 @@ Always be looking for *simple solutions* and be wary of holding onto a
 
 ### Dependent computations
 
+Atoms, alone, do not solve the consistency problem.  Suppose you store a list of
+items in an atom and want to display the items.  How do you ensure that the view
+of items is always consistent with respect to the items stored in the atom?  The
+view is essentially formed by a computation that is dependent on the state of
+the atom and, because atoms are observable, we can express such computations
+using observable combinators.
+
+Atoms are observable, but there are, in fact, many kinds of observables.  The
+purpose of this document is not to serve as an extensive introduction to
+programming with observables, but to put things into perspective in the context
+of Calm^2.  There are many introductions, including full length books, to
+programming with observables already.  However, in order to put things into
+perspective, we should take a brief look at a hierarchy of concepts that we
+choose to categorize observables into:
+
 <p align="center"><img width="40%" height="40%" src="http://calmm-js.github.io/documentation/images/Observables.svg"></p>
+
+Basically, and to simplify a bit, an *Observable* is just an object that you can
+*subscribe to* in order to get notifications that include a value.  The
+semantics of when exactly you get such notifications is one way to distinguish
+observables.
+
+A *Stream* gives you notifications only when some discrete event occurs.
+Streams know nothing about past events and do not have a current
+value&mdash;when you subscribe to a stream, you will not get a notification
+until some new event occurs.
+
+A *Property* has the concept of a current value.  In other words, properties can
+recall the value that they previously notified their subscribers with.  When you
+subscribe to a property, and assuming the property has a value, you will
+subsequently get a notification.  After that, just like with streams, you will
+get notifications whenever new events occur.
+
+The concepts *Observable*, *Stream* and *Property* can be directly found in
+Bacon and [Kefir](http://rpominov.github.io/kefir/#about-observables), but many
+other observable frameworks, such as Rx, which can considered a lower level
+framework, do not identify the concepts of streams and properties.  However, it
+is possible to create observables that have the same semantics as streams and
+properties.  Cutting a few corners, in Rx, for example, streams can be obtained
+by applying `.share()` and properties can be obtained by applying
+`.shareReplay(1)`.
+
 
 **This document is WORK-IN-PROGRESS.  Feedback is welcome!**
 
