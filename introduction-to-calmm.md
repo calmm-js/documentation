@@ -457,7 +457,7 @@ The `K` combinator is actually somewhat more powerful, or complex, than what the
 previous basic semantics claimed.  First of all, as we are using `K` to compute
 properties to be embedded to VDOM, we don't usually care whether we are really
 dealing with constants or with observable properties.  For this reason any
-argument of `K` is allowed to a constant.  For example:
+argument of `K` is allowed to be a constant.  For example:
 
 ```js
 > const a = 2
