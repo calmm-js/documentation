@@ -157,9 +157,10 @@ To make the use of observables convenient we extend VDOM to allow observables as
 direct properties and children.  This eliminates a ton of boilerplate and glue
 and helps to keep the code declarative, because the side-effects of observable
 life-cycle management can be implemented once and for all by exploiting the
-React VDOM life-cycle mechanism.  This also allows us to obtain an amount of
-algorithmic efficiency, because we can make it so that VDOM is updated only when
-the values produced by observables actually change.  Like with so called
+[React VDOM life-cycle mechanism](https://facebook.github.io/react/docs/component-specs.html).
+This also allows us to obtain an amount of algorithmic efficiency, because we
+can make it so that VDOM is updated only when the values produced by observables
+actually change.  Like with so called
 [stateless React components](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions),
 we only use simple functions and never use `createClass`&mdash;that has been
 done once and for all for us.  The React VDOM itself adheres to the structural
