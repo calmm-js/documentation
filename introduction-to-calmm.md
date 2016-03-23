@@ -319,6 +319,8 @@ view is essentially formed by a computation that is dependent on the state of
 the atom and, because atoms are observable, we can express such computations
 using observable combinators.
 
+#### Observables
+
 Atoms are observable, but there are, in fact, many kinds of observables.  The
 purpose of this document is not to serve as an extensive introduction to
 programming with observables, but to put things into perspective in the context
@@ -332,28 +334,43 @@ choose to categorize observables into:
 Basically, and to simplify a bit, an *Observable* is just an object that you can
 *subscribe to* in order to get notifications that include a value.  The
 semantics of when exactly you get such notifications is one way to distinguish
-observables.
+observables:
 
-A *Stream* gives you notifications only when some discrete event occurs.
-Streams know nothing about past events and do not have a current
-value&mdash;when you subscribe to a stream, you will not get a notification
-until some new event occurs.
+* A *Stream* gives you notifications only when some discrete event occurs.
+  Streams know nothing about past events and do not have a current
+  value&mdash;when you subscribe to a stream, you will not get a notification
+  until some new event occurs.
 
-A *Property* has the concept of a current value.  In other words, properties can
-recall the value that they previously notified their subscribers with.  When you
-subscribe to a property, and assuming the property has a value, you will
-subsequently get a notification.  After that, just like with streams, you will
-get notifications whenever new events occur.
+* A *Property* has the concept of a current value.  In other words, properties
+  can recall the value that they previously notified their subscribers with.
+  When you subscribe to a property, and assuming the property has a value, you
+  will subsequently get a notification.  After that, just like with streams, you
+  will get notifications whenever new events occur.
 
 The concepts *Observable*, *Stream* and *Property* can be directly found in
 Bacon and [Kefir](http://rpominov.github.io/kefir/#about-observables), but many
 other observable frameworks, such as Rx, which can considered a lower level
-framework, do not identify the concepts of streams and properties.  However, it
-is possible to create observables that have the same semantics as streams and
-properties.  Cutting a few corners, in Rx, for example, streams can be obtained
-by applying `.share()` and properties can be obtained by applying
-`.shareReplay(1)`.
+framework, do not identify the concepts of streams and properties.  However, in
+most of those other frameworks it is possible to create observables that have
+the same or nearly same semantics as streams and properties.  Cutting a few
+corners, in Rx, for example, streams can be obtained by applying `.share()` and
+properties can be obtained by applying `.shareReplay(1)`.
 
+As the above diagram shows, an *Atom* is also a *Property*.  In addition to
+having a current value, an atom also just directly allows the current value to
+be modified (using the `modify` operation introduced previously).  It turns out
+that in order to support such modification, it isn't actually necessary to store
+the value.  We can introduce the concept of a *LensedAtom* that doesn't actually
+store a value, but, rather, only declares a way to get and modify some part of
+an actual root *Atom*.  For this reason we also identify the concept of an
+*AbstractMutable*, which is actually the concept that most of our code using
+atoms depends upon: we don't typically care whether we are given an actual root
+atom or a lensed atom.  Once created, the interfaces, and, essentially, the
+semantics of *AbstractMutable*, *Atom* and *LensedAtom* are the same.  To talk
+more about *LensedAtom*s we need to introduce the concept of lenses, which are a
+topic of a later section.
+
+#### Observable combinators
 
 **This document is WORK-IN-PROGRESS.  Feedback is welcome!**
 
@@ -399,7 +416,7 @@ said data means that meta becomes extremely simple to test.  One does not need
 to worry about asynchronicity or observables.  Mocking the model is as simple as
 writing a JSON expression.
 
-### Atoms :: Modifiable model
+### Atoms :: Atom model :> AbstractMutable model
 
 Atoms take care of serializing access to their contents.  They are created by
 giving some initial contents.  Atoms then allow the contents to be shared,
@@ -412,14 +429,14 @@ as undo-redo capability or local storage persistence or both, and then passed to
 controls that do not necessarily need to know about the special properties of
 the atom or about other controls that have been passed the same atom.
 
-### Lensed Atoms :: Modifiable whole -&gt; (whole &lt;=&gt; part) -&gt; Modifiable part
+### Lensed Atoms :: AbstractMutable whole -&gt; (whole &lt;=&gt; part) -&gt; LensedAtom part
 
 Atoms can also be created from existing atoms by specifying a lens through which
 the contents of the existing atom are to be viewed and mutated.  Unlike when
 creating a new atom with an initial value, an expression to create a lensed atom
 is referentially transparent.
 
-### &lt;Control/&gt; :: [Observable prop | Modifiable model | data]* -&gt; VDOM
+### &lt;Control/&gt; :: [Observable prop | AbstractMutable model | data]* -&gt; VDOM
 
 A control is a function from observables, modifiables and constants to VDOM.
 
