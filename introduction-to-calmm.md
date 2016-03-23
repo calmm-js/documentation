@@ -303,6 +303,9 @@ identifying the essential root state and creating an atom for that state we have
 been able to simplify the logic significantly&mdash;typically by a factor of
 about two.
 
+Always look for *simple solutions* and be wary of holding onto a
+[Golden Hammer](http://c2.com/cgi/wiki?GoldenHammer).
+
 ### Dependent computations
 
 <p align="center"><img width="40%" height="40%" src="http://calmm-js.github.io/documentation/images/Observables.svg"></p>
