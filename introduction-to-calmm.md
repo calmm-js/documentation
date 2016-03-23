@@ -231,21 +231,21 @@ Atoms are essentially first-class storage locations or variables.  We can create
 a new atom using the `Atom` constructor function:
 
 ```js
-const counter = Atom([0, 1, 2])
+const elems = Atom([0, 1, 2])
 ```
 
 And we can get the value of an atom:
 
 ```js
-> counter.get()
+> elems.get()
 [0, 1, 2]
 ```
 
 And we can also set the value of an atom:
 
 ```js
-> counter.set([1, 2])
-> counter.get()
+> elems.set([1, 2])
+> elems.get()
 [1, 2]
 ```
 
@@ -257,8 +257,8 @@ We can also modify the value of the atom, by passing it a function, that will be
 called with the current value of the atom and must return the new value:
 
 ```js
-> counter.modify(xs => xs.concat([3]))
-> counter.get()
+> elems.modify(xs => xs.concat([3]))
+> elems.get()
 [1, 2, 3]
 ```
 
