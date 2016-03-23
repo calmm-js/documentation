@@ -521,8 +521,11 @@ property and `f` is a function, is equivalent to
 `x.map(f).skipDuplicates(equals)`.  Of those two, `K(x, f)` takes less space.
 
 It should be mentioned, however, there is nothing magical about `K`.  We use it,
-because it helps to eliminate boilerplate.  As we will see shortly, it also
-helps with keeping things easier to understand.
+because it helps to eliminate boilerplate.  We also use other observable
+combinators when they are needed.  There is no requirement in Calm^2 to use
+`K`&mdash;all the same functionality can be obtained by just basic observable
+combinators.  However, avoiding boilerplate isn't the only reason to use `K`.
+As we will see shortly, it also helps with keeping things easier to understand.
 
 ### Embedding Observables into VDOM
 
