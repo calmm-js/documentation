@@ -300,9 +300,9 @@ observable expressions.  We have, in fact, more than once, initially written
 components using just observable computations that maintained state, using
 `scan` or some other observable combinator, in response to events from UI
 elements, because we thought it would be simpler.  Later we have found that by
-identifying the essential root state and creating an atom for that state we have
-been able to simplify the logic significantly&mdash;typically by a factor of
-about two.
+identifying the essential root state and creating an atom for that state we were
+able to simplify the logic significantly&mdash;typically by a factor of about
+two.
 
 Always look for *simple solutions* and be wary of holding onto a
 [Golden Hammer](http://c2.com/cgi/wiki?GoldenHammer).
