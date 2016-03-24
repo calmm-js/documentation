@@ -726,6 +726,18 @@ perform side-effects.
 
 **This document is WORK-IN-PROGRESS.  Feedback is welcome!**
 
+## Going further
+
+**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
+
+### Controllers for IO
+
+**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
+
+### Structural validation with Binoculars
+
+**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
+
 ## Related work
 
 > Most papers in computer science describe how their author learned what someone
