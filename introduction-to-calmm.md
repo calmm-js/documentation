@@ -624,7 +624,24 @@ const Converter = ({value = Atom("0")}) =>
   </K.div>
 ```
 
-An equivalent version can be seen live
+Using the
+[`bind`](https://github.com/calmm-js/kefir.react.html#bind-attribute-template)
+helper from `kefir.react.html`
+
+```js
+import {bind} from "kefir.react.html"
+```
+
+we can shorten the `Converter` further:
+
+```jsx
+const Converter = ({value = Atom("0")}) =>
+  <K.div>
+    <K.input {...bind({value})}/>°C is {K(value, c => c * 9 / 5 + 32)}°F
+  </K.div>
+```
+
+You can find the above versions live
 [here](http://calmm-js.github.io/kral-examples/public/index.html#converter).
 
 ### Lenses
