@@ -514,7 +514,7 @@ array.  For example:
 result <value:current> [ { x: 1 }, 2, [ 3 ] ]
 ```
 
-Phew!  This might seem overwhelming at first, but the `K` combinator gives us a
+Phew!  This might be overwhelming at first, but the `K` combinator gives us a
 lot of leverage to reduce boilerplate and also helps by avoiding some
 unnecessary updates.  The Kefir based implementation of `K` is actually
 carefully optimized for space.  For example, `K(x, f)`, which, assuming `x` is a
