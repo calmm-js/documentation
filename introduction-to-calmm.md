@@ -618,10 +618,10 @@ interesting.  Here is a toy React class that converts Celcius to Fahrenheit:
 
 ```jsx
 const Converter = ({value = Atom("0")}) =>
-  <K.div>
+  <K.p>
     <K.input onChange={e => value.set(e.target.value)}
-             value={value}/>°C is {K(value, c => c * 9 / 5 + 32)}°F
-  </K.div>
+             value={value}/>°C is {K(value, c => c * 9/5 + 32)}°F
+  </K.p>
 ```
 
 Using the
@@ -636,9 +636,7 @@ we can shorten the `Converter` further:
 
 ```jsx
 const Converter = ({value = Atom("0")}) =>
-  <K.div>
-    <K.input {...bind({value})}/>°C is {K(value, c => c * 9 / 5 + 32)}°F
-  </K.div>
+  <K.p><K.input {...bind({value})}/>°C is {K(value, c => c * 9/5 + 32)}°F</K.p>
 ```
 
 You can find the above versions live
