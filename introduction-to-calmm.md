@@ -978,9 +978,10 @@ first of names <value> Markus
 ```
 
 Note that the `.lens` method of atoms and lensed atoms does not create *new*
-mutable state, it merely creates a reference to existing state, namely the root
-atom that holds the immutable data being manipulated.  This means that we can
-regard the `.lens` method as a referentially transparent function.
+mutable state, it merely creates a reference to existing state, namely to the
+state, represented as an immutable data structure, being referred to by the root
+atom.  This means that we can regard the `.lens` method as a referentially
+transparent function.
 
 #### Editable lists
 
