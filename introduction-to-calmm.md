@@ -425,7 +425,9 @@ variables:
 > const y = Atom(2)
 ```
 
-Using `K` we could specify a computation of their sum as follows:
+Using `K` we could specify their sum as a
+[dependent variable](https://en.wikipedia.org/wiki/Dependent_and_independent_variables)
+as follows:
 
 ```js
 > const x_plus_y = K(x, y, (x, y) => x + y)
