@@ -1038,7 +1038,7 @@ said data means that meta becomes extremely simple to test.  One does not need
 to worry about asynchronicity or observables.  Mocking the model is as simple as
 writing a JSON expression.
 
-### Atoms :: Atom model :> AbstractMutable model
+### Atom :: Atom model :> AbstractMutable model
 
 Atoms take care of serializing access to their contents.  They are created by
 giving some initial contents.  Atoms then allow the contents to be shared,
@@ -1051,7 +1051,7 @@ as undo-redo capability or local storage persistence or both, and then passed to
 controls that do not necessarily need to know about the special properties of
 the atom or about other controls that have been passed the same atom.
 
-### Lensed Atoms :: AbstractMutable whole -&gt; (whole &lt;=&gt; part) -&gt; LensedAtom part
+### LensedAtom :: AbstractMutable whole -&gt; PLens whole part -&gt; LensedAtom part
 
 Atoms can also be created from existing atoms by specifying a lens through which
 the contents of the existing atom are to be viewed and mutated.  Unlike when
