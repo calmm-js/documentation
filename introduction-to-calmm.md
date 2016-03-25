@@ -321,9 +321,10 @@ Always be looking for *simple solutions* and be wary of holding onto a
 Atoms, alone, do not solve the consistency problem.  Suppose you store a list of
 items in an atom and want to display the items.  How do you ensure that the view
 of items is always consistent with respect to the items stored in the atom?  The
-view is essentially formed by a computation that is dependent on the state of
-the atom and, because atoms are observable, we can express such computations
-using observable combinators.
+view is essentially formed by a computation that is
+[dependent](https://en.wikipedia.org/wiki/Dependent_and_independent_variables)
+on the state of the atom and, because atoms are observable, we can express such
+computations using observable combinators.
 
 #### Observables
 
