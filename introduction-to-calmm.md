@@ -698,13 +698,13 @@ implementation of a React class that implements the life-cycle methods:
 ...
 ```
 
-Our initial implementations of this was actually very simple.  You can find one
+Our initial implementations of this were actually very simple.  You can find one
 version
 [here](https://github.com/polytypic/bacon.react/blob/master/src/bacon.react.js).
 We basically just used Bacon's
 [combineTemplate](https://github.com/baconjs/bacon.js#bacon-combinetemplate).
 This turned out to be the wrong idea, however, because it eliminates observables
-from arbitrarily deep inside the VDOM rather than just those that appear as own
+arbitrarily deep inside the VDOM rather than just those that appear as own
 properties or as direct children.  This seemed convenient at first, but it does
 not work compositionally.
 
