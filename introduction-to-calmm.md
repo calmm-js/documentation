@@ -704,7 +704,7 @@ version
 We basically just used Bacon's
 [combineTemplate](https://github.com/baconjs/bacon.js#bacon-combinetemplate).
 This turned out to be the wrong idea, however, because it eliminates observables
-from arbitrarily deep inside the VDOM rather than as such those that appear own
+from arbitrarily deep inside the VDOM rather than just those that appear as own
 properties or as direct children.  This seemed convenient at first, but it does
 not work compositionally.
 
