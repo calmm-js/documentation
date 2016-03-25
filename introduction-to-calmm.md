@@ -169,11 +169,12 @@ programming paradigm, which we preserve by embedding observables directly into
 VDOM.
 
 Storing state in modifiable observable atoms allows the state to be both
-observed and modified.  Atoms are actually used to store immutable data.  To
-modify an atom means that the immutable data structure stored by the atom is
-replaced by some new immutable data structure.  Modifications are serialized by
-the Atom implementation.  Unlike in fundamentalist declarative approaches, we
-only partially encode mutation of state.  Once a component is instantiated (or
+observed and modified.  Atoms are actually used to store
+[immutable data](https://en.wikipedia.org/wiki/Immutable_object).  To modify an
+atom means that the immutable data structure stored by the atom is replaced by
+some new immutable data structure.  Modifications are serialized by the Atom
+implementation.  Unlike in fundamentalist declarative approaches, we only
+partially encode mutation of state.  Once a component is instantiated (or
 mounted) it can directly attach callbacks to VDOM that call operations to modify
 atoms.  This way we do lose a bit of testability.  However, this also makes the
 implementation of components more direct as we don't have to encode it all and
@@ -276,10 +277,12 @@ The term "atom" perhaps gives the idea that one should only use atoms to store
 simple primitive values.  That is not the case.  The term "atom" is borrowed
 from [Clojure](http://clojure.org/reference/atoms) and comes from the idea that
 one only performs ["atomic"](https://en.wikipedia.org/wiki/Read-modify-write),
-or race-condition free, operations on individual atoms.  For this to work, the
-value stored by an atom must be treated as an immutable value.  We will later
-see how lenses make it practical to store arbitrarily complex immutable data
-structures in atoms.
+or [race-condition](https://en.wikipedia.org/wiki/Race_condition) free,
+operations on individual atoms.  For this to work, the value stored by an atom
+must be treated as an
+[immutable value](https://en.wikipedia.org/wiki/Immutable_object).  We will
+later see how lenses make it practical to store arbitrarily complex immutable
+data structures in atoms.
 
 Atoms are the variables of our system.  They are used to hold the essential
 state that is being modified by the UI.  But there really should be a tax on
