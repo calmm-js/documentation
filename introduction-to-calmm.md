@@ -689,7 +689,7 @@ implementation of a React class that implements the life-cycle methods:
   },
   doSubcribe( /* ... */ ) {
     // Extracts observables from own VDOM properties and direct children.
-    // Combines them into an observable producing VDOM.
+    // Combines them into an observable skipping duplicates and producing VDOM.
     // Subscribes to the VDOM observable to setState with the results.
   },
   doUnsubscribe( /* ... */ ) {
@@ -707,6 +707,39 @@ This turned out to be the wrong idea, however, because it eliminates observables
 from arbitrarily deep inside the VDOM rather than just those that appear as own
 properties or as direct children.  This seemed convenient at first, but it does
 not work compositionally.
+
+#### Taking toll
+
+Is this a good idea at all?  We believe it is and here are some reasons why:
+
+* Observables solve the consistency problem quite nicely.
+* Observables with Atoms are powerful enough for managing arbitrary state.
+* Embedding observables into VDOM makes it convenient to use observables.
+* Embedding observables allows VDOM to be updated incrementally and efficiently.
+
+Embedding observables into VDOM practically eliminates the need to write new
+React classes using `createClass` or by inheriting from `React.Component`.  It
+also practically eliminates the need to write specialized
+`shouldComponentUpdate` implementations.  Our production project has exactly
+zero examples of those.
+
+Embedding observables allows us to think like we were always using
+[stateless components](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions)
+and this actually extends to the beneficial properties of stateless components.
+For example, React's
+[documentation](https://facebook.github.io/react/docs/more-about-refs.html#the-ref-callback-attribute)
+mentions a gotcha related to the use of inline function expressions as arguments
+to the `ref` property:
+
+> Also note that when writing refs with inline function expressions as in the
+> examples here, React sees a different function object each time so on every
+> update, ref will be called with null immediately before it's called with the
+> component instance.
+
+If you write a custom `render` method that returns a VDOM expression containing
+an inline function expression for `ref`, React will call those inline functions
+after every call of `render`.  Oops!  Issues such as these are eliminated by our
+approach.
 
 ### Lenses
 
