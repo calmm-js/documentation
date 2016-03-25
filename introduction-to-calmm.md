@@ -870,7 +870,7 @@ import P, * as L from "partial.lenses"
 
 Now, consider the following JSON:
 
-```json
+```js
 > const db = {"classes": [{"id": 101, "level": "Novice"},
                           {"id": 202, "level": "Intermediate"},
                           {"id": 303, "level": "Advanced"}]}
@@ -885,7 +885,7 @@ L.compose(L.prop("classes"),
 
 to identify the object
 
-```json
+```js
 {"id": 101, "level": "Novice"}
 ```
 
