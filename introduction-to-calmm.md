@@ -284,10 +284,11 @@ must be treated as an
 later see how lenses make it practical to store arbitrarily complex immutable
 data structures in atoms.
 
-Atoms are the variables of our system.  They are used to hold the essential
-state that is being modified by the UI.  But there really should be a tax on
-introducing new atoms to a system.  Each time one creates a new atom, one should
-pause and think for a moment:
+Atoms are the
+[variables](https://en.wikipedia.org/wiki/Variable_(computer_science)) of our
+system.  They are used to hold the essential state that is being modified by the
+UI.  But there really should be a tax on introducing new atoms to a system.
+Each time one creates a new atom, one should pause and think for a moment:
 
 * Is this really an independent variable?
   * *If not, it shouldn't be an atom.*
