@@ -723,7 +723,7 @@ also practically eliminates the need to write specialized
 `shouldComponentUpdate` implementations.  Our production project has exactly
 zero examples of those.
 
-Embedding observables allows us to think like we were always using
+Embedding observables allows us to think almost like we were always using
 [stateless components](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions)
 and this actually extends to the beneficial properties of stateless components.
 For example, React's
