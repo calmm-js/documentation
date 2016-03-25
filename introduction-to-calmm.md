@@ -808,17 +808,17 @@ const ListOfNames = ({names}) =>
 The documentation of
 [`fromIds`](https://github.com/calmm-js/kefir.react.html#incremental-arrays-fromids)
 gives more details, but this version of `ListOfNames` works efficiently in the
-sense when names in the list change, then VDOM is created only for new names
-with respect to the previously display list of names.  In other words, `fromIds`
-caches VDOM.  What makes that possible is that the expression
+sense that, when names in the list change, VDOM is computed only for new names
+with respect to the previously displayed list of names.  What makes that
+possible is that the expression
 
 ```jsx
                     name =>
        <li key={name}>{name}</li>)}
 ```
 
-specifies a referentially transparent function.  It pays off to be declarative
-where it matters.
+specifies a referentially transparent function, which allows us to use `fromIds`
+to cache the results.  It pays off to be declarative where it matters.
 
 There is more to say about lists, but we defer further discussion until later.
 
