@@ -946,14 +946,14 @@ const names = Atom(["Markus", "Matti"])
 ```
 
 To create a new lensed atom, we just call the
-[`.lens'](https://github.com/calmm-js/kefir.atom#atomlensl-ls) method:
+[`.lens`](https://github.com/calmm-js/kefir.atom#atomlensl-ls) method:
 
 ```js
 const firstOfNames = names.lens(L.index(0))
 ```
 
 The `.lens` method essentially creates a new **AbstractMutable** property that
-uses lenses to slice or transmit state.
+uses lenses to slice or transmit state in both directions.
 
 Let's take a look at what is going on by using `.log`:
 
