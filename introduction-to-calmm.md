@@ -897,7 +897,7 @@ within `db`.  We can confirm this by using `L.view` to view through the lens:
 
 If viewing elements were the only thing that lenses were good for they would be
 rather useless, but they also allow us to update elements deep inside data
-structure.  Let's change the level of the first class:
+structures.  Let's update the level of the first class:
 
 ```js
 > L.update(L.compose(L.prop("classes"),
@@ -911,8 +911,9 @@ structure.  Let's change the level of the first class:
      { id: 303, level: 'Advanced' } ] }
 ```
 
-Note that `L.update` did not mutate original `db`&mdash;it merely created a new
-tree of object.
+The `L.update` operation on lenses is a referentially transparent function that
+does not mutate the target value&mdash;it merely created a new value with the
+specified changes.
 
 Like with observables, we use lenses a lot, which means that there is value in
 keeping lens definitions concise.  For this purpose we abbreviate
