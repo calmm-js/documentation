@@ -738,8 +738,8 @@ to the `ref` property:
 
 If you write a custom `render` method that returns a VDOM expression containing
 an inline function expression for `ref`, React will call those inline functions
-after every call of `render`.  Oops!  Issues such as these are eliminated by our
-approach.
+after every call of `render`&mdash;Oops!  Issues such as these are eliminated by
+our approach.
 
 ### Lenses
 
