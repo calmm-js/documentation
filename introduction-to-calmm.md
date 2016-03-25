@@ -855,8 +855,8 @@ we can do that.
 So, what are lenses?  Lenses are a form of composable bidirectional
 computations.  For our purposes it is mostly sufficient to think that lenses
 allow us to compose a path from the root of some data structure to some element
-of said data structure and that path can be used both view the element and
-update the element.
+of said data structure and that path can be used to both view and update the
+element.
 
 Let's see how lenses work in practice.  First we import the
 [`partial.lenses`](https://github.com/calmm-js/partial.lenses) library:
