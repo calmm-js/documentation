@@ -850,8 +850,8 @@ it gives us a text input that we can use to edit the value of the `text` atom.
 But could we reuse the `TextInput` component to change the list of names
 introduced in the previous section editable?  In that case the atom contained a
 list of names&mdash;not just a single name.  We somehow need to pass a single
-name from a list names to the `TextInput` in a modifiable form.  Using lenses we
-can do that.
+name from a list of names to the `TextInput` in a modifiable form.  Using lenses
+we can do that.
 
 So, what are lenses?  Lenses are a form of composable bidirectional
 computations.  We are using the
