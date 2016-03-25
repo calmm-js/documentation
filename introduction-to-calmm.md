@@ -931,7 +931,7 @@ L.update(P("classes", 0, "level"),
 ```
 
 This is really the absolute minimum that we need to know about lenses to go
-forward.  Partial lenses can actually do *much* more than just view and update
+forward.  Partial lenses can actually do *much more* than just view and update
 elements given a static path.  See the documentation of the
 [`partial.lenses`](https://github.com/calmm-js/partial.lenses) library for
 details.
@@ -946,14 +946,15 @@ const names = Atom(["Markus", "Matti"])
 ```
 
 To create a new lensed atom, we just call the
-[`.lens`](https://github.com/calmm-js/kefir.atom#atomlensl-ls) method:
+[`.lens`](https://github.com/calmm-js/kefir.atom#atomlensl-ls) method with the
+desired lens:
 
 ```js
 const firstOfNames = names.lens(L.index(0))
 ```
 
-The `.lens` method essentially creates a new **AbstractMutable** property that
-uses lenses to slice or transmit state in both directions.
+The `.lens` method essentially creates a new **LensedAtom** that uses lenses to
+slice or transmit state in both directions.
 
 Let's take a look at what is going on by using `.log`:
 
@@ -976,9 +977,10 @@ names <value> [ 'Markus', 'Matti' ]
 first of names <value> Markus
 ```
 
-Note that the `.lens` method of atoms and lensed atoms does not create new
-state, which means that we can regard it as a referentially transparent
-function.
+Note that the `.lens` method of atoms and lensed atoms does not create *new*
+mutable state, it merely creates a reference to existing state, namely the root
+atom that holds the immutable data being manipulated.  This means that we can
+regard the `.lens` method as a referentially transparent function.
 
 #### Editable lists
 
