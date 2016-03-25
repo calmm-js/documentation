@@ -337,10 +337,11 @@ choose to categorize observables into:
 
 <p align="center"><img width="40%" height="40%" src="http://calmm-js.github.io/documentation/images/Observables.svg"></p>
 
-Basically, and to simplify a bit, an **Observable** is just an object that you
-can *subscribe to* in order to get notifications that include a value.  The
-semantics of when exactly you get such notifications is one way to distinguish
-observables:
+The basic [pattern](https://en.wikipedia.org/wiki/Observer_pattern) behind
+observables is very old.  Basically, and to simplify a bit, an **Observable** is
+just an object that an *observer* can *subscribe to* in order to get
+notifications that include a value.  The semantics of when exactly you get such
+notifications is one way to distinguish observables:
 
 * A **Stream** gives you notifications only when some discrete event occurs.
   Streams know nothing about past events and do not have a current
@@ -650,6 +651,62 @@ const Converter = ({value = Atom("0")}) =>
 
 You can find the above versions live
 [here](http://calmm-js.github.io/kral-examples/public/index.html#converter).
+
+#### Dispelling the Magic
+
+There is a very simple reason for why it is at all possible to embed observables
+into VDOM and why, in fact, it is actually quite simple.  The reason is that
+React classes are [observers](https://en.wikipedia.org/wiki/Observer_pattern)
+that support a
+[life-cycle mechanism](https://facebook.github.io/react/docs/component-specs.html)
+that allows them to be robustly combined with observables.
+
+React's VDOM itself is just a tree of JavaScript objects.  That tree can be
+traversed and its elements analyzed.  This allows us to find the observables
+from VDOM.  Inside the
+[`kefir.react.html`](http://calmm-js.github.io/kefir.react.html) library is an
+implementation of a React class that implements the life-cycle methods:
+
+```js
+...
+  componentWillReceiveProps(nextProps) {
+    this.doUnsubscribe()
+    this.doSubscribe(nextProps)
+  },
+  componentWillMount() {
+    this.doUnsubscribe()
+    this.doSubscribe(this.props)
+  },
+  shouldComponentUpdate(np, ns) {
+    return ns.rendered !== this.state.rendered
+  },
+  componentWillUnmount() {
+    this.doUnsubscribe()
+    this.setState(/* empty state */)
+  },
+  render() {
+    return this.state.rendered
+  },
+  doSubcribe( /* ... */ ) {
+    // Extracts observables from own VDOM properties and direct children.
+    // Combines them into an observable producing VDOM.
+    // Subscribes to the VDOM observable to setState with the results.
+  },
+  doUnsubscribe( /* ... */ ) {
+    // Unsubscribes from the observable created by doSubscribe.
+  }
+...
+```
+
+Our initial implementations of this was actually very simple.  You can find one
+version
+[here](https://github.com/polytypic/bacon.react/blob/master/src/bacon.react.js).
+We basically just used Bacon's
+[combineTemplate](https://github.com/baconjs/bacon.js#bacon-combinetemplate).
+This turned out to be the wrong idea, however, because it eliminates observables
+from arbitrarily deep inside the VDOM rather than as such those that appear own
+properties or as direct children.  This seemed convenient at first, but it does
+not work compositionally.
 
 ### Lenses
 
