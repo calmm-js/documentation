@@ -912,7 +912,7 @@ structures.  Let's update the level of the first class:
 ```
 
 The `L.update` operation on lenses is a referentially transparent function that
-does not mutate the target value&mdash;it merely created a new value with the
+does not mutate the target value&mdash;it merely creates a new value with the
 specified changes.
 
 Like with observables, we use lenses a lot, which means that there is value in
