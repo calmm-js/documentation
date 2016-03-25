@@ -824,6 +824,108 @@ There is more to say about lists, but we defer further discussion until later.
 
 ### Lenses
 
+To motivate the introduction of lenses, let's first create a simple text input
+component.  Here is the one-liner using
+[`kefir.react.html`](https://github.com/calmm-js/kefir.react.html) and assuming
+that the `value` property will be an Atom:
+
+```jsx
+const TextInput = ({value}) => <K.input {...bind({value})}/>
+```
+
+If we now create an atom
+
+```js
+const text = Atom("initial")
+```
+
+and give it as the `value` property to `TextInput`
+
+```js
+<TextInput value={text}/>
+```
+
+it gives us a text input that we can use to edit the value of the `text` atom.
+
+But could we reuse the `TextInput` component to change the list of names
+introduced in the previous section editable?  In that case the atom contained a
+list of names&mdash;not just a single name.  We somehow need to pass a single
+name from a list names to the `TextInput` in a modifiable form.  Using lenses we
+can do that.
+
+So, what are lenses?  Lenses are a form of composable bidirectional
+computations.  We are using the
+[`partial.lenses`](https://github.com/calmm-js/partial.lenses) library.  We can
+import it as:
+
+```js
+import P, * as L from "partial.lenses"
+```
+
+For our purposes it is mostly sufficient to think that lenses allow us to
+compose a path from the root of some data structure to some element of said data
+structure and that path can be used both view the element and update the
+element.  For example, consider the following JSON:
+
+```json
+> const db = {"classes": [{"id": 101, "level": "Novice"},
+                          {"id": 202, "level": "Intermediate"},
+                          {"id": 303, "level": "Advanced"}]}
+```
+
+For example, the lens
+
+```js
+L.compose(L.prop("classes"),
+          L.index(0))
+```
+
+identifies the object
+
+```json
+{"id": 101, "level": "Novice"}
+```
+
+which we can confirm using `L.view`:
+
+```js
+> L.view(L.compose(L.prop("classes"),
+                   L.index(0)),
+         db)
+{ id: 101, level: 'Novice' }
+```
+
+But we can also use lenses to update the element inside the data structure.
+Let's change the level of the first class:
+
+```js
+> L.update(L.compose(L.prop("classes"),
+                     L.index(0),
+                     L.prop("level")),
+           "Introduction",
+           db)
+{ classes:
+   [ { level: 'Introduction', id: 101 },
+     { id: 202, level: 'Intermediate' },
+     { id: 303, level: 'Advanced' } ] }
+```
+
+Brevity is the soul of wit.  We can also abbreviate
+* `L.prop(string)` as `string`,
+* `L.index(integer)` as `integer`, and
+* `L.compose(l, ...ls)` as `P(l, ...ls)`.
+
+So, we could also rewrite the expression from the previous example as
+
+```js
+L.update(P("classes", 0, "level"),
+         "Introduction",
+         db)
+```
+
+The [`partial.lenses`](https://github.com/calmm-js/partial.lenses) library
+contains more examples and documentation on lenses.
+
 **This document is WORK-IN-PROGRESS.  Feedback is welcome!**
 
 ## The architecture
