@@ -917,12 +917,14 @@ structure.  Let's change the level of the first class:
 Note that `L.update` did not mutate original `db`&mdash;it merely created a new
 tree of object.
 
-Brevity is the soul of wit.  We can also abbreviate
+Like with observables, we use lenses a lot, which means that there is value in
+keeping lens definitions concise.  For this purpose we abbreviate
 * `L.prop(string)` as `string`,
 * `L.index(integer)` as `integer`, and
 * `L.compose(l, ...ls)` as `P(l, ...ls)`.
 
-So, we could also rewrite the expression from the previous example as
+Using the abbreviations, the `update` expression from the previous example can
+be rewritten as:
 
 ```js
 L.update(P("classes", 0, "level"),
@@ -951,6 +953,9 @@ To create a new lensed atom, we just call the
 ```js
 const firstOfNames = names.lens(L.index(0))
 ```
+
+The `.lens` method essentially creates a new **AbstractMutable** property that
+uses lenses to slice or transmit state.
 
 Let's take a look at what is going on by using `.log`:
 
