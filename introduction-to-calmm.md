@@ -886,7 +886,7 @@ to identify the object
 {"id": 101, "level": "Novice"}
 ```
 
-with `db`.  We can confirm using `L.view`:
+within `db`.  We can confirm this by using `L.view` to view through the lens:
 
 ```js
 > L.view(L.compose(L.prop("classes"),
