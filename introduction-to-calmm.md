@@ -853,19 +853,22 @@ list of names&mdash;not just a single name.  We somehow need to pass a single
 name from a list of names to the `TextInput` in a modifiable form.  Using lenses
 we can do that.
 
+#### Lenses 101
+
 So, what are lenses?  Lenses are a form of composable bidirectional
-computations.  We are using the
-[`partial.lenses`](https://github.com/calmm-js/partial.lenses) library.  We can
-import it as:
+computations.  For our purposes it is mostly sufficient to think that lenses
+allow us to compose a path from the root of some data structure to some element
+of said data structure and that path can be used both view the element and
+update the element.
+
+Let's see how lenses work in practice.  First we import the
+[`partial.lenses`](https://github.com/calmm-js/partial.lenses) library:
 
 ```js
 import P, * as L from "partial.lenses"
 ```
 
-For our purposes it is mostly sufficient to think that lenses allow us to
-compose a path from the root of some data structure to some element of said data
-structure and that path can be used both view the element and update the
-element.  For example, consider the following JSON:
+Now, consider the following JSON:
 
 ```json
 > const db = {"classes": [{"id": 101, "level": "Novice"},
@@ -873,20 +876,20 @@ element.  For example, consider the following JSON:
                           {"id": 303, "level": "Advanced"}]}
 ```
 
-For example, the lens
+We can specify the lens
 
 ```js
 L.compose(L.prop("classes"),
           L.index(0))
 ```
 
-identifies the object
+to identify the object
 
 ```json
 {"id": 101, "level": "Novice"}
 ```
 
-which we can confirm using `L.view`:
+with `db`.  We can confirm using `L.view`:
 
 ```js
 > L.view(L.compose(L.prop("classes"),
@@ -895,7 +898,8 @@ which we can confirm using `L.view`:
 { id: 101, level: 'Novice' }
 ```
 
-But we can also use lenses to update the element inside the data structure.
+If viewing elements were the only thing that lenses were good for they would be
+rather useless, but they also one to update elements deep inside data structure.
 Let's change the level of the first class:
 
 ```js
@@ -910,6 +914,9 @@ Let's change the level of the first class:
      { id: 303, level: 'Advanced' } ] }
 ```
 
+Note that `L.update` did not mutate original `db`&mdash;it merely created a new
+tree of object.
+
 Brevity is the soul of wit.  We can also abbreviate
 * `L.prop(string)` as `string`,
 * `L.index(integer)` as `integer`, and
@@ -923,10 +930,69 @@ L.update(P("classes", 0, "level"),
          db)
 ```
 
-The [`partial.lenses`](https://github.com/calmm-js/partial.lenses) library
-contains more examples and documentation on lenses.
+This is really the absolute minimum that we need to know about lenses to go
+forward.  Partial lenses can actually do *much* more than just view and update
+elements given a static path.  See the documentation of the
+[`partial.lenses`](https://github.com/calmm-js/partial.lenses) library for
+details.
 
-**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
+#### Combining Atoms and Lenses
+
+Where things get really interesting is that Atoms support lenses.    Recall
+the list of names:
+
+```js
+const names = Atom(["Markus", "Matti"])
+```
+
+To create a new lensed atom, we just call the
+[`.lens'](https://github.com/calmm-js/kefir.atom#atomlensl-ls) method:
+
+```js
+const firstOfNames = names.lens(L.index(0))
+```
+
+Let's take a look at what is going on by using `.log`:
+
+```js
+> names.log("names")
+names <value:current> [ 'Markus', 'Matti' ]
+> firstOfNames.log("first of names")
+first of names <value:current> Markus
+```
+
+If we now modify either `firstOfNames` or `names`, the changes are reflected in
+the other:
+
+```
+> names.set(["Vesa", "Matti"])
+names <value> [ 'Vesa', 'Matti' ]
+first of names <value> Vesa
+> firstOfNames.set("Markus")
+names <value> [ 'Markus', 'Matti' ]
+first of names <value> Markus
+```
+
+#### Editable lists
+
+Let's then proceed to make an editable list of names.  Here is one way to do it:
+
+```js
+const ListOfNames = ({names}) =>
+  <K.ul>
+    {fromIds(K(names, R.pipe(R.length, R.range(0))), i =>
+       <li key={i}><TextInput value={names.lens(i)}/></li>)}
+  </K.ul>
+```
+
+Aside from putting the `TextInput` in place, we changed the way elements are
+identified for `fromIds`.  In this case we identity by their index.  The
+expression `R.pipe(R.length, R.range(0))` simply uses the functions
+[`pipe`](http://ramdajs.com/0.19.0/docs/#pipe),
+[`length`](http://ramdajs.com/0.19.0/docs/#length) and
+[`range`](http://ramdajs.com/0.19.0/docs/#range) from Ramda to create a function
+that maps a list `[x0, ..., xN]` to a list of indices `[0, ..., N]`.  Those
+indices are then used as the ids.
 
 ## The architecture
 
