@@ -899,8 +899,8 @@ with `db`.  We can confirm using `L.view`:
 ```
 
 If viewing elements were the only thing that lenses were good for they would be
-rather useless, but they also one to update elements deep inside data structure.
-Let's change the level of the first class:
+rather useless, but they also allow us to update elements deep inside data
+structure.  Let's change the level of the first class:
 
 ```js
 > L.update(L.compose(L.prop("classes"),
