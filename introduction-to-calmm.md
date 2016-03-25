@@ -259,10 +259,13 @@ of atoms is generally discouraged, because doing so does not help to keep the
 state of our program consistent.  There are better ways.
 
 We can also modify the value of the atom, by passing it a function, that will be
-called with the current value of the atom and must return the new value:
+called with the current value of the atom and must return the new value.  Here
+is example where we use Ramda's
+[`append`](http://ramdajs.com/0.19.0/docs/#append) to add an element to the
+list:
 
 ```js
-> elems.modify(xs => xs.concat(["lenses"]))
+> elems.modify(R.append("lenses"))
 > elems.get()
 [ 'observables', 'embedding', 'atoms', 'lenses' ]
 ```
@@ -740,6 +743,84 @@ If you write a custom `render` method that returns a VDOM expression containing
 an inline function expression for `ref`, React will call those inline functions
 on every update&mdash;*Oops!* Issues such as these are eliminated by our
 approach.
+
+### Lists of items ###
+
+We previously mentioned the problem of displaying a list of items.  Let's
+suppose we indeed have a list of items, say names, and we want to create a
+component that displays such a list.  Here is perhaps a straightforward
+solution:
+
+```jsx
+const ListOfNames = ({names}) =>
+  <K.ul>
+    {K(names, R.map(name =>
+       <li key={name}>{name}</li>))}
+  </K.ul>
+```
+
+Note that above we use `K` when we are dealing with an observable and we use
+Ramda's [`map`](http://ramdajs.com/0.19.0/docs/#map), which conveniently allows
+us to directly skip to manipulating individual items from a list.
+
+The above already works.  We can give `List` an observable that produces an
+array of names
+
+```jsx
+const names = Atom(["Markus", "Matti"])
+...
+<ListOfNames {...{names}}/>
+```
+
+and if we would modify the list of names
+
+```js
+names.modify(R.append("Vesa"))
+```
+
+the list would be rerendered.
+
+In many cases this is good enough, but consider what happens when the list
+changes?  The entire list of VDOM is recreated.  In a trivial case like this, it
+is not much of a problem, but with more complex components per item, it might
+lead to unacceptable performance.
+
+Fortunately this is not difficult to fix.  We just cache the VDOM between
+changes.  [`kefir.react.html`](https://github.com/calmm-js/kefir.react.html)
+provides the
+[`fromIds`](https://github.com/calmm-js/kefir.react.html#incremental-arrays-fromids)
+observable combinator for this purpose:
+
+```js
+import {fromIds} from "kefir.react.html"
+```
+
+Using it we can rewrite the `ListOfNames` component:
+
+```jsx
+const ListOfNames = ({names}) =>
+  <K.ul>
+    {fromIds(names, name =>
+       <li key={name}>{name}</li>)}
+  </K.ul>
+```
+
+The documentation of
+[`fromIds`](https://github.com/calmm-js/kefir.react.html#incremental-arrays-fromids)
+gives more details, but this version of `ListOfNames` works efficiently in the
+sense when names in the list change, then VDOM is created only for new names
+with respect to the previously display list of names.  In other words, `fromIds`
+caches VDOM.  What makes that possible is that the expression
+
+```jsx
+                    name =>
+       <li key={name}>{name}</li>)}
+```
+
+specifies a referentially transparent function.  It pays off to be declarative
+where it matters.
+
+There is more to say about lists, but we defer further discussion until later.
 
 ### Lenses
 
