@@ -969,7 +969,7 @@ first of names <value:current> Markus
 If we now modify either `firstOfNames` or `names`, the changes are reflected in
 the other:
 
-```
+```js
 > names.set(["Vesa", "Matti"])
 names <value> [ 'Vesa', 'Matti' ]
 first of names <value> Vesa
