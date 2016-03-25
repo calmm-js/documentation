@@ -781,8 +781,8 @@ names.modify(R.append("Vesa"))
 the list would be rerendered.
 
 In many cases this is good enough, but consider what happens when the list
-changes?  The entire list of VDOM is recreated.  In a trivial case like this, it
-is not much of a problem, but with more complex components per item, it might
+changes?  The entire list of VDOM is recomputed.  In a trivial case like this,
+it is not much of a problem, but with more complex components per item, it might
 lead to unacceptable performance.
 
 Fortunately this is not difficult to fix.  We just cache the VDOM between
