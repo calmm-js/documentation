@@ -978,6 +978,9 @@ names <value> [ 'Markus', 'Matti' ]
 first of names <value> Markus
 ```
 
+Note that the `.lens` method of atoms and lensed atoms does not create new
+state, which means we can regard it as a referentially transparent function.
+
 #### Editable lists
 
 Let's then proceed to make an editable list of names.  Here is one way to do it:
@@ -991,7 +994,7 @@ const ListOfNames = ({names}) =>
 ```
 
 Aside from putting the `TextInput` in place, we changed the way elements are
-identified for `fromIds`.  In this case we identity by their index.  The
+identified for `fromIds`.  In this case we identity them by their index.  The
 expression `R.pipe(R.length, R.range(0))` simply uses the functions
 [`pipe`](http://ramdajs.com/0.19.0/docs/#pipe),
 [`length`](http://ramdajs.com/0.19.0/docs/#length) and
