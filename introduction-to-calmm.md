@@ -979,7 +979,8 @@ first of names <value> Markus
 ```
 
 Note that the `.lens` method of atoms and lensed atoms does not create new
-state, which means we can regard it as a referentially transparent function.
+state, which means that we can regard it as a referentially transparent
+function.
 
 #### Editable lists
 
