@@ -1105,9 +1105,10 @@ hold the state of the UI and the contents are modified using operations from
 meta objects.
 
 Atoms can be created in a variety of ways and with a variety of properties, such
-as undo-redo capability or local storage persistence or both, and then passed to
-controls that do not necessarily need to know about the special properties of
-the atom or about other controls that have been passed the same atom.
+as [undo-redo](https://github.com/calmm-js/atom.undo) capability or local
+storage persistence or both, and then passed to controls that do not necessarily
+need to know about the special properties of the atom or about other controls
+that have been passed the same atom.
 
 ### LensedAtom :: AbstractMutable whole -&gt; PLens whole part -&gt; LensedAtom part
 
