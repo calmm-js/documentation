@@ -437,7 +437,7 @@ combinators for observables.  While most of those combinators have uses in
 conjunction with Calm^2, we are frequently only interested in combining, with
 some function, a bunch of properties, possibly contained in some data structure,
 into a new property that is kept up-to-date with respect to the latest values of
-the original properties.  We also do a lot of this.  Everywhere.  That is one
+the original properties.  We also do a lot of this.  Everywhere.  That is one of
 the two main reasons why we have defined a generalized combinator for that use
 case.  Let's just import the Kefir based version of the combinator from the
 [kefir.react.html](https://github.com/calmm-js/kefir.react.html) library:
@@ -478,7 +478,7 @@ as follows:
 > const x_plus_y = K(x, y, (x, y) => x + y)
 ```
 
-To see the value, we can use the Kefir's
+To see the value, we can use Kefir's
 [`log`](http://rpominov.github.io/kefir/#log) operation:
 
 ```js
@@ -647,7 +647,7 @@ and
 <Hello who={who}/>
 ```
 
-would render the same.  If we'd assign to `who`, e.g. `hello.set("there")` the
+would render the same.  If we'd assign to `who`, e.g. `who.set("there")` the
 latter element would be rerendered.
 
 The default import of the
@@ -693,7 +693,7 @@ const Converter = ({value = Atom("0")}) =>
   <K.p><K.input {...bind({value})}/>°C is {K(value, c => c * 9/5 + 32)}°F</K.p>
 ```
 
-You can find the above versions live
+You can find the above version live
 [here](http://calmm-js.github.io/kral-examples/public/index.html#converter).
 
 #### Dispelling the Magic
