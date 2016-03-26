@@ -15,7 +15,7 @@ we wrote a few small libraries (a few hundred lines of code total):
 
 And we also use [Bacon](https://github.com/baconjs/bacon.js) and
 [Ramda](http://ramdajs.com/).  Later, as an alternative to Bacon, we ported the
-relevant libraries concepts to [Kefir](http://rpominov.github.io/kefir/):
+relevant libraries to [Kefir](http://rpominov.github.io/kefir/):
 
 * [kefir.react.html](https://github.com/calmm-js/kefir.react.html)
 * [kefir.atom](https://github.com/calmm-js/kefir.atom)
