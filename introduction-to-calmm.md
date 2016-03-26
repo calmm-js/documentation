@@ -2,11 +2,26 @@
 
 # Introduction to Calm^2
 
-Calmm or Calm^2, pronounced "calm squared", is an architecture and a concrete
-collection of libraries for implementing reactive UIs.  It was born when we
-started a project to implement a custom CMS for a customer.  The customer
-requested that we use JavaScript and [React](https://facebook.github.io/react/),
-but we were otherwise given free hands to choose the tools for the job.
+Calmm or Calm^2, pronounced *"calm squared"*, is an architecture and a concrete
+collection of libraries for implementing reactive UIs with JavaScript and
+[React](https://facebook.github.io/react/).  It was born when we started a
+project to implement a custom CMS for a customer.  To help with writing UI code
+we wrote a few small libraries (a few hundred lines of code total):
+
+* [bacon.react.html](https://github.com/calmm-js/bacon.react.html)
+* [bacon.atom](https://github.com/calmm-js/bacon.atom)
+* [partial.lenses](https://github.com/calmm-js/partial.lenses)
+* [atom.undo](https://github.com/calmm-js/atom.undo)
+
+And we also use [Bacon](https://github.com/baconjs/bacon.js) and
+[Ramda](http://ramdajs.com/).  Later, as an alternative to Bacon, we ported the
+relevant libraries concepts to [Kefir](http://rpominov.github.io/kefir/):
+
+* [kefir.react.html](https://github.com/calmm-js/kefir.react.html)
+* [kefir.atom](https://github.com/calmm-js/kefir.atom)
+
+This document introduces the concepts behind those libraries and explains how
+those libraries can be used to write concise, reactive UI code.
 
 **Contents**
 
