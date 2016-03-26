@@ -8,6 +8,35 @@ started a project to implement a custom CMS for a customer.  The customer
 requested that we use JavaScript and [React](https://facebook.github.io/react/),
 but we were otherwise given free hands to choose the tools for the job.
 
+**Contents**
+
+* [What is difficult in UI programming?](#what-is-difficult-in-ui-programming)
+* [Goals](#goals)
+* [The ingredients](#the-ingredients)
+  * [Atoms](#atoms)
+  * [Dependent computations](#dependent-computations)
+    * [Observables](#observables)
+    * [Combining properties](#combining-properties)
+  * [Embedding Observables into VDOM](#embedding-observables-into-vdom)
+    * [Dispelling the Magic](#dispelling-the-magic)
+    * [Taking toll](#taking-toll)
+  * [Lists of items](#lists-of-items)
+  * [Lenses](#lenses)
+    * [Lenses 101](#lenses-101)
+    * [Combining Atoms and Lenses](#combining-atoms-and-lenses)
+    * [Editable lists](#editable-lists)
+* [The architecture](#the-architecture)
+  * [Model :: JSON](#model--json)
+  * [Meta :: JSON \-&gt; JSON](#meta--json---json)
+  * [Atom :: Atom model :&gt; AbstractMutable model](#atom--atom-model--abstractmutable-model)
+  * [LensedAtom :: AbstractMutable whole \-&gt; PLens whole part \-&gt; LensedAtom part](#lensedatom--abstractmutable-whole---plens-whole-part---lensedatom-part)
+  * [&lt;Control/&gt; :: [Observable prop | AbstractMutable model | data]\* \-&gt; VDOM](#control--observable-prop--abstractmutable-model--data---vdom)
+* [Putting it all together](#putting-it-all-together)
+* [Going further](#going-further)
+  * [Controllers for IO](#controllers-for-io)
+  * [Structural validation with Binoculars](#structural-validation-with-binoculars)
+* [Related work](#related-work)
+
 ## What is difficult in UI programming?
 
 Personally I find styling, or CSS, to be a zone of discomfort, but, fortunately,
