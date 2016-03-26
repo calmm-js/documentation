@@ -669,32 +669,32 @@ implementation of a React class that implements the life-cycle methods:
 
 ```js
 ...
-  componentWillReceiveProps(nextProps) {
-    this.doUnsubscribe()
-    this.doSubscribe(nextProps)
-  },
-  componentWillMount() {
-    this.doUnsubscribe()
-    this.doSubscribe(this.props)
-  },
-  shouldComponentUpdate(np, ns) {
-    return ns.rendered !== this.state.rendered
-  },
-  componentWillUnmount() {
-    this.doUnsubscribe()
-    this.setState(/* empty state */)
-  },
-  render() {
-    return this.state.rendered
-  },
-  doSubcribe( /* ... */ ) {
-    // Extracts observables from own VDOM properties and direct children.
-    // Combines them into an observable skipping duplicates and producing VDOM.
-    // Subscribes to the VDOM observable to setState with the results.
-  },
-  doUnsubscribe( /* ... */ ) {
-    // Unsubscribes from the observable created by doSubscribe.
-  }
+componentWillReceiveProps(nextProps) {
+  this.doUnsubscribe()
+  this.doSubscribe(nextProps)
+},
+componentWillMount() {
+  this.doUnsubscribe()
+  this.doSubscribe(this.props)
+},
+shouldComponentUpdate(np, ns) {
+  return ns.rendered !== this.state.rendered
+},
+componentWillUnmount() {
+  this.doUnsubscribe()
+  this.setState( /* empty state */ )
+},
+render() {
+  return this.state.rendered
+},
+doSubcribe( /* ... */ ) {
+  // Extracts observables from own VDOM properties and direct children.
+  // Combines them into an observable skipping duplicates and producing VDOM.
+  // Subscribes to the VDOM observable to setState with the results.
+},
+doUnsubscribe( /* ... */ ) {
+  // Unsubscribes from the observable created by doSubscribe.
+}
 ...
 ```
 
