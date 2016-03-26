@@ -1065,7 +1065,7 @@ A control is a function from observables, modifiables and constants to VDOM.
 We don't actually directly invoke the `Control` function.  Instead we construct
 VDOM that contains a reference to the function and the actual arguments with
 which the control is to be called with.  In other words, the evaluation of a JSX
-expression, `<Control {...{arguments}}/>`, to create VDOM, does not actually
+expression, `<Control {...arguments}/>`, to create VDOM, does not actually
 invoke the `Control` function, but it does evaluate the `arguments`.  The
 function is invoked if and when the component is actually mounted for display.
 This latent invocation has the effect that as long as the expressions that we
