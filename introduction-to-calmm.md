@@ -657,7 +657,7 @@ The default import of the
 import K from "kefir.react.html"
 ```
 
-which we introduced in the previous section as generalized combine combinator,
+which we introduced in the previous section as a generalized combine combinator,
 also contains prelifted versions of all the pseudo HTML classes that React
 provides and the same goes for the Bacon version:
 [`bacon.react.html`](https://github.com/calmm-js/bacon.react.html).  Using it we
