@@ -863,10 +863,9 @@ to cache the results.
 
 Our Kefir and Calm^2 based [TodoMVC](https://github.com/calmm-js/kral-todomvc)
 also just uses `fromIds` and seems to be one of the fastest and one of the most
-concise TodoMVC implementations around.  It pays off to be declarative where it
-matters.  To test the performance of that TodoMVC implementation, you can run
-the following script in your browser's console to populate the storage with 2000
-todo items:
+concise TodoMVC implementations around.  To test the performance of that TodoMVC
+implementation, you can run the following script in your browser's console to
+populate the storage with 2000 todo items:
 
 ```js
 var store = []
@@ -874,6 +873,8 @@ for (var i = 1; i <= 2000; ++i)
   store.push({title: 'Todo' + i, completed: false})
 localStorage.setItem('todos-react.kefir', JSON.stringify(store))
 ```
+
+It pays off to be declarative where it matters.
 
 There is more to say about lists, but we defer further discussion until later.
 
