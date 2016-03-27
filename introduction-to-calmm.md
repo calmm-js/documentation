@@ -259,7 +259,7 @@ The most important ingredient is the use of observable combinators to express
 dependent computations to solve the consistency problem.  However, atoms are a
 simple way to create root observables, which is what we will need in order to
 talk about dependent computations.  Therefore we will first take a brief look at
-atoms and later take a closer look when we talk about lenses.
+atoms and later take a another look when we talk about lenses.
 
 Let's start by importing an implementation of Atoms.  In this introduction we
 will be using [Kefir](http://rpominov.github.io/kefir/) as our observable
@@ -280,22 +280,22 @@ Atoms are essentially first-class storage locations or variables.  We can create
 a new atom using the `Atom` constructor function:
 
 ```js
-> const elems = Atom(["earth", "water", "air", "fire"])
+const elems = Atom(["earth", "water", "air", "fire"])
 ```
 
 And we can get the value of an atom:
 
 ```js
-> elems.get()
-[ 'earth', 'water', 'air', 'fire' ]
+elems.get()
+// [ 'earth', 'water', 'air', 'fire' ]
 ```
 
 And we can also set the value of an atom:
 
 ```js
-> elems.set(["observables", "embedding", "atoms"])
-> elems.get()
-[ 'observables', 'embedding', 'atoms' ]
+elems.set(["observables", "embedding", "atoms"])
+elems.get()
+// [ 'observables', 'embedding', 'atoms' ]
 ```
 
 However, as we will learn, getting and, to a lesser degree, setting the values
@@ -309,9 +309,9 @@ is example where we use Ramda's
 list:
 
 ```js
-> elems.modify(R.append("lenses"))
-> elems.get()
-[ 'observables', 'embedding', 'atoms', 'lenses' ]
+elems.modify(R.append("lenses"))
+elems.get()
+// [ 'observables', 'embedding', 'atoms', 'lenses' ]
 ```
 
 The `modify` operation is, in fact, the primitive operation used to modify atoms
@@ -466,8 +466,8 @@ Suppose, for example, that we define two atoms representing independent
 variables:
 
 ```js
-> const x = Atom(1)
-> const y = Atom(2)
+const x = Atom(1)
+const y = Atom(2)
 ```
 
 Using `K` we could specify their sum as a
@@ -475,36 +475,36 @@ Using `K` we could specify their sum as a
 as follows:
 
 ```js
-> const x_plus_y = K(x, y, (x, y) => x + y)
+const x_plus_y = K(x, y, (x, y) => x + y)
 ```
 
 To see the value, we can use Kefir's
 [`log`](http://rpominov.github.io/kefir/#log) operation:
 
 ```js
-> x_plus_y.log("x + y")
-x + y <value:current> 3
+x_plus_y.log("x + y")
+// x + y <value:current> 3
 ```
 
 Now, if we modify the variables, we can see that the sum is recomputed:
 
 ```js
-> x.set(-2)
-x + y <value> 0
-> y.set(3)
-x + y <value> 1
+x.set(-2)
+// x + y <value> 0
+y.set(3)
+// x + y <value> 1
 ```
 
 We can, of course, create computations that depend on dependent computations:
 
 ```js
-> const z = Atom(1)
-> const x_plus_y_minus_z = K(x_plus_y, z, (x_plus_y, z) => x_plus_y - z)
-> x_plus_y_minus_z.log("(x + y) - z")
-(x + y) - z <value:current> 0
-> x.modify(x => x + 1)
-x + y <value> 2
-(x + y) - z <value> 1
+const z = Atom(1)
+const x_plus_y_minus_z = K(x_plus_y, z, (x_plus_y, z) => x_plus_y - z)
+x_plus_y_minus_z.log("(x + y) - z")
+// (x + y) - z <value:current> 0
+x.modify(x => x + 1)
+// x + y <value> 2
+// (x + y) - z <value> 1
 ```
 
 The `K` combinator is actually somewhat more powerful, or complex, than what the
@@ -514,18 +514,18 @@ dealing with constants or with observable properties.  For this reason any
 argument of `K` is allowed to be a constant.  For example:
 
 ```js
-> const a = 2
-> const b = Atom(3)
-> K(a, b, (a, b) => a * b).log("a * b")
-a * b <value:current> 6
+const a = 2
+const b = Atom(3)
+K(a, b, (a, b) => a * b).log("a * b")
+// a * b <value:current> 6
 ```
 
 Even further, when all the arguments to `K` are constants, the value is simply
 computed immediately:
 
 ```js
-> K("there", who => "Hello, " + who + "!")
-'Hello, there!'
+K("there", who => "Hello, " + who + "!")
+// 'Hello, there!'
 ```
 
 This reduces the construction of unnecessary observables.
@@ -537,8 +537,8 @@ substituted into the template to form an instance of the template that is then
 passed to the combiner function.  For example:
 
 ```js
-> K({i: Atom(1), xs: ["a", Atom("b"), Atom("c")]}, r => r.xs[r.i]).log()
-result <value:current> b
+K({i: Atom(1), xs: ["a", Atom("b"), Atom("c")]}, r => r.xs[r.i]).log()
+// result <value:current> b
 ```
 
 In other words, `K` also includes the functionality of
@@ -548,11 +548,11 @@ Unlike with Kefir's [`combine`](http://rpominov.github.io/kefir/#combine), the
 combiner function is also allowed to be an observable.  For example:
 
 ```js
-> const f = Atom(x => x + 1)
-> K(1, f).log("result")
-result <value:current> 2
-> f.set(x => x * 2 + 1)
-result <value> 3
+const f = Atom(x => x + 1)
+K(1, f).log("result")
+// result <value:current> 2
+f.set(x => x * 2 + 1)
+// result <value> 3
 ```
 
 Finally, like with Kefir's [`combine`](http://rpominov.github.io/kefir/#combine)
@@ -560,12 +560,12 @@ the combiner function is optional.  If the combiner is omitted, the result is an
 array.  For example:
 
 ```js
-> K()
-[]
-> K(1, 2, 3)
-[ 1, 2, 3 ]
-> K({x: Atom(1)}, 2, [Atom(3)]).log("result")
-result <value:current> [ { x: 1 }, 2, [ 3 ] ]
+K()
+// []
+K(1, 2, 3)
+// [ 1, 2, 3 ]
+K({x: Atom(1)}, 2, [Atom(3)]).log("result")
+// result <value:current> [ { x: 1 }, 2, [ 3 ] ]
 ```
 
 Phew!  This might be overwhelming at first, but the `K` combinator gives us a
@@ -927,9 +927,9 @@ import P, * as L from "partial.lenses"
 Now, consider the following JSON:
 
 ```js
-> const db = {"classes": [{"id": 101, "level": "Novice"},
-                          {"id": 202, "level": "Intermediate"},
-                          {"id": 303, "level": "Advanced"}]}
+const db = {"classes": [{"id": 101, "level": "Novice"},
+                        {"id": 202, "level": "Intermediate"},
+                        {"id": 303, "level": "Advanced"}]}
 ```
 
 We can specify the lens
@@ -948,10 +948,10 @@ to identify the object
 within `db`.  We can confirm this by using `L.view` to view through the lens:
 
 ```js
-> L.view(L.compose(L.prop("classes"),
-                   L.index(0)),
-         db)
-{ id: 101, level: 'Novice' }
+L.view(L.compose(L.prop("classes"),
+                 L.index(0)),
+       db)
+// { id: 101, level: 'Novice' }
 ```
 
 If viewing elements were the only thing that lenses were good for they would be
@@ -959,15 +959,15 @@ rather useless, but they also allow us to update elements deep inside data
 structures.  Let's update the level of the first class:
 
 ```js
-> L.update(L.compose(L.prop("classes"),
-                     L.index(0),
-                     L.prop("level")),
-           "Introduction",
-           db)
-{ classes:
-   [ { level: 'Introduction', id: 101 },
-     { id: 202, level: 'Intermediate' },
-     { id: 303, level: 'Advanced' } ] }
+L.update(L.compose(L.prop("classes"),
+                   L.index(0),
+                   L.prop("level")),
+         "Introduction",
+         db)
+// { classes:
+//    [ { level: 'Introduction', id: 101 },
+//     { id: 202, level: 'Intermediate' },
+//     { id: 303, level: 'Advanced' } ] }
 ```
 
 The `L.update` operation on lenses is a referentially transparent function that
@@ -1016,22 +1016,22 @@ const firstOfNames = names.lens(L.index(0))
 Let's take a look at what is going on by using `.log`:
 
 ```js
-> names.log("names")
-names <value:current> [ 'Markus', 'Matti' ]
-> firstOfNames.log("first of names")
-first of names <value:current> Markus
+names.log("names")
+// names <value:current> [ 'Markus', 'Matti' ]
+firstOfNames.log("first of names")
+// first of names <value:current> Markus
 ```
 
 If we now modify either `firstOfNames` or `names`, the changes are reflected in
 the other:
 
 ```js
-> names.set(["Vesa", "Matti"])
-names <value> [ 'Vesa', 'Matti' ]
-first of names <value> Vesa
-> firstOfNames.set("Markus")
-names <value> [ 'Markus', 'Matti' ]
-first of names <value> Markus
+names.set(["Vesa", "Matti"])
+// names <value> [ 'Vesa', 'Matti' ]
+// first of names <value> Vesa
+firstOfNames.set("Markus")
+// names <value> [ 'Markus', 'Matti' ]
+// first of names <value> Markus
 ```
 
 Note that the `.lens` method of atoms and lensed atoms does not create *new*
