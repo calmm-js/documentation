@@ -693,6 +693,10 @@ const Converter = ({value = Atom("0")}) =>
   <K.p><K.input {...bind({value})}/>°C is {K(value, c => c * 9/5 + 32)}°F</K.p>
 ```
 
+This latter version using `bind` evaluates to the exact same functionality as
+the previous version that uses `onChange`.  `bind({x})` is equivalent to `{x,
+onChange: e => x.set(e.target.x)}`.
+
 You can find the above version live
 [here](http://calmm-js.github.io/kral-examples/public/index.html#converter).
 
