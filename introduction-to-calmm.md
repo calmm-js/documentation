@@ -875,7 +875,7 @@ populate the storage with 2000 todo items:
 var store = []
 for (var i = 1; i <= 2000; ++i)
   store.push({title: 'Todo' + i, completed: false})
-localStorage.setItem('todos-react.kefir', JSON.stringify(store))
+localStorage.setItem('todos-react.kefir', JSON.stringify({value: store}))
 ```
 
 It pays off to be declarative where it matters.
