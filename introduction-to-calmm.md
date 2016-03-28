@@ -963,18 +963,18 @@ rather useless, but they also allow us to update elements deep inside data
 structures.  Let's update the level of the first class:
 
 ```js
-L.update(L.compose(L.prop("classes"),
-                   L.index(0),
-                   L.prop("level")),
-         "Introduction",
-         db)
+L.set(L.compose(L.prop("classes"),
+                L.index(0),
+                L.prop("level")),
+      "Introduction",
+      db)
 // { classes:
 //    [ { level: 'Introduction', id: 101 },
 //     { id: 202, level: 'Intermediate' },
 //     { id: 303, level: 'Advanced' } ] }
 ```
 
-The `L.update` operation on lenses is a referentially transparent function that
+The `L.set` operation on lenses is a referentially transparent function that
 does not mutate the target value&mdash;it merely creates a new value with the
 specified changes.
 
@@ -984,13 +984,13 @@ keeping lens definitions concise.  For this purpose we abbreviate
 * `L.index(integer)` as `integer`, and
 * `L.compose(l, ...ls)` as `P(l, ...ls)`.
 
-Using the abbreviations, the `update` expression from the previous example can
-be rewritten as:
+Using the abbreviations, the `set` expression from the previous example can be
+rewritten as:
 
 ```js
-L.update(P("classes", 0, "level"),
-         "Introduction",
-         db)
+L.set(P("classes", 0, "level"),
+      "Introduction",
+      db)
 ```
 
 This is really the absolute minimum that we need to know about lenses to go
