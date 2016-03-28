@@ -158,7 +158,9 @@ prefer approaches that lend themselves to algorithmically efficient solutions.
 
 Note that we have not explicitly listed simplicity as a goal.  We have yet to
 see an approach to programming that claims to be complex and therefore
-desirable.  But what is simple?  Is an approach based on one
+desirable.  But what is
+[simple](https://twitter.com/RaezzM/status/708760222735704065)?  Is an approach
+based on one
 [Golden Hammer](https://en.wikipedia.org/wiki/Law_of_the_instrument) concept
 simple?  Not necessarily.  In his talk,
 [Simple made Easy](https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/SimpleMadeEasy.md),
@@ -192,11 +194,12 @@ UI state as observables.  When we need to compute something that depends on that
 state, we use observable combinators to declare those computations.  This means
 that those dependent computations are essentially always consistent with respect
 to the state.  One could stop right here, because observable combinators solve
-the consistency problem and are often seen as a Golden Hammer: powerful enough
-for nearly everything.  However, we do not stop here, because we don't want to
-stop at consistency.  We also want to eliminate boilerplate and glue, we want
-plug-and-play, structural programming (at higher levels) and efficiency.  None
-of these happens simply as a consequence of using observable combinators.
+the consistency problem and are often seen as a
+[Golden Hammer](https://twitter.com/andrestaltz/status/669601247708717056):
+powerful enough for everything.  However, we do not stop here, because we don't
+want to stop at consistency.  We also want to eliminate boilerplate and glue, we
+want plug-and-play, structural programming (at higher levels) and efficiency.
+None of these happens simply as a consequence of using observable combinators.
 
 To make the use of observables convenient we extend VDOM to allow observables as
 direct properties and children.  This eliminates a ton of boilerplate and glue
