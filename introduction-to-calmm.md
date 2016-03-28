@@ -12,6 +12,7 @@ we wrote a few small libraries (a few hundred lines of code total):
 * [bacon.atom](https://github.com/calmm-js/bacon.atom)
 * [partial.lenses](https://github.com/calmm-js/partial.lenses)
 * [atom.undo](https://github.com/calmm-js/atom.undo)
+* [atom.storage](https://github.com/calmm-js/atom.storage)
 
 And we also use [Bacon](https://github.com/baconjs/bacon.js) and
 [Ramda](http://ramdajs.com/).  Later, as an alternative to Bacon, we ported the
@@ -1109,9 +1110,10 @@ meta objects.
 
 Atoms can be created in a variety of ways and with a variety of properties, such
 as [undo-redo](https://github.com/calmm-js/atom.undo) capability or local
-storage persistence or both, and then passed to controls that do not necessarily
-need to know about the special properties of the atom or about other controls
-that have been passed the same atom.
+[storage](https://github.com/calmm-js/atom.storage) persistence or both, and
+then passed to controls that do not necessarily need to know about the special
+properties of the atom or about other controls that have been passed the same
+atom.
 
 ### LensedAtom :: AbstractMutable whole -&gt; PLens whole part -&gt; LensedAtom part
 
