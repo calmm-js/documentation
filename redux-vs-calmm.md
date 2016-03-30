@@ -41,8 +41,8 @@ createStore :: (state -> action -> state) -> state -> IO (Store action state)
 
 What this means is that `createStore` takes two arguments.  The first argument,
 the reducer, is a function from a state and an action to a state.  The second
-argument is the initial state.  The result is store that contains state of type
-`state` and understands actions of type `action`.
+argument is the initial state.  The result is a store that contains state of
+type `state` and understands actions of type `action`.
 
 The `Store` type constructor also comes with various actions, but at this stage
 we are mainly interested in just one, `dispatch`, which we could type as
