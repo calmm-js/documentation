@@ -18,9 +18,9 @@ lines of code.  Here is a minimalistic
 ```js
 const createStore = (reducer, initial) => {
   const bus = Bacon.Bus()
-  const prop = bus.scan(initial, (state, action) => reducer(state, action))
-  prop.dispatch = action => bus.push(action)
-  return prop
+  const store = bus.scan(initial, (state, action) => reducer(state, action))
+  store.dispatch = action => bus.push(action)
+  return store
 }
 ```
 
@@ -72,9 +72,9 @@ implemented in just a few slices of Bacon:
 ```js
 const Atom = initial => {
   const bus = Bacon.Bus()
-  const prop = bus.scan(initial, (state, action) => action(state))
-  prop.modify = action => bus.push(action)
-  return prop
+  const atom = bus.scan(initial, (state, action) => action(state))
+  atom.modify = action => bus.push(action)
+  return atom
 }
 ```
 
@@ -107,7 +107,7 @@ between stores and atoms.
 ## Conversions
 
 Before going to the gist of this note, let's see how we can can implement atoms
-in terms of stores and vice versa.
+in terms of stores and vice verse.
 
 First here is `createStore` implemented using `Atom`:
 
