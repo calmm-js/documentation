@@ -166,7 +166,7 @@ example, one could write combinators for arrays.  It could have a signature like
 this:
 
 ```haskell
-arrayReducer :: (s -> a -> a) -> [s] -> (a, Integer) -> [a]
+arrayReducer :: (s -> a -> s) -> [s] -> (a, Integer) -> [s]
 ```
 
 Just like with our changed `combineReducers` function, we extend the action type
