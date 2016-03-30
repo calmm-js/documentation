@@ -1,5 +1,3 @@
-**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
-
 # Introduction to Calm^2
 
 Calmm or Calm^2, pronounced *"calm squared"*, is an architecture and a concrete
@@ -47,10 +45,7 @@ those libraries can be used to write concise, reactive UI code.
   * [Atom :: Atom model :&gt; AbstractMutable model](#atom--atom-model--abstractmutable-model)
   * [LensedAtom :: AbstractMutable whole \-&gt; PLens whole part \-&gt; LensedAtom part](#lensedatom--abstractmutable-whole---plens-whole-part---lensedatom-part)
   * [&lt;Control/&gt; :: [Observable prop | AbstractMutable model | data]\* \-&gt; VDOM](#control--observable-prop--abstractmutable-model--data---vdom)
-* [Putting it all together](#putting-it-all-together)
 * [Going further](#going-further)
-  * [Controllers for IO](#controllers-for-io)
-  * [Structural validation with Binoculars](#structural-validation-with-binoculars)
 * [Related work](#related-work)
 
 ## What is difficult in UI programming?
@@ -1147,21 +1142,12 @@ being able to compose VDOM and components liberally.  However, once a control is
 mounted, the function is invoked and the control as a whole is allowed to
 perform side-effects.
 
-## Putting it all together
-
-**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
-
 ## Going further
 
-**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
+Found the concepts intriguing?  Not yet quite sure how things really fit
+together?  The logical next step is to read:
 
-### Controllers for IO
-
-**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
-
-### Structural validation with Binoculars
-
-**This document is WORK-IN-PROGRESS.  Feedback is welcome!**
+* [Tutorial: Composing Components with Calm^2](tutorial-composing-components-with-calmm.md)
 
 ## Related work
 
