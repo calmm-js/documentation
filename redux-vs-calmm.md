@@ -66,7 +66,7 @@ are supposed to be just data:
 
 Let's then turn our attention to Calm^2 and to the
 [Atom](https://github.com/calmm-js/documentation/blob/master/introduction-to-calmm.md#atoms)
-concept.  Similarly to stores of Redux, a minimalistic look-alike Atom can be
+concept.  Similarly to stores of Redux, a minimalistic lookalike Atom can be
 implemented in just a few slices of Bacon:
 
 ```js
@@ -162,8 +162,8 @@ some cases this might be what you want, but it doesn't compose.
 
 Now, it is not difficult to imagine a library of reducer combinators.  An
 experienced functional programmer should be able to whip up one in no time.  For
-example, one could write combinators for arrays.  It could have a signature like
-this:
+example, one could write a combinator for arrays.  It could have a signature
+like this:
 
 ```haskell
 arrayReducer :: (s -> a -> s) -> [s] -> (a, Integer) -> [s]
