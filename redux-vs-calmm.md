@@ -188,6 +188,9 @@ section of the Calm^2 introduction.
 
 ## Summary
 
+> Redux reducers are *composable*.<br>
+> Calm^2 atoms are *decomposable*.
+
 Redux [Stores](http://redux.js.org/docs/basics/Store.html) and Calm^2
 [Atoms](https://github.com/calmm-js/documentation/blob/master/introduction-to-calmm.md#atoms)
 are related, but fundamentally different.  Redux stores can be instantiated with
