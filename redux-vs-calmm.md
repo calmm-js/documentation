@@ -149,7 +149,7 @@ for combining reducers.  Abusing a Haskell -style notation, we could give
 ```haskell
 combineReducers :: {p1: s1 -> a1 -> s1,
                     p2: s2 -> a2 -> s2} ->
-                   {p1: a1, p2: a2} -> Either a1 a2 -> {p1: a1, p2: a2}
+                   {p1: s1, p2: s2} -> Either a1 a2 -> {p1: s1, p2: s2}
 ```
 
 Again, the astute reader noticed that this is, in fact, not the actual type of
