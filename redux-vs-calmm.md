@@ -4,8 +4,7 @@ In this brief note we compare some aspects of Calm^2 and Redux.  We assume that
 the reader is already familiar with [Redux](http://redux.js.org/).  We also
 assume that the reader has basic familiarity with
 [Calm^2](introduction-to-calmm.md).  Our goal here is to gain a deeper
-understanding on how they are related by viewing the core of Redux from the
-viewpoint of Calm^2.
+understanding on how they are related.
 
 ## Stores with Bacon
 
