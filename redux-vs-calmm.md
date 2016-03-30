@@ -162,7 +162,7 @@ some cases this might be what you want, but it doesn't compose.
 
 Now, it is not difficult to imagine a library of reducer combinators.  An
 experienced functional programmer should be able to whip up one in no time.  For
-example, one could write combinators for arrays.  It would have a signature like
+example, one could write combinators for arrays.  It could have a signature like
 this:
 
 ```haskell
@@ -173,7 +173,7 @@ Just like with our changed `combineReducers` function, we extend the action type
 to make it possible to route actions to a precise target.
 
 But the point is that by following the structure or
-[algebra](http://chris-taylor.github.io/blog/2013/02/10/the-algebra-of-algebraic-data-types/),
+[algebra](http://chris-taylor.github.io/blog/2013/02/10/the-algebra-of-algebraic-data-types/)
 or
 [logic](http://homepages.inf.ed.ac.uk/wadler/papers/propositions-as-types/propositions-as-types.pdf)
 of types we can compose reducers to make reducers for arbitrarily complex nested
