@@ -86,8 +86,8 @@ can be read from the code above, and unlike with a store, the messages that an
 atom takes are supposed to be functions that compute a new state given the
 current state.
 
-Like with Redux, let's take a look at the types.  First the type of `Atom` (we
-are slightly abusing Haskell lexical grammer here):
+Let's then take a look at the types like we did with Redux.  First the type of
+`Atom` (we are slightly abusing Haskell lexical grammar here):
 
 ```haskell
 Atom :: state -> IO (Atom state)
