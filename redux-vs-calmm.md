@@ -181,8 +181,8 @@ states.  We could even write reducer combinators that allow reducers to be
 composed in ways that do not strictly follow the construction of the data, but
 rather follow some properties computed from data.
 
-The logical next step would be to explain that atoms can be decomposed using
-lenses, but we've already read about it in the
+The logical next step would be to explain that atoms can be decomposed or sliced
+using lenses, but we've already read about it in the
 [Combining Atoms and Lenses](https://github.com/calmm-js/documentation/blob/master/introduction-to-calmm.md#combining-atoms-and-lenses)
 section of the Calm^2 introduction.
 
