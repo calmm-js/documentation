@@ -188,11 +188,16 @@ section of the Calm^2 introduction.
 
 ## Summary
 
-Redux Stores and Calm^2 Atoms are related, but fundamentally different.  Redux
-stores can be instantiated with composable reducers.  Atoms can be decomposed
-using lenses and lenses can be composed.  Out of the box, Redux provides only a
-single reducer combinator.  Calm^2 takes the idea of composability and
-decomposability seriously and provides a
+Redux [Stores](http://redux.js.org/docs/basics/Store.html) and Calm^2
+[Atoms](https://github.com/calmm-js/documentation/blob/master/introduction-to-calmm.md#atoms)
+are related, but fundamentally different.  Redux stores can be instantiated with
+composable [reducers](http://redux.js.org/docs/basics/Reducers.html).  Atoms can
+be decomposed using
+[lenses](https://github.com/calmm-js/documentation/blob/master/introduction-to-calmm.md#lenses)
+and lenses can be composed.  Out of the box, Redux provides only
+[a single reducer combinator](http://redux.js.org/docs/api/combineReducers.html).
+Calm^2 takes the idea of composability and decomposability seriously and
+provides a
 [library of composable lenses](https://github.com/calmm-js/partial.lenses) to
 effectively decompose state to components making the components themselves
 composable.
