@@ -1,3 +1,5 @@
+[![Gitter](https://img.shields.io/gitter/room/calmm-js/chat.js.svg?style=flat-square)](https://gitter.im/calmm-js/chat)
+
 # Redux vs Calm^2
 
 In this brief note we compare some aspects of Calm^2 and Redux.  We assume that
@@ -204,3 +206,5 @@ provides a
 [library of composable lenses](https://github.com/calmm-js/partial.lenses) to
 effectively decompose state to components making the components themselves
 composable.
+
+[![Gitter](https://img.shields.io/gitter/room/calmm-js/chat.js.svg?style=flat-square)](https://gitter.im/calmm-js/chat)

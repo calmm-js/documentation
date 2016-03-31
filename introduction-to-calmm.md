@@ -1,3 +1,5 @@
+[![Gitter](https://img.shields.io/gitter/room/calmm-js/chat.js.svg?style=flat-square)](https://gitter.im/calmm-js/chat)
+
 # Introduction to Calm^2
 
 Calmm or Calm^2, pronounced *"calm squared"*, is an architecture and a concrete
@@ -45,8 +47,8 @@ those libraries can be used to write concise, reactive UI code.
   * [Atom :: Atom model :&gt; AbstractMutable model](#atom--atom-model--abstractmutable-model)
   * [LensedAtom :: AbstractMutable whole \-&gt; PLens whole part \-&gt; LensedAtom part](#lensedatom--abstractmutable-whole---plens-whole-part---lensedatom-part)
   * [&lt;Control/&gt; :: [Observable prop | AbstractMutable model | data]\* \-&gt; VDOM](#control--observable-prop--abstractmutable-model--data---vdom)
-* [Going further](#going-further)
 * [Related work](#related-work)
+* [Going further](#going-further)
 
 ## What is difficult in UI programming?
 
@@ -1140,13 +1142,6 @@ being able to compose VDOM and components liberally.  However, once a control is
 mounted, the function is invoked and the control as a whole is allowed to
 perform side-effects.
 
-## Going further
-
-Found the concepts intriguing?  Not yet quite sure how things really fit
-together?  The logical next step is to read:
-
-* [Tutorial: Composing Components with Calm^2](tutorial-composing-components-with-calmm.md)
-
 ## Related work
 
 > Most papers in computer science describe how their author learned what someone
@@ -1167,3 +1162,12 @@ possible to program in ways similar to what could be done using
 we ultimately realized, however, is not identical to either.  The idea of
 combining lenses and atoms came from
 [Bacon.Model](https://github.com/baconjs/bacon.model), which we used initially.
+
+## Going further
+
+Found the concepts intriguing?  Not yet quite sure how things really fit
+together?  The logical next step is to read:
+
+* [Tutorial: Composing Components with Calm^2](tutorial-composing-components-with-calmm.md)
+
+[![Gitter](https://img.shields.io/gitter/room/calmm-js/chat.js.svg?style=flat-square)](https://gitter.im/calmm-js/chat)
