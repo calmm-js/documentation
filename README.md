@@ -9,11 +9,14 @@ complete.  In the meanwhile, feel free to look at the unfinished documents and
 feel free to give feedback, especially if you find that something is left
 unclear after reading a section.
 
-Links to individual documents:
+Links to mostly finished documents:
 
 * [Introduction to Calm^2](introduction-to-calmm.md)
-* [Tutorial: Composing Components with Calm^2](tutorial-composing-components-with-calmm.md)
 * [Redux vs Calm^2](redux-vs-calmm.md)
+
+Links to unfinished focuments:
+
+* [Tutorial: Composing Components with Calm^2](tutorial-composing-components-with-calmm.md)
 
 Planned documents:
 * Controllers for IO
