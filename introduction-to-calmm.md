@@ -26,7 +26,7 @@ those libraries can be used to write concise, reactive UI code.
 
 **Contents**
 
-* [What is difficult in UI programming?](#what-is-difficult-in-ui-programming)
+* [Imagine...](#imagine)
 * [Goals](#goals)
 * [The ingredients](#the-ingredients)
   * [Atoms](#atoms)
@@ -50,42 +50,49 @@ those libraries can be used to write concise, reactive UI code.
 * [Related work](#related-work)
 * [Going further](#going-further)
 
-## What is difficult in UI programming?
+## Imagine...
 
-Personally I find styling, or CSS, to be a zone of discomfort, but, fortunately,
-the undesirable side-effects that CSS can cause are rather limited.  But what is
-really difficult?
+Imagine that you could design and implement UI components in isolation as if
+they were the root of the UI component hierarchy.  Such components would just
+*play* on their own and you could just *plug* them into more complex
+applications.  For real?  You are probably skeptic, because you have no doubt
+seen many UI frameworks promise to give you such plug-and-play, but fail to
+deliver.  Why did they fail?  They failed because they were not based on solid
+means of *composition* and *decomposition*.
 
-**Maintaining consistent state in the face of async inputs.**
+It is well known that being able to *compose* UI components from primitive
+components, to containers, and all the way to whole apps is highly desirable.
+However, composition is not enough.  In order to make plug-and-play possible,
+one must also have a truly effective solution to the problem of decomposing
+state.  It must be possible to write individual components so that they do not
+need to know about the whole application state.  Having both a means of
+decomposing application state and composing UI components it is possible to
+implement the desired composite components and just plug them into any app.
 
-That is what we believe is inherently difficult in UI programming.  All UIs must
-maintain some internal state, must maintain the consistency of that state and
-must project a consistent view of that state to the user.  We further want UIs
-to be mostly non-modal and, especially in web apps, we also have lots of
-asynchronous operations happening&mdash;some of which may be out of the control
-of our UI code.  This means that requests to change the state of the UI can come
-from a multitude of sources and at the most inconvenient moments.
+<p align="center"><img width="40%" height="40%" src="http://calmm-js.github.io/documentation/images/decompose-and-compose.svg"></p>
 
-In this particular document we will try to avoid referring to other concrete
-approaches to implementing UIs, but, in our opinion, many approaches to UI
-programming are motivated by this difficulty of maintaining consistent state and
-have picked a particular way to solve that problem that characterizes the
-approach.  For example, an approach might be to route all changes to state via a
-dedicated set of operations, serialize the execution of said operations and
-notify other parts of UI after each change of state.
+UI code is by no means trivial, so being able to modularize parts of UI code
+into truly reusable components that play on their own and can be just plugged
+in, without writing copious amounts of glue code, is highly desirable.  The term
+[plug-and-play](https://en.wikipedia.org/wiki/Plug_and_play) was used to refer
+to the idea that one could, essentially, compose a computer by plugging in
+hardware modules without having to perform manual configuration.  That is very
+much like what we want for UIs.
+
+In this document we'll introduce the ingredients and the architecture of our
+approach to reach the age old vision of making plug-and-play UI components.
 
 ## Goals
 
-When developing or choosing an approach out of many potential approaches, it may
-help to articulate some criteria for making choices.  Here are some of the
-things we desire from our solution(s):
+Before going into the details of our approach, let's articulate some criteria
+based on which we've developed our approach.  Here are some of the things we
+desire from our solution(s):
 
 * Eliminate boilerplate and glue
 * Avoid all-or-nothing or lock-in
 * Be declarative where it matters
 * Avoid unnecessary encoding of effects
 * Structural programming
-* Plug-and-play components
 * Testability
 * Efficiency
 
@@ -130,13 +137,6 @@ structure that is not unique to the problem, which means that there are many
 solutions to the problem.  This tends to go hand-in-hand with having to write
 boilerplate or glue code.  When possible, it is typically preferable to pick one
 effective way to do the plumbing and make that free of boilerplate.
-
-UI code is by no means trivial, so being able to modularize parts of UI code
-into reusable components that play on their own and can be just plugged in,
-without writing copious amounts of glue code, is highly desirable.  The term
-plug-and-play was used to refer to the idea that one could, essentially, compose
-a computer by plugging in hardware modules without having to perform manual
-configuration.  That is very much like what we want for UIs.
 
 Testability is especially important in a language such as JavaScript that is
 notorious for its YOLO roots.  As much as possible, we want parts of our UI
