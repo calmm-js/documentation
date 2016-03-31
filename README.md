@@ -12,9 +12,9 @@ unclear after reading a section.
 Links to individual documents:
 
 * [Introduction to Calm^2](introduction-to-calmm.md)
-* [Tutorial: Composing components with Calm^2](tutorial-composing-components-with-calmm.md)
+* [Tutorial: Composing Components with Calm^2](tutorial-composing-components-with-calmm.md)
 * [Redux vs Calm^2](redux-vs-calmm.md)
 
 Planned documents:
 * Controllers for IO
-* Structural validation with Binoculars
+* Structural Validation with Binoculars
