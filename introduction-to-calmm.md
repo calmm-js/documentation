@@ -440,7 +440,7 @@ into a new property that is kept up-to-date with respect to the latest values of
 the original properties.  We also do a lot of this.  Everywhere.  That is one of
 the two main reasons why we have defined a generalized combinator for that use
 case.  Let's just import the Kefir based version of the combinator from the
-[kefir.react.html](https://github.com/calmm-js/kefir.react.html) library:
+[`kefir.react.html`](https://github.com/calmm-js/kefir.react.html) library:
 
 ```js
 import K from "kefir.react.html"
