@@ -69,7 +69,7 @@ need to know about the whole application state.  Having both a means of
 decomposing application state and composing UI components it is possible to
 implement the desired composite components and just plug them into any app.
 
-<p align="center"><img width="40%" height="40%" src="http://calmm-js.github.io/documentation/images/decompose-and-compose.svg"></p>
+<p align="center"><img width="30%" height="30%" src="http://calmm-js.github.io/documentation/images/decompose-and-compose.svg"></p>
 
 UI code is by no means trivial, so being able to modularize parts of UI code
 into truly reusable components that play on their own and can be just plugged
