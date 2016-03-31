@@ -14,7 +14,7 @@ Links to mostly finished documents:
 * [Introduction to Calm^2](introduction-to-calmm.md)
 * [Redux vs Calm^2](redux-vs-calmm.md)
 
-Links to unfinished focuments:
+Links to unfinished documents:
 
 * [Tutorial: Composing Components with Calm^2](tutorial-composing-components-with-calmm.md)
 
