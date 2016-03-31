@@ -1170,4 +1170,11 @@ together?  The logical next step is to read:
 
 * [Tutorial: Composing Components with Calm^2](tutorial-composing-components-with-calmm.md)
 
+Our production codebase is unfortunately not publicly available.  However, we
+have built some small examples:
+
+* [Examples](https://github.com/calmm-js/kral-examples)
+* [TodoMVC](https://github.com/calmm-js/kral-todomvc)
+
+For questions and discussion join us at:
 [![Gitter](https://img.shields.io/gitter/room/calmm-js/chat.js.svg?style=flat-square)](https://gitter.im/calmm-js/chat)
