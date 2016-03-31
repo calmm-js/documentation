@@ -187,11 +187,11 @@ goals.
 
 The use of observables to specify dependent computations is the key ingredient
 that aims to solve the consistency problem.  It simply means that we express the
-UI state as observables.  When we need to compute something that depends on that
-state, we use observable combinators to declare those computations.  This means
-that those dependent computations are essentially always consistent with respect
-to the state.  One could stop right here, because observable combinators solve
-the consistency problem and are often seen as a
+application state as observables.  When we need to compute something that
+depends on that state, we use observable combinators to declare those
+computations.  This means that those dependent computations are essentially
+always consistent with respect to the state.  One could stop right here, because
+observable combinators solve the consistency problem and are often seen as a
 [Golden Hammer](https://twitter.com/andrestaltz/status/669601247708717056):
 powerful enough for everything.  However, we do not stop here, because we don't
 want to stop at consistency.  We also want to eliminate boilerplate and glue, we
@@ -1102,9 +1102,9 @@ writing a JSON expression.
 
 Atoms take care of serializing access to their contents.  They are created by
 giving some initial contents.  Atoms then allow the contents to be shared,
-dependent upon and modified.  In the context of Calm^2, the contents of atoms
-hold the state of the UI and the contents are modified using operations from
-meta objects.
+dependent upon and modified.  In the context of Calm^2, the atoms contain the
+application state and the contents are modified using operations from meta
+objects.
 
 Atoms can be created in a variety of ways and with a variety of properties, such
 as [undo-redo](https://github.com/calmm-js/atom.undo) capability or local
