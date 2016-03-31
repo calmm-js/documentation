@@ -1158,10 +1158,13 @@ originality in any way.  All of the ingredients of Calm^2 are actually old news:
 In fact, much of Calm^2 was initially shaped by a search of way to make it
 possible to program in ways similar to what could be done using
 [Reagent](https://reagent-project.github.io/) and
-[WebSharper.UI.Next](http://websharper.com/docs/ui.next).  The combination that
-we ultimately realized, however, is not identical to either.  The idea of
-combining lenses and atoms came from
+[WebSharper UI.Next](http://websharper.com/docs/ui.next).  The idea of combining
+lenses and atoms came from
 [Bacon.Model](https://github.com/baconjs/bacon.model), which we used initially.
+Later we learned that WebShared UI.Next
+[added support for lenses](http://websharper.com/blog-entry/4547/websharper-3-4-14-released)
+roughly just two months before our project started.
+[Great ideas are discovered!](https://en.wikipedia.org/wiki/Multiple_discovery)
 
 ## Going further
 
