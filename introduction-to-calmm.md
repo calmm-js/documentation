@@ -60,13 +60,13 @@ seen many UI frameworks promise to give you such plug-and-play, but fail to
 deliver.  Why did they fail?  They failed because they were not based on solid
 means of *composition* and *decomposition*.
 
-It is well known that being able to *compose* UI components from primitive
-components, to containers, and all the way to whole apps is highly desirable.
-However, composition is not enough.  In order to make plug-and-play possible,
-one must also have a truly effective solution to the problem of decomposing
-state.  It must be possible to write individual components so that they do not
-need to know about the whole application state.  Having both a means of
-decomposing application state and composing UI components it is possible to
+It is widely appreciated that being able to *compose* UI components from
+primitive components, to containers, and all the way to whole apps is highly
+desirable.  However, composition is not enough.  In order to make plug-and-play
+possible, one must also have a truly effective solution to the problem of
+decomposing state.  It must be possible to write individual components so that
+they do not need to know about the whole application state.  Having both a means
+of decomposing application state and composing UI components it is possible to
 implement the desired composite components and just plug them into any app.
 
 <p align="center"><img width="30%" height="30%" src="http://calmm-js.github.io/documentation/images/decompose-and-compose.svg"></p>
