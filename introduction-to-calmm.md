@@ -177,7 +177,7 @@ importance, as follows:
 1. We specify dependent computations as *observables*.
 2. We *embed* observables directly into React VDOM.
 3. We store state in modifiable observable *atoms*.
-4. We use *lenses* to selectively transmit state via atoms.
+4. We use *lenses* to selectively decompose state in atoms.
 
 The following subsections go into the details of the above ingredients.
 However, let's briefly describe how these ingredients relate to our problem and
@@ -225,20 +225,19 @@ implement new mechanisms to execute side-effects.
 
 [Lenses](http://sebfisch.github.io/research/pub/Fischer+MPC15.pdf) are a form of
 bidirectional programs.  In combination with atoms, lenses provide a way to
-selectively transmit state to components.  A component, that is given a
-modifiable atom to access state, does not need to know whether that atom
+selectively decompose state to be passed to components.  A component, that is
+given a modifiable atom to access state, does not need to know whether that atom
 actually stores the root state or whether the atom is in fact only a small
 portion of root state or even a property computed from state.  Lenses allow
 state to be stored as a whole, to reap benefits such as
 [trivial undo-redo](https://github.com/calmm-js/atom.undo), and then selectively
-transmitted step-by-step trough the component hierarchy to leaf components that
-are only interested in some specific part of the state.  Like VDOM, lenses
-enable structural programming, but in this case following the structure of the
-data rather than that of the desired display elements.
+decomposed and passed step-by-step all the way trough the component hierarchy to
+leaf components that are only interested in some specific part of the state.
+Like VDOM, lenses enable structural programming, but in this case following the
+structure of the data rather than that of the desired display elements.
 
 The combination of atoms and lenses realizes the plug-and-play vision for
-components.  The transmission of state to components becomes concise and
-effective.
+components.  The passing of state to components becomes concise and effective.
 
 It must be emphasized that all parts of the above are essentially optional.  For
 example, a component that only needs to display state, and doesn't need to
@@ -1007,10 +1006,9 @@ the list of names:
 const names = Atom(["Markus", "Matti"])
 ```
 
-To create a **LensedAtom**, that uses lenses to slice or transmit state in both
-directions, we just call the
-[`.lens`](https://github.com/calmm-js/kefir.atom#atomlensl-ls) method with the
-desired lens:
+To create a **LensedAtom**, that uses lenses to decompose state, we just call
+the [`.lens`](https://github.com/calmm-js/kefir.atom#atomlensl-ls) method with
+the desired lens:
 
 ```js
 const firstOfNames = names.lens(L.index(0))
@@ -1160,7 +1158,7 @@ originality in any way.  All of the ingredients of Calm^2 are actually old news:
 * Observables for dependent computations
 * Embedding observables into VDOM
 * Atoms for storing state
-* Lenses for slicing state
+* Lenses for decomposing state
 
 In fact, much of Calm^2 was initially shaped by a search of way to make it
 possible to program in ways similar to what could be done using
