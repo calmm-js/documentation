@@ -1088,10 +1088,10 @@ that adheres to some schema.  Most importantly, the model is just simple data.
 The model knows nothing about observables or anything else about the UI.  It
 just is.
 
-An important pratical point is that we don't generally "normalize" or even
-expressly "design" the model for the UI components.  Rather, we use lenses to
-decompose the model data or application state that we obtain from outside the UI
-into the forms that the UI components work with.
+An important point is that we don't generally "normalize" or even expressly
+"design" the model for the UI components.  Rather, we keep model data coming
+from the external world intact.  We then use lenses to decompose the data into
+the forms that the UI components work with.
 
 ### Meta :: JSON -> JSON
 
