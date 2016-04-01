@@ -58,14 +58,14 @@ if they were the root of the UI component hierarchy?  Such components would just
 applications.  *For real?* You are probably skeptic, because you have no doubt
 seen many UI frameworks promise to give you such plug-and-play, but fail to
 deliver.  Why did they fail?  They failed because they were not based on solid
-means of [*composition*](#imagine "compose: to form by putting together") and
+means of [*composition*](#imagine "compose: to form by putting together") *and*
 [*decomposition*](#imagine "decompose: to separate into constituent parts or
 elements").
 
 It is widely appreciated that being able to [*compose*](#imagine "compose: to
 form by putting together") UI components from primitive components, to
 containers, and all the way to whole apps is part of the solution.  However,
-composition is not enough.  In order to make plug-and-play possible, one must
+*composition is not enough*.  In order to make plug-and-play possible, one must
 also have a truly effective solution to the problem of decomposing state.  It
 must be possible to write individual components without knowledge about the
 whole application state.  To plug such components into an application it is
@@ -80,7 +80,7 @@ into truly reusable components that play on their own and can be just plugged
 in, without writing copious amounts of glue code, is highly desirable.  The term
 [plug-and-play](https://en.wikipedia.org/wiki/Plug_and_play) was used to refer
 to the idea that one could, essentially, compose a computer by plugging in
-hardware modules without having to perform manual configuration.  That is very
+hardware modules *without* having to perform manual configuration.  That is very
 much like what we want for UIs.
 
 In this document we'll introduce the ingredients and the architecture of our
