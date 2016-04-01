@@ -24,6 +24,16 @@ relevant libraries to [Kefir](http://rpominov.github.io/kefir/):
 This document introduces the concepts behind those libraries and explains how
 those libraries can be used to write concise, reactive UI code.
 
+**NOTE:** At the moment there is no fast paced tutorial walkthrough on how to
+write UI code with Calm^2, but such a
+[tutorial](tutorial-composing-components-with-calmm.md) is planned.  In the
+meanwhile, you might find the code snippets in these
+[slides](http://calmm-js.github.io/training/) useful and you can also find more
+examples here:
+
+* [Examples](https://github.com/calmm-js/kral-examples)
+* [TodoMVC](https://github.com/calmm-js/kral-todomvc)
+
 **Contents**
 
 * [Imagine...](#imagine)
