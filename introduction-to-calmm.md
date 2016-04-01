@@ -52,13 +52,15 @@ those libraries can be used to write concise, reactive UI code.
 
 ## Imagine...
 
-Imagine that you could design and implement UI components in isolation as if
-they were the root of the UI component hierarchy.  Such components would just
+Wouldn't you like to able to design and implement UI components in isolation as
+if they were the root of the UI component hierarchy?  Such components would just
 *play* on their own and you could just *plug* them into more complex
-applications.  For real?  You are probably skeptic, because you have no doubt
+applications.  *For real?* You are probably skeptic, because you have no doubt
 seen many UI frameworks promise to give you such plug-and-play, but fail to
 deliver.  Why did they fail?  They failed because they were not based on solid
-means of *composition* and *decomposition*.
+means of [*composition*](#imagine "compose: to form by putting together") and
+[*decomposition*](#imagine "decompose: to separate into constituent parts or
+elements").
 
 It is widely appreciated that being able to *compose* UI components from
 primitive components, to containers, and all the way to whole apps is part of
