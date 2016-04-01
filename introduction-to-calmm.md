@@ -62,14 +62,16 @@ means of [*composition*](#imagine "compose: to form by putting together") and
 [*decomposition*](#imagine "decompose: to separate into constituent parts or
 elements").
 
-It is widely appreciated that being able to *compose* UI components from
-primitive components, to containers, and all the way to whole apps is part of
-the solution.  However, composition is not enough.  In order to make
-plug-and-play possible, one must also have a truly effective solution to the
-problem of decomposing state.  It must be possible to write individual
-components without knowledge about the whole application state.  To plug such
-components into an application it is necessary to *decompose* the application
-state until it matches the interface of the component.
+It is widely appreciated that being able to [*compose*](#imagine "compose: to
+form by putting together") UI components from primitive components, to
+containers, and all the way to whole apps is part of the solution.  However,
+composition is not enough.  In order to make plug-and-play possible, one must
+also have a truly effective solution to the problem of decomposing state.  It
+must be possible to write individual components without knowledge about the
+whole application state.  To plug such components into an application it is
+necessary to [*decompose*](#imagine "decompose: to separate into constituent
+parts or elements") the application state until it matches the interface of the
+component.
 
 <p align="center"><img width="30%" height="30%" src="http://calmm-js.github.io/documentation/images/decompose-and-compose.svg"></p>
 
