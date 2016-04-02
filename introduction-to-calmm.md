@@ -28,9 +28,9 @@ those libraries can be used to write concise, reactive UI code.
 write UI code with Calm^2, but such a
 [tutorial](tutorial-composing-components-with-calmm.md) is planned.  In the
 meanwhile, you might find the code snippets in these
-[slides](http://calmm-js.github.io/training/) useful and you can also find some
-working [examples](https://github.com/calmm-js/kral-examples) and a
-[TodoMVC](https://github.com/calmm-js/kral-todomvc) implementation.
+[slides](http://calmm-js.github.io/documentation/training/) useful and you can
+also find some working [examples](https://github.com/calmm-js/kral-examples) and
+a [TodoMVC](https://github.com/calmm-js/kral-todomvc) implementation.
 
 **Contents**
 
