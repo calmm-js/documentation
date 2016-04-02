@@ -81,7 +81,7 @@ necessary to [*decompose*](#imagine "decompose: to separate into constituent
 parts or elements") the application state until it matches the interface of the
 component.
 
-<p align="center"><img width="30%" height="30%" src="http://calmm-js.github.io/documentation/images/decompose-and-compose.svg"></p>
+<p align="center"><img width="30%" height="30%" src="http://calmm-js.github.io/documentation/image/decompose-and-compose.svg"></p>
 
 UI code is by no means trivial, so being able to modularize parts of UI code
 into truly reusable components that play on their own and can be just plugged
@@ -391,7 +391,7 @@ length books, to programming with observables already.  However, in order to put
 things into perspective, we take a brief look at a hierarchy of concepts that we
 choose to categorize observables into:
 
-<p align="center"><img width="40%" height="40%" src="http://calmm-js.github.io/documentation/images/Observables.svg"></p>
+<p align="center"><img width="40%" height="40%" src="http://calmm-js.github.io/documentation/image/Observables.svg"></p>
 
 The basic [pattern](https://en.wikipedia.org/wiki/Observer_pattern) behind
 observables is very old.  Basically, and to simplify a bit, an **Observable** is
@@ -1086,7 +1086,7 @@ started to see how to really do that effectively.  For example, we didn't
 initially understand the full potential of combining lenses and atoms.  We also
 unnecessarily complected models with observables.
 
-<p align="center"><img width="30%" height="30%" src="http://calmm-js.github.io/documentation/images/CALMM.svg"></p>
+<p align="center"><img width="30%" height="30%" src="http://calmm-js.github.io/documentation/image/CALMM.svg"></p>
 
 ### Model :: JSON
 
