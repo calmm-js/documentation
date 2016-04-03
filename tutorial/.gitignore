@@ -1,0 +1,5 @@
+*.log
+*~
+node_modules
+public/bundle.js
+public/bundle.css
