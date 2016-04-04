@@ -820,10 +820,37 @@ const ListOfNames = ({names}) =>
 
 Note that above we use `K` when we are dealing with an observable and we use
 Ramda's [`map`](http://ramdajs.com/0.19.0/docs/#map), which conveniently allows
-us to directly skip to manipulating individual items from a list.
+us to directly skip to manipulating individual items from a list.  Note that
+instead of `K` one could also use the `map` operation of observables:
 
-The above already works.  We can give `List` an observable that produces an
-array of names
+```jsx
+const ListOfNames = ({names}) =>
+  <K.ul>
+    {names.map(R.map(name =>
+       <li key={name}>{name}</li>))}
+  </K.ul>
+```
+
+And one could also just use the built-in `map` of arrays:
+
+```jsx
+const ListOfNames = ({names}) =>
+  <K.ul>
+    {names.map(names => names.map(name =>
+       <li key={name}>{name}</li>))}
+  </K.ul>
+```
+
+We actually initially did this, but we found it unnecessarily confusing and
+limiting.  The use `R.map`, rather than `map` of arrays, eliminates an odd
+looking `xs => xs.map(x => ...` pattern from our code.  The use of `K`, rather
+than `map` of observables, helps to avoid confusing properties with arrays.  It
+also makes the code more flexible, because it now allows the arguments to be
+both constants and observables.  Finally, it also helps with efficiency, as it
+also skips duplicates.
+
+Back to the `ListOfNames`.  It already works.  We can give `List` an observable
+that produces an array of names
 
 ```jsx
 const names = Atom(["Markus", "Matti"])
