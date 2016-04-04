@@ -44,7 +44,7 @@ a [TodoMVC](https://github.com/calmm-js/kral-todomvc) implementation.
   * [Embedding Observables into VDOM](#embedding-observables-into-vdom)
     * [Dispelling the Magic](#dispelling-the-magic)
     * [Taking toll](#taking-toll)
-  * [Lists of items](#lists-of-items)
+    * [Lists of items](#lists-of-items)
   * [Lenses](#lenses)
     * [Lenses 101](#lenses-101)
     * [Combining Atoms and Lenses](#combining-atoms-and-lenses)
@@ -803,7 +803,7 @@ an inline function expression for `ref`, React will call those inline functions
 on every update&mdash;*Oops!* Issues such as these are eliminated by our
 approach.
 
-### Lists of items ###
+#### Lists of items
 
 We previously mentioned the problem of displaying a list of items.  Let's
 suppose we indeed have a list of items, say names, and we want to create a
