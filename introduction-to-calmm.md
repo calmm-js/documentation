@@ -819,9 +819,8 @@ const ListOfNames = ({names}) =>
 ```
 
 Note that above we use `K` when we are dealing with an observable and we use
-Ramda's [`map`](http://ramdajs.com/0.19.0/docs/#map), which conveniently allows
-us to directly skip to manipulating individual items from a list.  Note that
-instead of `K` one could also use the `map` operation of observables:
+Ramda's [`map`](http://ramdajs.com/0.19.0/docs/#map) to map over the array of
+names.  Instead of `K`, one could also use the `map` operation of observables:
 
 ```jsx
 const ListOfNames = ({names}) =>
