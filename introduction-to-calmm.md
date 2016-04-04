@@ -316,7 +316,7 @@ state of our program consistent.  There are better ways.
 
 We can also modify the value of the atom, by passing it a function, that will be
 called with the current value of the atom and must return the new value.  Here
-is example where we use Ramda's
+is an example where we use Ramda's
 [`append`](http://ramdajs.com/0.19.0/docs/#append) to add an element to the
 list:
 
