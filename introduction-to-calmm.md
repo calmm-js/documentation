@@ -920,7 +920,8 @@ localStorage.setItem('todos-react.kefir', JSON.stringify({value: store}))
 
 It pays off to be declarative where it matters.
 
-There is more to say about lists, but we defer further discussion until later.
+There is more to say about lists, especially in conjunction with stateful
+components, but we defer further discussion until later.
 
 ### Lenses
 
