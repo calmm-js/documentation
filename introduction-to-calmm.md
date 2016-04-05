@@ -54,7 +54,7 @@ a [TodoMVC](https://github.com/calmm-js/kral-todomvc) implementation.
   * [`Meta :: JSON -> JSON`](#meta--json---json)
   * [`Atom :: Atom m :> AbstractMutable m`](#atom--atom-m--abstractmutable-m)
   * [`LensedAtom :: AbstractMutable w -> PLens w p -> LensedAtom p`](#lensedatom--abstractmutable-w---plens-w-p---lensedatom-p)
-  * [`<Control/> :: [Observable p | AbstractMutable m | d]* -> VDOM`](#control--observable-p--abstractmutable-m--d---vdom)
+  * [`Control :: [Observable p | AbstractMutable m | d]* -> VDOM`](#control--observable-p--abstractmutable-m--d---vdom)
 * [Related work](#related-work)
 * [Going further](#going-further)
 
@@ -1166,7 +1166,7 @@ the contents of the existing atom are to be viewed and mutated.  Unlike when
 creating a new atom with an initial value, an expression to create a lensed atom
 is referentially transparent.
 
-### [`<Control/> :: [Observable p | AbstractMutable m | d]* -> VDOM`](#control--observable-p--abstractmutable-m--d---vdom "Controls take observable state, mutable state and constant data as arguments.")
+### [`Control :: [Observable p | AbstractMutable m | d]* -> VDOM`](#control--observable-p--abstractmutable-m--d---vdom "Controls take observable state, mutable state and constant data as arguments.")
 
 A control is a function from observables, modifiables and constants to VDOM.
 
