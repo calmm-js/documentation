@@ -50,11 +50,11 @@ a [TodoMVC](https://github.com/calmm-js/kral-todomvc) implementation.
     * [Combining Atoms and Lenses](#combining-atoms-and-lenses)
     * [Editable lists](#editable-lists)
 * [The architecture](#the-architecture)
-  * [`Model :: JSON`](#model--json)
-  * [`Meta :: JSON -> JSON`](#meta--json---json)
-  * [`Atom :: Atom m :> AbstractMutable m`](#atom--atom-m--abstractmutable-m)
-  * [`LensedAtom :: AbstractMutable w -> PLens w p -> LensedAtom p`](#lensedatom--abstractmutable-w---plens-w-p---lensedatom-p)
-  * [`Control :: [Observable p | AbstractMutable m | d]* -> VDOM`](#control--observable-p--abstractmutable-m--d---vdom)
+  * [`Model :: JSON`](#model--json "Model is just simple data.")
+  * [`Meta :: JSON -> JSON`](#meta--json---json "Meta is just simple operations on model.")
+  * [`Atom :: Atom m :> AbstractMutable m`](#atom--atom-m--abstractmutable-m "The m type variable stands for model.")
+  * [`LensedAtom :: AbstractMutable w -> PLens w p -> LensedAtom p`](#lensedatom--abstractmutable-w---plens-w-p---lensedatom-p "The w and p type variables stand for whole and part.")
+  * [`Control :: [Observable p | AbstractMutable m | d]* -> VDOM`](#control--observable-p--abstractmutable-m--d---vdom "Controls take observable state, mutable state and constant data as arguments.")
 * [Related work](#related-work)
 * [Going further](#going-further)
 
@@ -1130,7 +1130,7 @@ An important point is that we don't generally "normalize" or even expressly
 from the external world intact.  We then use lenses to decompose the data into
 the forms that the UI components work with.
 
-### [`Meta :: JSON -> JSON`](#meta--json---json "Simple operations on model.")
+### [`Meta :: JSON -> JSON`](#meta--json---json "Meta is just simple operations on model.")
 
 Meta refers to operations on the model.  The term "meta" literally refers to the
 idea that it is
