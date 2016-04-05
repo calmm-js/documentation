@@ -316,7 +316,7 @@ export const Contact = {
   number: "number"
 }
 export const Contacts = {
-  indices: R.pipe(R.length, iota)
+  indices: R.pipe(R.length, R.range(0))
 }
 export const Phonebook = {
   contacts: L.define([]),
