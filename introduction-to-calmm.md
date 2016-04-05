@@ -50,11 +50,11 @@ a [TodoMVC](https://github.com/calmm-js/kral-todomvc) implementation.
     * [Combining Atoms and Lenses](#combining-atoms-and-lenses)
     * [Editable lists](#editable-lists)
 * [The architecture](#the-architecture)
-  * [Model :: JSON](#model--json)
-  * [Meta :: JSON \-&gt; JSON](#meta--json---json)
-  * [Atom :: Atom model :&gt; AbstractMutable model](#atom--atom-model--abstractmutable-model)
-  * [LensedAtom :: AbstractMutable whole \-&gt; PLens whole part \-&gt; LensedAtom part](#lensedatom--abstractmutable-whole---plens-whole-part---lensedatom-part)
-  * [&lt;Control/&gt; :: [Observable prop | AbstractMutable model | data]\* \-&gt; VDOM](#control--observable-prop--abstractmutable-model--data---vdom)
+  * [`Model :: JSON`](#model--json)
+  * [`Meta :: JSON -> JSON`](#meta--json---json)
+  * [`Atom :: Atom m :> AbstractMutable m`](#atom--atom-m--abstractmutable-m)
+  * [`LensedAtom :: AbstractMutable w -> PLens w p -> LensedAtom p`](#lensedatom--abstractmutable-w---plens-w-p---lensedatom-p)
+  * [`<Control/> :: [Observable p | AbstractMutable m | d]* -> VDOM`](#control--observable-p--abstractmutable-m--d---vdom)
 * [Related work](#related-work)
 * [Going further](#going-further)
 
@@ -1117,7 +1117,7 @@ unnecessarily complected models with observables.
 
 <p align="center"><img width="30%" height="30%" src="http://calmm-js.github.io/documentation/image/CALMM.svg"></p>
 
-### Model :: JSON
+### [`Model :: JSON`](#model--json "Model is just simple data.")
 
 In the Calm^2 architecture, model refers to the object or state being displayed
 by and manipulated through the UI.  Usually it is just a JSON object or array
@@ -1130,7 +1130,7 @@ An important point is that we don't generally "normalize" or even expressly
 from the external world intact.  We then use lenses to decompose the data into
 the forms that the UI components work with.
 
-### Meta :: JSON -> JSON
+### [`Meta :: JSON -> JSON`](#meta--json---json "Simple operations on model.")
 
 Meta refers to operations on the model.  The term "meta" literally refers to the
 idea that it is
@@ -1144,7 +1144,7 @@ said data means that meta becomes extremely simple to test.  One does not need
 to worry about asynchronicity or observables.  Mocking the model is as simple as
 writing a JSON expression.
 
-### Atom :: Atom model :> AbstractMutable model
+### [`Atom :: Atom m :> AbstractMutable m`](#atom--atom-m--abstract-mutable-m "The m type variable stands for model.")
 
 Atoms take care of serializing access to their contents.  They are created by
 giving some initial contents.  Atoms then allow the contents to be shared,
@@ -1159,14 +1159,14 @@ then passed to controls that do not necessarily need to know about the special
 properties of the atom or about other controls that have been passed the same
 atom.
 
-### LensedAtom :: AbstractMutable whole -&gt; PLens whole part -&gt; LensedAtom part
+### [`LensedAtom :: AbstractMutable w -> PLens w p -> LensedAtom p`](#lensedatom--abstractmutable-w---plens-w-p---lensedatom-p "The w and p type variables stand for whole and part.")
 
 Atoms can also be created from existing atoms by specifying a lens through which
 the contents of the existing atom are to be viewed and mutated.  Unlike when
 creating a new atom with an initial value, an expression to create a lensed atom
 is referentially transparent.
 
-### &lt;Control/&gt; :: [Observable prop | AbstractMutable model | data]* -&gt; VDOM
+### [`<Control/> :: [Observable p | AbstractMutable m | d]* -> VDOM`](#control--observable-p--abstractmutable-m--d---vdom "Controls take observable state, mutable state and constant data as arguments.")
 
 A control is a function from observables, modifiables and constants to VDOM.
 
