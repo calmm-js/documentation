@@ -1207,7 +1207,7 @@ possible to program in ways similar to what could be done using
 [WebSharper UI.Next](http://websharper.com/docs/ui.next).  The idea of combining
 lenses and atoms came from
 [Bacon.Model](https://github.com/baconjs/bacon.model), which we used initially.
-Later we learned that WebShared UI.Next
+Later we learned that WebSharper UI.Next
 [added support for lenses](http://websharper.com/blog-entry/4547/websharper-3-4-14-released)
 roughly just two months before our project started.
 [Great ideas are discovered!](https://en.wikipedia.org/wiki/Multiple_discovery)
