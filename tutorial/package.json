@@ -22,12 +22,12 @@
     "compression": "^1.6.1",
     "express": "^4.13.4",
     "kefir": "^3.2.1",
-    "kefir.atom": "^2.0.0",
-    "kefir.react.html": "^3.0.0",
-    "partial.lenses": "^2.1.0",
-    "ramda": "^0.20.1",
-    "react": "^15.0.0",
-    "react-dom": "^15.0.0",
+    "kefir.atom": "^2.1.0",
+    "kefir.react.html": "^3.1.0",
+    "partial.lenses": "^2.2.1",
+    "ramda": "^0.21.0",
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1",
     "serve-static": "^1.10.2"
   },
   "devDependencies": {
