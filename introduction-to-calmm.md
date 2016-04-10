@@ -599,12 +599,12 @@ understand.
 
 ### Embedding Observables into VDOM
 
-What we ultimately want to do with observables is to create VDOM that contains
-values obtained from the observables.  One could use the ordinary observable
-combinators for that purpose, but it leaves a lot to be desired.  First of all,
-we would then need to somehow manage the subscriptions of observables and be
-careful to avoid leaks.  Combining observables manually would also add a lot of
-boilerplate code.
+What we ultimately want is to keep the views of our UI consistent with their
+state and to do that we need to create VDOM that contains values obtained from
+observables.  One could use the ordinary observable combinators for that
+purpose, but it leaves a lot to be desired.  First of all, we would then need to
+somehow manage the subscriptions of observables and be careful to avoid leaks.
+Combining observables manually would also add a lot of boilerplate code.
 
 Instead of manually combining observables to form VDOM expressions, we choose to
 extend VDOM to admit observables as properties and children.  Consider the
