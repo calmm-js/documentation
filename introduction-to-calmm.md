@@ -1217,13 +1217,23 @@ originality in any way.  All of the ingredients of Calm^2 are actually old news:
 
 In fact, much of Calm^2 was initially shaped by a search of way to make it
 possible to program in ways similar to what could be done using
-[Reagent](https://reagent-project.github.io/) and
-[WebSharper UI.Next](http://websharper.com/docs/ui.next).  The idea of combining
-atoms and lenses came from
+[Reagent](https://reagent-project.github.io/) and (early versions of)
+[WebSharper UI.Next](http://websharper.com/docs/ui.next).
+
+The idea of combining atoms and lenses came from
 [Bacon.Model](https://github.com/baconjs/bacon.model), which we used initially.
 Later we learned that WebSharper UI.Next
 [added support for lenses](http://websharper.com/blog-entry/4547/websharper-3-4-14-released)
 roughly just two months before our project started.
+
+The [partial lenses](https://github.com/calmm-js/partial.lenses) library came
+about as we wanted to give components not just the ability to update existing
+data, but also the abilities to insert new data and to remove existing data.  We
+later learned that the [Monocle](https://github.com/julien-truffaut/Monocle)
+library includes the
+[Optional](https://github.com/julien-truffaut/Monocle#more-abstractions)
+concept, which corresponds precisely to our notion of a partial lens.
+
 [Great ideas are discovered!](https://en.wikipedia.org/wiki/Multiple_discovery)
 
 ## Going further
