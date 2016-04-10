@@ -1086,6 +1086,18 @@ state, represented as an immutable data structure, being referred to by the root
 atom.  This means that we can regard the `lens` method as a referentially
 transparent function.
 
+Furthermore, from the
+[compositionality of lenses](https://github.com/calmm-js/partial.lenses#lcomposels)
+we can derive the equation
+
+```js
+a.lens(a_to_b).lens(b_to_c) = a.lens(L.compose(a_to_b, b_to_c))
+                            = a.lens(a_to_b, b_to_c)
+```
+
+for composable lenses `a_to_b` and `b_to_c` and abstract mutable `a`.  This just
+basically means that everything will work as one should expect.
+
 #### Editable lists
 
 Let's then proceed to make an editable list of names.  Here is one way to do it:
