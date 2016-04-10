@@ -1221,6 +1221,13 @@ together?  The logical next step is to read:
 
 * [Tutorial: Composing Components with Calm^2](tutorial-composing-components-with-calmm.md)
 
+By intention, this document does not try to compare Calm^2 to other UI
+programming approaches.  With the intention to gain a deeper understanding, the
+following documents explore how concepts in Calm^2 relate to concepts found in
+other UI programming approaches:
+
+* [Redux vs Calm^2](redux-vs-calmm.md)
+
 Our production codebase is unfortunately not publicly available.  However, we
 have built some small examples:
 
