@@ -990,11 +990,13 @@ to identify the object
 {"id": 101, "level": "Novice"}
 ```
 
-within `db`.  We can confirm this by using `L.view` to view through the lens:
+within `db`.  We can confirm this by using
+[`L.get`](https://github.com/calmm-js/partial.lenses#lgetl-s) to view through
+the lens:
 
 ```js
-L.view(L.compose(L.prop("classes"),
-                 L.index(0)),
+L.get(L.compose(L.prop("classes"),
+                L.index(0)),
        db)
 // { id: 101, level: 'Novice' }
 ```
@@ -1015,9 +1017,9 @@ L.set(L.compose(L.prop("classes"),
 //     { id: 303, level: 'Advanced' } ] }
 ```
 
-The `L.set` operation on lenses is a referentially transparent function that
-does not mutate the target value&mdash;it merely creates a new value with the
-specified changes.
+The [`L.set`](https://github.com/calmm-js/partial.lenses#lsetl-x-s) operation on
+lenses is a referentially transparent function that does not mutate the target
+value&mdash;it merely creates a new value with the specified changes.
 
 Like with observables, we use lenses a lot, which means that there is value in
 keeping lens definitions concise.  For this purpose we abbreviate
