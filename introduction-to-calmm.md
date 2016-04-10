@@ -418,8 +418,8 @@ many other observable frameworks, such as Rx, which can be considered as a lower
 level framework, do not identify the concepts of streams and properties.
 However, in most of those other frameworks it is possible to create observables
 that have the same or nearly same semantics as streams and properties.  Cutting
-a few corners, in Rx, for example, streams can be obtained by applying
-`.share()` and properties can be obtained by applying `.shareReplay(1)`.
+a few corners, in Rx, for example, streams can be obtained by applying `share()`
+and properties can be obtained by applying `shareReplay(1)`.
 
 As the above diagram shows, an **Atom** is also a **Property**.  In addition to
 having a current value, an atom also just directly allows the current value to
@@ -1044,22 +1044,22 @@ details.
 
 #### Combining Atoms and Lenses
 
-Where things get really interesting is that Atoms support lenses.    Recall
-the list of names:
+Where things get really interesting is that Atoms support lenses.  Recall the
+list of names:
 
 ```js
 const names = Atom(["Markus", "Matti"])
 ```
 
 To create a **LensedAtom**, that uses lenses to decompose state, we just call
-the [`.lens`](https://github.com/calmm-js/kefir.atom#atomlensls) method with the
+the [`lens`](https://github.com/calmm-js/kefir.atom#atomlensls) method with the
 desired lens:
 
 ```js
 const firstOfNames = names.lens(L.index(0))
 ```
 
-Let's take a look at what is going on by using `.log`:
+Let's take a look at what is going on by using the `log` method:
 
 ```js
 names.log("names")
@@ -1080,10 +1080,10 @@ firstOfNames.set("Markus")
 // first of names <value> Markus
 ```
 
-Note that the `.lens` method of atoms and lensed atoms does not create *new*
+Note that the `lens` method of atoms and lensed atoms does not create *new*
 mutable state, it merely creates a reference to existing state, namely to the
 state, represented as an immutable data structure, being referred to by the root
-atom.  This means that we can regard the `.lens` method as a referentially
+atom.  This means that we can regard the `lens` method as a referentially
 transparent function.
 
 #### Editable lists
@@ -1114,7 +1114,7 @@ recipe.  In fact, when we started using the Calm^2 ingredients, we had some
 ideas on how we could break down UI logic and combine the ingredients to solve
 problems, but it wasn't until we had gathered some experience using them that we
 started to see how to really do that effectively.  For example, we didn't
-initially understand the full potential of combining lenses and atoms.  We also
+initially understand the full potential of combining atoms and lenses.  We also
 unnecessarily complected models with observables.
 
 <p align="center"><img width="30%" height="30%" src="http://calmm-js.github.io/documentation/image/CALMM.svg"></p>
@@ -1207,7 +1207,7 @@ In fact, much of Calm^2 was initially shaped by a search of way to make it
 possible to program in ways similar to what could be done using
 [Reagent](https://reagent-project.github.io/) and
 [WebSharper UI.Next](http://websharper.com/docs/ui.next).  The idea of combining
-lenses and atoms came from
+atoms and lenses came from
 [Bacon.Model](https://github.com/baconjs/bacon.model), which we used initially.
 Later we learned that WebSharper UI.Next
 [added support for lenses](http://websharper.com/blog-entry/4547/websharper-3-4-14-released)
