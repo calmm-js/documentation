@@ -1050,8 +1050,8 @@ const names = Atom(["Markus", "Matti"])
 ```
 
 To create a **LensedAtom**, that uses lenses to decompose state, we just call
-the [`.lens`](https://github.com/calmm-js/kefir.atom#atomlensl-ls) method with
-the desired lens:
+the [`.lens`](https://github.com/calmm-js/kefir.atom#atomlensls) method with the
+desired lens:
 
 ```js
 const firstOfNames = names.lens(L.index(0))
