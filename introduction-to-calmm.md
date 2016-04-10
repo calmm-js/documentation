@@ -1104,9 +1104,8 @@ const b1 = a.lens(a_to_b)
 const b2 = a.lens(a_to_b)
 ```
 
-we can regard `b1` and `b2` as equivalent.
-
-Furthermore, from the
+we can regard `b1` and `b2` as equivalent.  The other important property is that
+from the
 [compositionality of lenses](https://github.com/calmm-js/partial.lenses#lcomposels)
 and the way lensed atoms are defined, we can derive the equation
 
@@ -1116,7 +1115,7 @@ a.lens(a_to_b).lens(b_to_c) = a.lens(L.compose(a_to_b, b_to_c))
 ```
 
 for composable lenses `a_to_b` and `b_to_c` and abstract mutable `a`.  This just
-basically means that everything will work as one should expect.
+basically means that everything will work, or compose, as one should expect.
 
 #### Editable lists
 
