@@ -114,7 +114,8 @@ Copious amounts of boilerplate and glue code are indicators that there is in
 fact scope for improvement.  More code tends to mean more details and more
 places to make small oversights and introduce bugs.  Furthermore, eliminating
 boilerplate and glue often leads to the discovery of useful abstractions.  So,
-clearly, we want to avoid boilerplate and glue as much as possible.
+clearly, we want to avoid boilerplate and glue as long as doing so does not
+prevent us from using lower level means when necessary.
 
 An approach that has an all-or-nothing or lock-in effect is a hard sell.  Most
 experienced programmers can probably tell a horror story or two based on having
