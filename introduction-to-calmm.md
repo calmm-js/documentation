@@ -1081,15 +1081,34 @@ firstOfNames.set("Markus")
 // first of names <value> Markus
 ```
 
-Note that the `lens` method of atoms and lensed atoms does not create *new*
-mutable state, it merely creates a reference to existing state, namely to the
-state, represented as an immutable data structure, being referred to by the root
-atom.  This means that we can regard the `lens` method as a referentially
-transparent function.
+To the astute reader this might actually seem dangerous.  Can we unintentionally
+create infinite loops?  Atoms and lensed atoms do not actually form a
+[constraint system](https://en.wikipedia.org/wiki/Constraint_programming) where
+a change of one variable would cause the system to try to find an assignment of
+the other variables to satisfy constraints.  When an atom or lensed atom is
+modified, only a single modification to the root atom is performed and then the
+change is propagated to observers.  So, just by using atoms and lensed atoms it
+is not possible to write loops.  However, when you try and combine atoms with
+other kinds of observables, you can write loops.  In our experience this does
+not seem to happen too easily.
+
+Aside from acyclicity, there are a couple of important properties that we should
+mention.  First of all, the `lens` method of atoms and lensed atoms does not
+create *new* mutable state, it merely creates a reference to existing state,
+namely to the state, represented as an immutable data structure, being referred
+to by the root atom.  This means that we can regard the `lens` method as a
+referentially transparent function.  For example, in
+
+```js
+const b1 = a.lens(a_to_b)
+const b2 = a.lens(a_to_b)
+```
+
+we can regard `b1` and `b2` as equivalent.
 
 Furthermore, from the
 [compositionality of lenses](https://github.com/calmm-js/partial.lenses#lcomposels)
-we can derive the equation
+and the way lensed atoms are defined, we can derive the equation
 
 ```js
 a.lens(a_to_b).lens(b_to_c) = a.lens(L.compose(a_to_b, b_to_c))
