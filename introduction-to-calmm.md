@@ -201,7 +201,8 @@ goals.
 The use of observables to specify dependent computations is the key ingredient
 that aims to solve the consistency problem.  It simply means that we express the
 application state as observables.  When we need to compute something that
-depends on that state, we use observable combinators to declare those
+depends on that state, we use observable
+[combinators](https://wiki.haskell.org/Combinator) to declare those
 computations.  This means that those dependent computations are essentially
 always consistent with respect to the state.  One could stop right here, because
 observable combinators solve the consistency problem and are often seen as a
@@ -327,11 +328,11 @@ elems.get()
 // [ 'observables', 'embedding', 'atoms', 'lenses' ]
 ```
 
-The `modify` operation is, in fact, the primitive operation used to modify atoms
-and `set` is just for convenience.  Modifications are executed one by one.  Each
-operation to modify an atom therefore gets to see the current value of the atom
-before deciding what the new value should be.  This helps to keep the state of
-an atom consistent.
+The `modify` method is, in fact, the primitive operation used to modify atoms
+and `set` method is just for convenience.  Modifications are executed one by
+one.  Each operation to modify an atom therefore gets to see the current value
+of the atom before deciding what the new value should be.  This helps to keep
+the state of an atom consistent.
 
 The term "atom" perhaps gives the idea that one should only use atoms to store
 simple primitive values.  That is not the case.  The term "atom" is borrowed
@@ -381,7 +382,8 @@ of items is always consistent with respect to the items stored in the atom?  The
 view is essentially formed by a computation that is
 [dependent](https://en.wikipedia.org/wiki/Dependent_and_independent_variables)
 on the state of the atom and, because atoms are observable, we can express such
-computations using observable combinators.
+computations using observable
+[combinators](https://wiki.haskell.org/Combinator).
 
 #### Observables
 
@@ -424,14 +426,14 @@ and properties can be obtained by applying `shareReplay(1)`.
 
 As the above diagram shows, an **Atom** is also a **Property**.  In addition to
 having a current value, an atom also just directly allows the current value to
-be modified using the `modify` operation introduced previously.  It turns out
-that in order to support such modification, it isn't actually necessary to store
-the value.  We can introduce the concept of a **LensedAtom** that doesn't
-actually store a value, but, rather, only declares a way to get and modify some
-part of an actual root **Atom**.  For this reason we also identify the concept
-of an **AbstractMutable**, which is actually the concept that most of our code
-using atoms depends upon: we don't typically care whether we are given an actual
-root atom or a lensed atom.  Once created, the interfaces, and, essentially, the
+be modified using the `modify` method introduced previously.  It turns out that
+in order to support such modification, it isn't actually necessary to store the
+value.  We can introduce the concept of a **LensedAtom** that doesn't actually
+store a value, but, rather, only declares a way to get and modify some part of
+an actual root **Atom**.  For this reason we also identify the concept of an
+**AbstractMutable**, which is actually the concept that most of our code using
+atoms depends upon: we don't typically care whether we are given an actual root
+atom or a lensed atom.  Once created, the interfaces, and, essentially, the
 semantics of **AbstractMutable**, **Atom** and **LensedAtom** are the same.  To
 talk more about **LensedAtom**s we need to introduce the concept of lenses,
 which are the topic of a later section.
@@ -494,7 +496,7 @@ const x_plus_y = K(x, y, (x, y) => x + y)
 ```
 
 To see the value, we can use Kefir's
-[`log`](http://rpominov.github.io/kefir/#log) operation:
+[`log`](http://rpominov.github.io/kefir/#log) method:
 
 ```js
 x_plus_y.log("x + y")
@@ -821,7 +823,7 @@ const ListOfNames = ({names}) =>
 
 Note that above we use `K` when we are dealing with an observable and we use
 Ramda's [`map`](http://ramdajs.com/0.19.0/docs/#map) to map over the array of
-names.  Instead of `K`, one could also use the `map` operation of observables:
+names.  Instead of `K`, one could also use the `map` method of observables:
 
 ```jsx
 const ListOfNames = ({names}) =>
@@ -831,7 +833,7 @@ const ListOfNames = ({names}) =>
   </K.ul>
 ```
 
-And one could also just use the built-in `map` of arrays:
+And one could also just use the built-in `map` method of arrays:
 
 ```jsx
 const ListOfNames = ({names}) =>
@@ -1018,7 +1020,7 @@ L.set(L.compose(L.prop("classes"),
 //     { id: 303, level: 'Advanced' } ] }
 ```
 
-The [`L.set`](https://github.com/calmm-js/partial.lenses#lsetl-x-s) operation on
+The [`L.set`](https://github.com/calmm-js/partial.lenses#lsetl-x-s) function on
 lenses is a referentially transparent function that does not mutate the target
 value&mdash;it merely creates a new value with the specified changes.
 
