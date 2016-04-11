@@ -1082,7 +1082,7 @@ firstOfNames.set("Markus")
 ```
 
 To the astute reader this might actually seem dangerous.  Can we unintentionally
-create infinite loops?  Atoms and lensed atoms do not actually form a
+create infinite loops?  Atoms and lensed atoms do not form a
 [constraint system](https://en.wikipedia.org/wiki/Constraint_programming) where
 a change of one variable would cause the system to try to find an assignment of
 the other variables to satisfy constraints.  When an atom or lensed atom is
