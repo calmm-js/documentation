@@ -1251,9 +1251,8 @@ The [partial lenses](https://github.com/calmm-js/partial.lenses) library came
 about as we wanted to give components not just the ability to update existing
 data, but also the abilities to insert new data and to remove existing data.  We
 later learned that the [Monocle](https://github.com/julien-truffaut/Monocle)
-library includes the
-[Optional](https://github.com/julien-truffaut/Monocle#more-abstractions)
-concept, which corresponds precisely to our notion of a partial lens.
+library seems to include a family of concepts, namely Isos, Lenses, Prims, and
+Optionals, that are closely related to our notion of partial lenses.
 
 [Great ideas are discovered!](https://en.wikipedia.org/wiki/Multiple_discovery)
 
