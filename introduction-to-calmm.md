@@ -1024,9 +1024,9 @@ value&mdash;it merely creates a new value with the specified changes.
 
 Like with observables, we use lenses a lot, which means that there is value in
 keeping lens definitions concise.  For this purpose we abbreviate
-* `L.prop(string)` as `string`,
-* `L.index(integer)` as `integer`, and
-* `L.compose(l, ...ls)` as `P(l, ...ls)`.
+* [`L.prop(string)`](https://github.com/calmm-js/partial.lenses#lpropstring) as `string`,
+* [`L.index(integer)`](https://github.com/calmm-js/partial.lenses#lindexinteger) as `integer`, and
+* [`L.compose(l, ...ls)`](https://github.com/calmm-js/partial.lenses#lcomposels) as `P(l, ...ls)`.
 
 Using the abbreviations, the `set` expression from the previous example can be
 rewritten as:
