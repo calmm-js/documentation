@@ -842,12 +842,12 @@ const ListOfNames = ({names}) =>
 ```
 
 We actually initially did this, but we found it unnecessarily confusing and
-limiting.  The use `R.map`, rather than `map` of arrays, eliminates an odd
-looking `xs => xs.map(x => ...` pattern from our code.  The use of `K`, rather
-than `map` of observables, helps to avoid confusing properties with arrays.  It
-also makes the code more flexible, because it now allows the arguments to be
-both constants and observables.  Finally, it also helps with efficiency, as it
-also skips duplicates.
+limiting.  The use of `R.map`, rather than the `map` method of arrays,
+eliminates an odd looking `xs => xs.map(x => ...` pattern from our code.  The
+use of `K`, rather than the `map` method of observables, helps to avoid
+confusing properties with arrays.  It also makes the code more flexible, because
+it now allows the arguments to be both constants and observables.  Finally, it
+also helps with efficiency, as it also skips duplicates.
 
 Back to the `ListOfNames`.  It already works.  We can give `List` an observable
 that produces an array of names
