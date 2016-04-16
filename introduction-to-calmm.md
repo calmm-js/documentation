@@ -994,8 +994,8 @@ to identify the object
 ```
 
 within `db`.  We can confirm this by using
-[`L.get`](https://github.com/calmm-js/partial.lenses#lgetl-s) to view through
-the lens:
+[`L.get`](https://github.com/calmm-js/partial.lenses#get) to view through the
+lens:
 
 ```js
 L.get(L.compose(L.prop("classes"),
@@ -1020,15 +1020,18 @@ L.set(L.compose(L.prop("classes"),
 //     { id: 303, level: 'Advanced' } ] }
 ```
 
-The [`L.set`](https://github.com/calmm-js/partial.lenses#lsetl-x-s) function on
-lenses is a referentially transparent function that does not mutate the target
+The [`L.set`](https://github.com/calmm-js/partial.lenses#set) function on lenses
+is a referentially transparent function that does not mutate the target
 value&mdash;it merely creates a new value with the specified changes.
 
 Like with observables, we use lenses a lot, which means that there is value in
 keeping lens definitions concise.  For this purpose we abbreviate
-* [`L.prop(string)`](https://github.com/calmm-js/partial.lenses#lpropstring) as `string`,
-* [`L.index(integer)`](https://github.com/calmm-js/partial.lenses#lindexinteger) as `integer`, and
-* [`L.compose(...ls)`](https://github.com/calmm-js/partial.lenses#lcomposels) as `P(...ls)`.
+* [`L.prop(string)`](https://github.com/calmm-js/partial.lenses#prop) as
+  `string`,
+* [`L.index(integer)`](https://github.com/calmm-js/partial.lenses#index) as
+  `integer`, and
+* [`L.compose(...ls)`](https://github.com/calmm-js/partial.lenses#compose) as
+  `P(...ls)`.
 
 Using the abbreviations, the `set` expression from the previous example can be
 rewritten as:
@@ -1108,7 +1111,7 @@ const b2 = a.lens(a_to_b)
 
 we can regard `b1` and `b2` as equivalent.  The other important property is that
 from the
-[compositionality of lenses](https://github.com/calmm-js/partial.lenses#lcomposels)
+[compositionality of lenses](https://github.com/calmm-js/partial.lenses#compose)
 and the way lensed atoms are defined, we can derive the equation
 
 ```js
