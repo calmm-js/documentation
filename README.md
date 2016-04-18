@@ -1,7 +1,7 @@
 [![Gitter](https://img.shields.io/gitter/room/calmm-js/chat.js.svg?style=flat-square)](https://gitter.im/calmm-js/chat)
 
 This repository contains introductory and tutorial style documentation on
-Calm^2.  Reference documentation can be found in the repositories of individual
+Calmm.  Reference documentation can be found in the repositories of individual
 libraries.
 
 However, this repository is very much **WORK-IN-PROGRESS** and far from
@@ -11,8 +11,8 @@ unclear after reading a section.
 
 Links to mostly finished documents:
 
-* [Introduction to Calm^2](introduction-to-calmm.md)
-* [Redux vs Calm^2](redux-vs-calmm.md)
+* [Introduction to Calmm](introduction-to-calmm.md)
+* [Redux vs Calmm](redux-vs-calmm.md)
 
 You may also find the following slides useful:
 
@@ -20,7 +20,7 @@ You may also find the following slides useful:
 
 Links to unfinished documents:
 
-* [Tutorial: Composing Components with Calm^2](tutorial-composing-components-with-calmm.md)
+* [Tutorial: Composing Components with Calmm](tutorial-composing-components-with-calmm.md)
 
 Planned documents:
 * Controllers for IO
