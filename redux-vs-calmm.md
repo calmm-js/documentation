@@ -1,11 +1,11 @@
 [![Gitter](https://img.shields.io/gitter/room/calmm-js/chat.js.svg?style=flat-square)](https://gitter.im/calmm-js/chat)
 
-# Redux vs Calm^2
+# Redux vs Calmm
 
-In this brief note we compare some aspects of Calm^2 and Redux.  We assume that
+In this brief note we compare some aspects of Calmm and Redux.  We assume that
 the reader is already familiar with [Redux](http://redux.js.org/).  We also
 assume that the reader has basic familiarity with
-[Calm^2](introduction-to-calmm.md).  Our goal here is to gain a deeper
+[Calmm](introduction-to-calmm.md).  Our goal here is to gain a deeper
 understanding on how they are related.
 
 ## Stores with Bacon
@@ -66,7 +66,7 @@ are supposed to be just data:
 
 ## Atom with Bacon
 
-Let's then turn our attention to Calm^2 and to the
+Let's then turn our attention to Calmm and to the
 [Atom](https://github.com/calmm-js/documentation/blob/master/introduction-to-calmm.md#atoms)
 concept.  Similarly to stores of Redux, a minimalistic lookalike Atom can be
 implemented in just a few slices of Bacon:
@@ -186,14 +186,14 @@ rather follow some properties computed from data.
 The logical next step would be to explain that atoms can be decomposed or sliced
 using lenses, but we've already read about it in the
 [Combining Atoms and Lenses](https://github.com/calmm-js/documentation/blob/master/introduction-to-calmm.md#combining-atoms-and-lenses)
-section of the Calm^2 introduction.
+section of the Calmm introduction.
 
 ## Summary
 
 > Redux reducers are *composable*.<br>
-> Calm^2 atoms are *decomposable*.
+> Calmm atoms are *decomposable*.
 
-Redux [Stores](http://redux.js.org/docs/basics/Store.html) and Calm^2
+Redux [Stores](http://redux.js.org/docs/basics/Store.html) and Calmm
 [Atoms](https://github.com/calmm-js/documentation/blob/master/introduction-to-calmm.md#atoms)
 are related, but fundamentally different.  Redux stores can be instantiated with
 composable [reducers](http://redux.js.org/docs/basics/Reducers.html).  Atoms can
@@ -201,7 +201,7 @@ be decomposed using
 [lenses](https://github.com/calmm-js/documentation/blob/master/introduction-to-calmm.md#lenses)
 and lenses can be composed.  Out of the box, Redux provides only
 [a single reducer combinator](http://redux.js.org/docs/api/combineReducers.html).
-Calm^2 takes the idea of composability and decomposability seriously and
+Calmm takes the idea of composability and decomposability seriously and
 provides a
 [library of composable lenses](https://github.com/calmm-js/partial.lenses) to
 effectively decompose state to components making the components themselves

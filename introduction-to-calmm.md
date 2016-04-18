@@ -1,12 +1,12 @@
 [![Gitter](https://img.shields.io/gitter/room/calmm-js/chat.js.svg?style=flat-square)](https://gitter.im/calmm-js/chat)
 
-# Introduction to Calm^2
+# Introduction to Calmm
 
-Calmm or Calm^2, pronounced *"calm squared"*, is an architecture and a concrete
-collection of libraries for implementing reactive UIs with JavaScript and
-[React](https://facebook.github.io/react/).  It was born when we started a
-project to implement a custom CMS for a customer.  To help with writing UI code
-we wrote a few small libraries (a few hundred lines of code total):
+Calmm is an architecture and a concrete collection of libraries for implementing
+reactive UIs with JavaScript and [React](https://facebook.github.io/react/).  It
+was born when we started a project to implement a custom CMS for a customer.  To
+help with writing UI code we wrote a few small libraries (a few hundred lines of
+code total):
 
 * [`bacon.react.html`](https://github.com/calmm-js/bacon.react.html)
 * [`bacon.atom`](https://github.com/calmm-js/bacon.atom)
@@ -25,7 +25,7 @@ This document introduces the concepts behind those libraries and explains how
 those libraries can be used to write concise, reactive UI code.
 
 **NOTE:** At the moment there is no fast paced tutorial walkthrough on how to
-write UI code with Calm^2, but such a
+write UI code with Calmm, but such a
 [tutorial](tutorial-composing-components-with-calmm.md) is planned.  In the
 meanwhile, you might find the code snippets in these
 [slides](http://calmm-js.github.io/documentation/training/) useful and you can
@@ -186,7 +186,7 @@ in UI programming.
 
 ## The ingredients
 
-The basic ingredients of the Calm^2 approach can be summarized, in order of
+The basic ingredients of the Calmm approach can be summarized, in order of
 importance, as follows:
 
 1. We specify dependent computations as *observables*.
@@ -268,7 +268,7 @@ implement more complex components with these ingredients.
 
 ### Atoms
 
-As described earlier, atoms are *not* the most important ingredient of Calm^2.
+As described earlier, atoms are *not* the most important ingredient of Calmm.
 The most important ingredient is the use of observable combinators to express
 dependent computations to solve the consistency problem.  However, atoms are a
 simple way to create root observables, which is what we will need in order to
@@ -441,7 +441,7 @@ which are the topic of a later section.
 #### Combining properties
 
 Both streams and properties, as described in the previous section, are relevant
-to programming in Calm^2.  However, we mostly make use of properties.  One
+to programming in Calmm.  However, we mostly make use of properties.  One
 reason for this is that, when we create components that display state obtained
 from observables, we expect that, when such components are hidden or removed
 from view and subsequently redisplayed, they will actually display a value
@@ -451,7 +451,7 @@ those are properties.
 
 Observable frameworks such as Bacon and Kefir provide a large number of
 combinators for observables.  While most of those combinators have uses in
-conjunction with Calm^2, we are frequently only interested in combining, with
+conjunction with Calmm, we are frequently only interested in combining, with
 some function, a bunch of properties, possibly contained in some data structure,
 into a new property that is kept up-to-date with respect to the latest values of
 the original properties.  We also do a lot of this.  Everywhere.  That is one of
@@ -594,7 +594,7 @@ property and `f` is a function, is equivalent to
 
 It should be mentioned, however, there is nothing magical about `K`.  We use it,
 because it helps to eliminate boilerplate.  We also use other observable
-combinators when they are needed.  There is no requirement in Calm^2 to use
+combinators when they are needed.  There is no requirement in Calmm to use
 `K`&mdash;all the same functionality can be obtained by using just basic
 observable combinators.  However, avoiding boilerplate isn't the only reason to
 use `K`.  As we will see shortly, it also helps to keep things easier to
@@ -908,7 +908,7 @@ possible is that the expression
 specifies a referentially transparent function, which allows us to use `fromIds`
 to cache the results.
 
-Our Kefir and Calm^2 based [TodoMVC](https://github.com/calmm-js/kral-todomvc)
+Our Kefir and Calmm based [TodoMVC](https://github.com/calmm-js/kral-todomvc)
 also just uses `fromIds` and seems to be one of the fastest and one of the most
 concise TodoMVC implementations around.  To test the performance of that TodoMVC
 implementation, you can run the following script in your browser's console to
@@ -1146,7 +1146,7 @@ indices are then used as the ids.
 ## The architecture
 
 Ingredients are a start, but not enough.  To bake a cake, we need a proper
-recipe.  In fact, when we started using the Calm^2 ingredients, we had some
+recipe.  In fact, when we started using the Calmm ingredients, we had some
 ideas on how we could break down UI logic and combine the ingredients to solve
 problems, but it wasn't until we had gathered some experience using them that we
 started to see how to really do that effectively.  For example, we didn't
@@ -1157,7 +1157,7 @@ unnecessarily complected models with observables.
 
 ### [`Model :: JSON`](#model--json "Model is just simple data.")
 
-In the Calm^2 architecture, model refers to the object or state being displayed
+In the Calmm architecture, model refers to the object or state being displayed
 by and manipulated through the UI.  Usually it is just a JSON object or array
 that adheres to some schema.  Most importantly, the model is just simple data.
 The model knows nothing about observables or anything else about the UI.  It
@@ -1186,7 +1186,7 @@ writing a JSON expression.
 
 Atoms take care of serializing access to their contents.  They are created by
 giving some initial contents.  Atoms then allow the contents to be shared,
-dependent upon and modified.  In the context of Calm^2, the atoms contain the
+dependent upon and modified.  In the context of Calmm, the atoms contain the
 application state and the contents are modified using operations from meta
 objects.
 
@@ -1218,7 +1218,7 @@ This latent invocation has the effect that as long as the expressions that we
 use to compute the arguments are referentially transparent then so is the VDOM
 expression as a whole.
 
-In Calm^2 we choose to keep VDOM expressions referentially transparent.  Note
+In Calmm we choose to keep VDOM expressions referentially transparent.  Note
 that basic observable combinators are referentially transparent and so is the
 act of creating a lensed atom.  By keeping VDOM expressions referentially
 transparent, we gain important benefits such as being able to cache VDOM and
@@ -1232,14 +1232,14 @@ perform side-effects.
 > else already knew. &mdash; Peter Landin
 
 Ideas do not exist in vacuum.  In fact, we make absolutely no claim of
-originality in any way.  All of the ingredients of Calm^2 are actually old news:
+originality in any way.  All of the ingredients of Calmm are actually old news:
 
 * Observables for dependent computations
 * Embedding observables into VDOM
 * Atoms for storing state
 * Lenses for decomposing state
 
-In fact, much of Calm^2 was initially shaped by a search of way to make it
+In fact, much of Calmm was initially shaped by a search of way to make it
 possible to program in ways similar to what could be done using
 [Reagent](https://reagent-project.github.io/) and (early versions of)
 [WebSharper UI.Next](http://websharper.com/docs/ui.next).
@@ -1263,14 +1263,14 @@ all lenses optional.  Similar ideas can be found in many other lens libraries.
 Found the concepts intriguing?  Not yet quite sure how things really fit
 together?  The logical next step is to read:
 
-* [Tutorial: Composing Components with Calm^2](tutorial-composing-components-with-calmm.md)
+* [Tutorial: Composing Components with Calmm](tutorial-composing-components-with-calmm.md)
 
-By intention, this document does not try to compare Calm^2 to other UI
+By intention, this document does not try to compare Calmm to other UI
 programming approaches.  With the intention to gain a deeper understanding, the
-following documents explore how concepts in Calm^2 relate to concepts found in
+following documents explore how concepts in Calmm relate to concepts found in
 other UI programming approaches:
 
-* [Redux vs Calm^2](redux-vs-calmm.md)
+* [Redux vs Calmm](redux-vs-calmm.md)
 
 Our production codebase is unfortunately not publicly available.  However, we
 have built some small examples:
