@@ -1,4 +1,0 @@
-describe("dummy", () => {
-  it("succeeds", () => {
-  })
-})
