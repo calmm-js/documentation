@@ -22,14 +22,6 @@ relevant libraries to [Kefir](http://rpominov.github.io/kefir/):
 This document introduces the concepts behind those libraries and explains how
 those libraries can be used to write concise, reactive UI code.
 
-**NOTE:** At the moment there is no fast paced tutorial walkthrough on how to
-write UI code with Calmm, but such a
-[tutorial](tutorial-composing-components-with-calmm.md) is planned.  In the
-meanwhile, you might find the code snippets in these
-[slides](http://calmm-js.github.io/documentation/training/) useful and you can
-also find some working [examples](https://github.com/calmm-js/kral-examples) and
-a [TodoMVC](https://github.com/calmm-js/kral-todomvc) implementation.
-
 **Contents**
 
 * [Imagine...](#imagine)
@@ -1257,11 +1249,6 @@ all lenses optional.  Similar ideas can be found in many other lens libraries.
 [Great ideas are discovered!](https://en.wikipedia.org/wiki/Multiple_discovery)
 
 ## Going further
-
-Found the concepts intriguing?  Not yet quite sure how things really fit
-together?  The logical next step is to read:
-
-* [Tutorial: Composing Components with Calmm](tutorial-composing-components-with-calmm.md)
 
 By intention, this document does not try to compare Calmm to other UI
 programming approaches.  With the intention to gain a deeper understanding, the
