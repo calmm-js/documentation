@@ -1,5 +1,3 @@
-[![Gitter](https://img.shields.io/gitter/room/calmm-js/chat.js.svg?style=flat-square)](https://gitter.im/calmm-js/chat)
-
 # Introduction to Calmm
 
 Calmm is an architecture and a concrete collection of libraries for implementing
@@ -1277,6 +1275,3 @@ have built some small examples:
 
 * [Examples](https://github.com/calmm-js/kral-examples)
 * [TodoMVC](https://github.com/calmm-js/kral-todomvc)
-
-For questions and discussion join us at:
-[![Gitter](https://img.shields.io/gitter/room/calmm-js/chat.js.svg?style=flat-square)](https://gitter.im/calmm-js/chat)
