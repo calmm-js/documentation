@@ -2,14 +2,14 @@
 
 A *component* is a *function* that returns React *VDOM*.
 
-```js
+```jsx
 const A = () => <div>I'm a component.</div>
 ```
 
 Typically components are *named*, but a component can also be an *anonymous*,
 *first-class object*.
 
-```js
+```jsx
 () => <div>I'm also a component!</div>
 ```
 
@@ -20,7 +20,7 @@ correctly) tears down any state held by the instance and stops any IO performed
 by the instance.  IOW, state generally only exists within the lifetime of an
 instance of a component.
 
-```js
+```jsx
 const A = ({state = Atom("")}) =>
   <input value={state}
          onChange={e => state.set(e.target.value)}/>
@@ -42,7 +42,7 @@ which means that components may *communicate* with each other via parameters.
 A *composition* of components is a VDOM expression that specifies a tree
 structure of component instantiations with their parameters.
 
-```js
+```jsx
 const NothingShared = () =>
   <div>
     <A/>
@@ -50,7 +50,7 @@ const NothingShared = () =>
   </div>
 ```
 
-```js
+```jsx
 const SharedInput = ({property = /* ... */}) =>
   <div>
     <A input={property}/>
@@ -58,7 +58,7 @@ const SharedInput = ({property = /* ... */}) =>
   </div>
 ```
 
-```js
+```jsx
 const OutputOfOneIsInputOfAnother = ({variable = Atom()}) =>
   <div>
     <A output={variable}/>
