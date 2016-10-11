@@ -1,5 +1,16 @@
 # Understanding Components and Composition
 
+The way components are expressed using only
+
+* reactive properties,
+* reactive variables, and
+* functions returning VDOM
+
+and then composed as VDOM expressions in Calmm may seem limiting.  Don't we need
+some more exposed scaffolding or wiring?
+
+## Definitions
+
 A *component* is a *function* that returns React *VDOM*.
 
 ```jsx
@@ -42,6 +53,11 @@ which means that components may *communicate* with each other via parameters.
 A *composition* of components is a VDOM expression that specifies a tree
 structure of component instantiations with their parameters.
 
+## Connecting Components with Reactive Variables
+
+The simplest case of creating a component that is the composition of two or more
+components is when nothing is shared by the composed components:
+
 ```jsx
 const NothingShared = () =>
   <div>
@@ -50,18 +66,50 @@ const NothingShared = () =>
   </div>
 ```
 
+Things get more interesting when we have components that take input:
+
 ```jsx
-const SharedInput = ({property = /* ... */}) =>
+const DisplaysInput = ({input}) =>
+  <div>{input}</div>
+```
+
+and components that produce output:
+
+```jsx
+const ProducesOutput = ({output}) =>
+  <input type="text" onChange={e => output.set(e.target.value)}/>
+```
+
+and we wish to create composition of such components and route the outputs of
+some components to the inputs other components:
+
+```jsx
+const Composition = ({variable = Atom("")}) =>
   <div>
-    <A input={property}/>
-    <B input={property}/>
+    <ProducesOutput output={variable}/>
+    <DisplaysInput input={variable}/>
   </div>
 ```
 
+There are several important things to note here.  First of all, the
+`ProducesOutput` component takes a *parameter*, a reference to a reactive
+variable, through which it produces output.  The composition then creates a
+variable and uses it to connect the output of `ProducesOutput` to the input of
+`DisplaysInput`.  The `Composition` also exposes the variable as a parameter
+with a default.  This allows us to further compose the `Composition` component
+with other components:
+
 ```jsx
-const OutputOfOneIsInputOfAnother = ({variable = Atom()}) =>
+const FurtherComposition = ({variable = Atom("")}) =>
   <div>
-    <A output={variable}/>
-    <B  input={variable}/>
+    <Composition {...{variable}}/>
+    <DisplaysInput input={variable}/>
   </div>
 ```
+
+When components expose their inputs and outputs as parameters, we can use
+reactive variables to flexibly connect components.
+
+Note that reactive variables do not need to be concrete atoms.  It is perfectly
+possible to connect components together using lensed atoms and make it so that
+the entire state of the application is ultimately stored in just a single atom.
