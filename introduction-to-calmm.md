@@ -1246,7 +1246,7 @@ to instances of components.  It is nevertheless very important to distinguish
 between the two.
 
 Generally the main purpose of any component is to produce output in the form of
-VDOM that will be rendered to DOM.  A component may also produce other kind of
+VDOM that will be rendered to DOM.  A component may also produce other kinds of
 *output* and perform *side-effects*.
 
 A component may have any number of *parameters*.  A parameter can serve as an
