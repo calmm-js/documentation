@@ -19,8 +19,19 @@ relevant libraries to [Kefir](http://rpominov.github.io/kefir/):
 * [`kefir.react.html`](https://github.com/calmm-js/kefir.react.html)
 * [`kefir.atom`](https://github.com/calmm-js/kefir.atom)
 
+Currently Calmm is being revised in the form of a new way to embed observables
+into VDOM.  The relevant libraries, replacing `kefir.react.html`, are:
+
+* [`karet`](https://github.com/calmm-js/karet)
+* [`karet.util`](https://github.com/calmm-js/karet.util)
+
 This document introduces the concepts behind those libraries and explains how
 those libraries can be used to write concise, reactive UI code.
+
+In this document we use the latest incarnation, `karet`.  If you are working on
+a project using an `bacon.react.html` or `kefir.react.html`, then much of this
+document is still relevant.  Only the specific way of embedding observabls into
+VDOM has changed.
 
 **Contents**
 
@@ -45,6 +56,9 @@ those libraries can be used to write concise, reactive UI code.
   * [`Atom :: Atom m :> AbstractMutable m`](#atom--atom-m--abstractmutable-m "The m type variable stands for model.")
   * [`LensedAtom :: AbstractMutable w -> PLens w p -> LensedAtom p`](#lensedatom--abstractmutable-w---plens-w-p---lensedatom-p "The w and p type variables stand for whole and part.")
   * [`Control :: [Observable p | AbstractMutable m | d]* -> VDOM`](#control--observable-p--abstractmutable-m--d---vdom "Controls take observable state, mutable state and constant data as arguments.")
+* [Understanding Components and Composition](#understanding-components-and-composition)
+  * [Definitions](#definitions)
+  * [Connecting Components with Reactive Variables](#connecting-components-with-reactive-variables)
 * [Related work](#related-work)
 * [Going further](#going-further)
 
@@ -446,15 +460,12 @@ some function, a bunch of properties, possibly contained in some data structure,
 into a new property that is kept up-to-date with respect to the latest values of
 the original properties.  We also do a lot of this.  Everywhere.  That is one of
 the two main reasons why we have defined a generalized combinator for that use
-case.  Let's just import the Kefir based version of the combinator from the
-[`kefir.react.html`](https://github.com/calmm-js/kefir.react.html) library:
+case.  Let's just import the Kefir based version of the combinator from
+the [`karet.util`](https://github.com/calmm-js/karet.util) library:
 
 ```js
-import K from "kefir.react.html"
+import K from "karet.util"
 ```
-
-There is also a similar Bacon based combinator in the
-[`bacon.react.html`](https://github.com/calmm-js/kefir.react.html) library.
 
 The basic semantics of the combinator can be described as
 
@@ -604,6 +615,8 @@ extend VDOM to admit observables as properties and children.  Consider the
 following example:
 
 ```jsx
+import React from "react"
+
 const Hello = ({who}) => <div>Hello, {who}!</div>
 ```
 
@@ -622,24 +635,14 @@ const who = Atom("world")
 ```
 
 and try to render it, the result would be an error message.  Indeed, React's
-`div` (pseudo) class knows nothing about observables.  What if we had a function
-that, given any React class, would return a class that renders the same, but
-also works with observables?  Let's import such a function
+`div` (pseudo) class knows nothing about observables.  What if we could write
+JSX that would also allow observables as properties and children?  We can do
+that importing `React` from [`karet`](https://github.com/calmm-js/karet):
 
 ```js
-import {fromClass} from "kefir.react.html"
-```
+import React from "karet"
 
-apply it to `div`
-
-```js
-const Kdiv = fromClass("div")
-```
-
-and redefine our component
-
-```jsx
-const Hello = ({who}) => <Kdiv>Hello, {who}!</Kdiv>
+const Hello = ({who}) => <div>Hello, {who}!</div>
 ```
 
 Now both
@@ -657,55 +660,38 @@ and
 would render the same.  If we'd assign to `who`, e.g. `who.set("there")` the
 latter element would be rerendered.
 
-The default import of the
-[`kefir.react.html`](https://github.com/calmm-js/kefir.react.html) library
-
-```js
-import K from "kefir.react.html"
-```
-
-which we introduced in the previous section as a generalized combine combinator,
-also contains prelifted versions of all the pseudo HTML classes that React
-provides and the same goes for the Bacon version:
-[`bacon.react.html`](https://github.com/calmm-js/bacon.react.html).  Using it we
-could write the `Hello` class as follows:
-
-```jsx
-const Hello = ({who}) => <K.div>Hello, {who}!</K.div>
-```
+From here on we assume that `React` has been imported
+from [`karet`](https://github.com/calmm-js/karet).
 
 Now that we have the tools for it, let's create something just a little bit more
 interesting.  Here is a toy React class that converts Celcius to Fahrenheit:
 
 ```jsx
 const Converter = ({value = Atom("0")}) =>
-  <K.p>
-    <K.input onChange={e => value.set(e.target.value)}
-             value={value}/>°C is {K(value, c => c * 9/5 + 32)}°F
-  </K.p>
+  <p>
+    <input onChange={e => value.set(e.target.value)}
+           value={value}/>°C is {K(value, c => c * 9/5 + 32)}°F
+  </p>
 ```
 
 Using the
-[`bind`](https://github.com/calmm-js/kefir.react.html#bind-attribute-template)
-helper from `kefir.react.html`
+[`bind`](https://github.com/calmm-js/karet.util#bind-attribute-template)
+helper from `karet.util`
 
 ```js
-import {bind} from "kefir.react.html"
+import {bind} from "karet.util"
 ```
 
 we can shorten the `Converter` further:
 
 ```jsx
 const Converter = ({value = Atom("0")}) =>
-  <K.p><K.input {...bind({value})}/>°C is {K(value, c => c * 9/5 + 32)}°F</K.p>
+  <p><input {...bind({value})}/>°C is {K(value, c => c * 9/5 + 32)}°F</p>
 ```
 
 This latter version using `bind` evaluates to the exact same functionality as
 the previous version that uses `onChange`.  `bind({x})` is equivalent to `{x,
 onChange: e => x.set(e.target.x)}`.
-
-You can find the above version live
-[here](http://calmm-js.github.io/kral-examples/public/index.html#converter).
 
 #### Dispelling the Magic
 
@@ -718,8 +704,7 @@ that allows them to be robustly combined with observables.
 
 React's VDOM itself is just a tree of JavaScript objects.  That tree can be
 traversed and its elements analyzed.  This allows us to find the observables
-from VDOM.  Inside the
-[`kefir.react.html`](http://calmm-js.github.io/kefir.react.html) library is an
+from VDOM.  Inside the [`karet`](http://calmm-js.github.io/karet) library is an
 implementation of a React class that implements the life-cycle methods:
 
 ```js
@@ -805,10 +790,10 @@ solution:
 
 ```jsx
 const ListOfNames = ({names}) =>
-  <K.ul>
+  <ul>
     {K(names, R.map(name =>
        <li key={name}>{name}</li>))}
-  </K.ul>
+  </ul>
 ```
 
 Note that above we use `K` when we are dealing with an observable and we use
@@ -817,20 +802,20 @@ names.  Instead of `K`, one could also use the `map` method of observables:
 
 ```jsx
 const ListOfNames = ({names}) =>
-  <K.ul>
+  <ul>
     {names.map(R.map(name =>
        <li key={name}>{name}</li>))}
-  </K.ul>
+  </ul>
 ```
 
 And one could also just use the built-in `map` method of arrays:
 
 ```jsx
 const ListOfNames = ({names}) =>
-  <K.ul>
+  <ul>
     {names.map(names => names.map(name =>
        <li key={name}>{name}</li>))}
-  </K.ul>
+  </ul>
 ```
 
 We actually initially did this, but we found it unnecessarily confusing and
@@ -864,27 +849,27 @@ it is not much of a problem, but with more complex components per item, it might
 lead to unacceptable performance.
 
 Fortunately this is not difficult to fix.  We just cache the VDOM between
-changes.  [`kefir.react.html`](https://github.com/calmm-js/kefir.react.html)
-provides the
-[`fromIds`](https://github.com/calmm-js/kefir.react.html#incremental-arrays-fromids)
+changes.  [`karet.util`](https://github.com/calmm-js/karet.util) provides
+the
+[`fromIds`](https://github.com/calmm-js/karet.util#incremental-arrays-fromids)
 observable combinator for this purpose:
 
 ```js
-import {fromIds} from "kefir.react.html"
+import {fromIds} from "karet.util"
 ```
 
 Using it we can rewrite the `ListOfNames` component:
 
 ```jsx
 const ListOfNames = ({names}) =>
-  <K.ul>
+  <ul>
     {fromIds(names, name =>
        <li key={name}>{name}</li>)}
-  </K.ul>
+  </ul>
 ```
 
 The documentation of
-[`fromIds`](https://github.com/calmm-js/kefir.react.html#incremental-arrays-fromids)
+[`fromIds`](https://github.com/calmm-js/karet.util#incremental-arrays-fromids)
 gives more details, but this version of `ListOfNames` works efficiently in the
 sense that, when names in the list change, VDOM is computed only for new names
 with respect to the previously displayed list of names.  What makes that
@@ -898,7 +883,7 @@ possible is that the expression
 specifies a referentially transparent function, which allows us to use `fromIds`
 to cache the results.
 
-Our Kefir and Calmm based [TodoMVC](https://github.com/calmm-js/kral-todomvc)
+Our Kefir and Calmm based [TodoMVC](https://github.com/calmm-js/karet-todomvc)
 also just uses `fromIds` and seems to be one of the fastest and one of the most
 concise TodoMVC implementations around.  To test the performance of that TodoMVC
 implementation, you can run the following script in your browser's console to
@@ -908,7 +893,7 @@ populate the storage with 2000 todo items:
 var store = []
 for (var i = 1; i <= 2000; ++i)
   store.push({title: 'Todo' + i, completed: false})
-localStorage.setItem('todos-react.kefir', JSON.stringify({value: store}))
+localStorage.setItem('todos-karet', JSON.stringify({value: store}))
 ```
 
 It pays off to be declarative where it matters.
@@ -919,12 +904,12 @@ components, but we defer further discussion until later.
 ### Lenses
 
 To motivate the introduction of lenses, let's first create a simple text input
-component.  Here is the one-liner using
-[`kefir.react.html`](https://github.com/calmm-js/kefir.react.html) and assuming
-that the `value` property will be an Atom:
+component.  Here is the one-liner
+using [`karet`](https://github.com/calmm-js/karet) and assuming that the `value`
+property will be an Atom:
 
 ```jsx
-const TextInput = ({value}) => <K.input {...bind({value})}/>
+const TextInput = ({value}) => <input {...bind({value})}/>
 ```
 
 If we now create an atom
@@ -1118,10 +1103,10 @@ Let's then proceed to make an editable list of names.  Here is one way to do it:
 
 ```js
 const ListOfNames = ({names}) =>
-  <K.ul>
+  <ul>
     {fromIds(K(names, R.pipe(R.length, R.range(0))), i =>
        <li key={i}><TextInput value={names.lens(i)}/></li>)}
-  </K.ul>
+  </ul>
 ```
 
 Aside from putting the `TextInput` in place, we changed the way elements are
@@ -1215,6 +1200,129 @@ transparent, we gain important benefits such as being able to cache VDOM and
 being able to compose VDOM and components liberally.  However, once a control is
 mounted, the function is invoked and the control as a whole is allowed to
 perform side-effects.
+
+## Understanding Components and Composition
+
+The way components are expressed using only
+
+* reactive properties,
+* reactive variables, and
+* functions returning VDOM
+
+and then composed as VDOM expressions in Calmm may seem limiting.  Don't we need
+some more exposed scaffolding or wiring to make it possible to create
+composition of components with input-output relationships?
+
+### Definitions
+
+A *component* is a *function* that returns React *VDOM*.
+
+```jsx
+const A = () => <div>I'm a component.</div>
+```
+
+Typically components are *named*, but a component can also be an *anonymous*,
+*first-class object*.
+
+```jsx
+() => <div>I'm also a component!</div>
+```
+
+When a component is put to use it is *mounted*, creating an *instance* of the
+component.  An instance of a component may hold *state* and perform *IO*.  When
+an instance is no longer needed, it is *unmounted*, which (when implemented
+correctly) tears down any state held by the instance and stops any IO performed
+by the instance.  IOW, state generally only exists within the lifetime of an
+instance of a component.
+
+```jsx
+const A = ({state = Atom("")}) =>
+  <input value={state}
+         onChange={e => state.set(e.target.value)}/>
+```
+
+We generally abuse terminology and speak of "components" when we actually refer
+to instances of components.  It is nevertheless very important to distinguish
+between the two.
+
+Generally the main purpose of any component is to produce output in the form of
+VDOM that will be rendered to DOM.  A component may also produce other kind of
+*output* and perform *side-effects*.
+
+A component can have any number of *parameters*.  A parameter can serve as an
+*input*, an *output* or *both*.  Components can take components as parameters.
+Parameters, regardless of kind, can be *shared* by any number of components,
+which means that components may *communicate* with each other via parameters.
+
+A *composition* of components is a VDOM expression that specifies a tree
+structure of component instantiations with their parameters.
+
+```jsx
+<div>I'm not a <em>component</em>, I'm a <strong>composition</strong>!</div>
+```
+
+### Connecting Components with Reactive Variables
+
+The simplest case of creating a component that is the composition of two or more
+components is when nothing is shared by the composed components:
+
+```jsx
+const NothingShared = () =>
+  <div>
+    <A/>
+    <B/>
+  </div>
+```
+
+Things get more interesting when we have components that take input:
+
+```jsx
+const DisplaysInput = ({input}) =>
+  <div>{input}</div>
+```
+
+and components that produce output:
+
+```jsx
+const ProducesOutput = ({output}) =>
+  <input type="text" onChange={e => output.set(e.target.value)}/>
+```
+
+and we wish to create compositions of such components and route the outputs of
+some components to the inputs other components:
+
+```jsx
+const Composition = ({variable = Atom("")}) =>
+  <div>
+    <ProducesOutput output={variable}/>
+    <DisplaysInput input={variable}/>
+  </div>
+```
+
+There are several important things to note here.  First of all, the
+`ProducesOutput` component takes a *parameter*, a reference to a reactive
+variable, through which it produces output.  The `Composition` component then
+uses a variable to connect the output of `ProducesOutput` to the input of
+`DisplaysInput`.  The `Composition` also exposes the variable as a parameter
+with a default.  This allows us to further compose the `Composition` component
+with other components:
+
+```jsx
+const FurtherComposition = ({variable = Atom("")}) =>
+  <div>
+    <Composition {...{variable}}/>
+    <DisplaysInput input={variable}/>
+  </div>
+```
+
+When components expose their inputs and outputs as parameters, we can use
+reactive variables to flexibly wire the inputs and outputs of components
+together.
+
+Note that reactive variables used for wiring components do not need to be
+concrete atoms.  It is perfectly possible to connect components together using
+lensed atoms and make it so that the entire state of the application is
+ultimately stored in just a single atom.
 
 ## Related work
 
