@@ -284,7 +284,7 @@ will be using [Kefir](http://rpominov.github.io/kefir/) as our observable
 implementation.  Therefore we will import the Kefir based
 [Atom](https://github.com/calmm-js/kefir.atom) implementation:
 
-```js
+```jsx
 import Atom from "kefir.atom"
 ```
 
@@ -297,20 +297,20 @@ be possible to port the concept to pretty much any observable framework
 Atoms are essentially first-class storage locations or variables.  We can create
 a new atom using the `Atom` constructor function:
 
-```js
+```jsx
 const elems = Atom(["earth", "water", "air", "fire"])
 ```
 
 And we can get the value of an atom:
 
-```js
+```jsx
 elems.get()
 // [ 'earth', 'water', 'air', 'fire' ]
 ```
 
 And we can also set the value of an atom:
 
-```js
+```jsx
 elems.set(["observables", "embedding", "atoms"])
 elems.get()
 // [ 'observables', 'embedding', 'atoms' ]
@@ -326,7 +326,7 @@ is an example where we use Ramda's
 [`append`](http://ramdajs.com/0.19.0/docs/#append) to add an element to the
 list:
 
-```js
+```jsx
 elems.modify(R.append("lenses"))
 elems.get()
 // [ 'observables', 'embedding', 'atoms', 'lenses' ]
@@ -463,13 +463,13 @@ the two main reasons why we have defined a generalized combinator for that use
 case.  Let's just import the Kefir based version of the combinator from
 the [`karet.util`](https://github.com/calmm-js/karet.util) library:
 
-```js
+```jsx
 import K from "karet.util"
 ```
 
 The basic semantics of the combinator can be described as
 
-```js
+```jsx
 K(x1, ..., xN, fn) === combine([x1, ..., xN], fn).skipDuplicates(equals)
 ```
 
@@ -483,7 +483,7 @@ like.
 Suppose, for example, that we define two atoms representing independent
 variables:
 
-```js
+```jsx
 const x = Atom(1)
 const y = Atom(2)
 ```
@@ -492,21 +492,21 @@ Using `K` we could specify their sum as a
 [dependent variable](https://en.wikipedia.org/wiki/Dependent_and_independent_variables)
 as follows:
 
-```js
+```jsx
 const x_plus_y = K(x, y, (x, y) => x + y)
 ```
 
 To see the value, we can use Kefir's
 [`log`](http://rpominov.github.io/kefir/#log) method:
 
-```js
+```jsx
 x_plus_y.log("x + y")
 // x + y <value:current> 3
 ```
 
 Now, if we modify the variables, we can see that the sum is recomputed:
 
-```js
+```jsx
 x.set(-2)
 // x + y <value> 0
 y.set(3)
@@ -515,7 +515,7 @@ y.set(3)
 
 We can, of course, create computations that depend on dependent computations:
 
-```js
+```jsx
 const z = Atom(1)
 const x_plus_y_minus_z = K(x_plus_y, z, (x_plus_y, z) => x_plus_y - z)
 x_plus_y_minus_z.log("(x + y) - z")
@@ -531,7 +531,7 @@ properties to be embedded to VDOM, we don't usually care whether we are really
 dealing with constants or with observable properties.  For this reason any
 argument of `K` is allowed to be a constant.  For example:
 
-```js
+```jsx
 const a = 2
 const b = Atom(3)
 K(a, b, (a, b) => a * b).log("a * b")
@@ -541,7 +541,7 @@ K(a, b, (a, b) => a * b).log("a * b")
 Even further, when all the arguments to `K` are constants, the value is simply
 computed immediately:
 
-```js
+```jsx
 K("there", who => "Hello, " + who + "!")
 // 'Hello, there!'
 ```
@@ -554,7 +554,7 @@ contain observables.  The values from observables found inside the template are
 substituted into the template to form an instance of the template that is then
 passed to the combiner function.  For example:
 
-```js
+```jsx
 K({i: Atom(1), xs: ["a", Atom("b"), Atom("c")]}, r => r.xs[r.i]).log()
 // result <value:current> b
 ```
@@ -565,7 +565,7 @@ In other words, `K` also includes the functionality of
 Unlike with Kefir's [`combine`](http://rpominov.github.io/kefir/#combine), the
 combiner function is also allowed to be an observable.  For example:
 
-```js
+```jsx
 const f = Atom(x => x + 1)
 K(1, f).log("result")
 // result <value:current> 2
@@ -577,7 +577,7 @@ Finally, like with Kefir's [`combine`](http://rpominov.github.io/kefir/#combine)
 the combiner function is optional.  If the combiner is omitted, the result is an
 array.  For example:
 
-```js
+```jsx
 K()
 // []
 K(1, 2, 3)
@@ -639,7 +639,7 @@ and try to render it, the result would be an error message.  Indeed, React's
 JSX that would also allow observables as properties and children?  We can do
 that importing `React` from [`karet`](https://github.com/calmm-js/karet):
 
-```js
+```jsx
 import React from "karet"
 
 const Hello = ({who}) => <div>Hello, {who}!</div>
@@ -678,7 +678,7 @@ Using the
 [`bind`](https://github.com/calmm-js/karet.util#bind-attribute-template)
 helper from `karet.util`
 
-```js
+```jsx
 import {bind} from "karet.util"
 ```
 
@@ -707,7 +707,7 @@ traversed and its elements analyzed.  This allows us to find the observables
 from VDOM.  Inside the [`karet`](http://calmm-js.github.io/karet) library is an
 implementation of a React class that implements the life-cycle methods:
 
-```js
+```jsx
 ...
 componentWillReceiveProps(nextProps) {
   this.doUnsubscribe()
@@ -837,7 +837,7 @@ const names = Atom(["Markus", "Matti"])
 
 and if we would modify the list of names
 
-```js
+```jsx
 names.modify(R.append("Vesa"))
 ```
 
@@ -854,7 +854,7 @@ the
 [`fromIds`](https://github.com/calmm-js/karet.util#incremental-arrays-fromids)
 observable combinator for this purpose:
 
-```js
+```jsx
 import {fromIds} from "karet.util"
 ```
 
@@ -889,7 +889,7 @@ concise TodoMVC implementations around.  To test the performance of that TodoMVC
 implementation, you can run the following script in your browser's console to
 populate the storage with 2000 todo items:
 
-```js
+```jsx
 var store = []
 for (var i = 1; i <= 2000; ++i)
   store.push({title: 'Todo' + i, completed: false})
@@ -914,13 +914,13 @@ const TextInput = ({value}) => <input {...bind({value})}/>
 
 If we now create an atom
 
-```js
+```jsx
 const text = Atom("initial")
 ```
 
 and give it as the `value` property to `TextInput`
 
-```js
+```jsx
 <TextInput value={text}/>
 ```
 
@@ -943,13 +943,13 @@ element.
 Let's see how lenses work in practice.  First we import the
 [`partial.lenses`](https://github.com/calmm-js/partial.lenses) library:
 
-```js
+```jsx
 import P, * as L from "partial.lenses"
 ```
 
 Now, consider the following JSON:
 
-```js
+```jsx
 const db = {"classes": [{"id": 101, "level": "Novice"},
                         {"id": 202, "level": "Intermediate"},
                         {"id": 303, "level": "Advanced"}]}
@@ -957,14 +957,14 @@ const db = {"classes": [{"id": 101, "level": "Novice"},
 
 We can specify the lens
 
-```js
+```jsx
 L.compose(L.prop("classes"),
           L.index(0))
 ```
 
 to identify the object
 
-```js
+```jsx
 {"id": 101, "level": "Novice"}
 ```
 
@@ -972,7 +972,7 @@ within `db`.  We can confirm this by using
 [`L.get`](https://github.com/calmm-js/partial.lenses#get) to view through the
 lens:
 
-```js
+```jsx
 L.get(L.compose(L.prop("classes"),
                 L.index(0)),
        db)
@@ -983,7 +983,7 @@ If viewing elements were the only thing that lenses were good for they would be
 rather useless, but they also allow us to update elements deep inside data
 structures.  Let's update the level of the first class:
 
-```js
+```jsx
 L.set(L.compose(L.prop("classes"),
                 L.index(0),
                 L.prop("level")),
@@ -1011,7 +1011,7 @@ keeping lens definitions concise.  For this purpose we abbreviate
 Using the abbreviations, the `set` expression from the previous example can be
 rewritten as:
 
-```js
+```jsx
 L.set(P("classes", 0, "level"),
       "Introduction",
       db)
@@ -1028,7 +1028,7 @@ details.
 Where things get really interesting is that Atoms support lenses.  Recall the
 list of names:
 
-```js
+```jsx
 const names = Atom(["Markus", "Matti"])
 ```
 
@@ -1036,13 +1036,13 @@ To create a **LensedAtom**, that uses lenses to decompose state, we just call
 the [`lens`](https://github.com/calmm-js/kefir.atom#atomlensls) method with the
 desired lens:
 
-```js
+```jsx
 const firstOfNames = names.lens(L.index(0))
 ```
 
 Let's take a look at what is going on by using the `log` method:
 
-```js
+```jsx
 names.log("names")
 // names <value:current> [ 'Markus', 'Matti' ]
 firstOfNames.log("first of names")
@@ -1052,7 +1052,7 @@ firstOfNames.log("first of names")
 If we now modify either `firstOfNames` or `names`, the changes are reflected in
 the other:
 
-```js
+```jsx
 names.set(["Vesa", "Matti"])
 // names <value> [ 'Vesa', 'Matti' ]
 // first of names <value> Vesa
@@ -1079,7 +1079,7 @@ namely to the state, represented as an immutable data structure, being referred
 to by the root atom.  This means that we can regard the `lens` method as a
 referentially transparent function.  For example, in
 
-```js
+```jsx
 const b1 = a.lens(a_to_b)
 const b2 = a.lens(a_to_b)
 ```
@@ -1089,7 +1089,7 @@ from the
 [compositionality of lenses](https://github.com/calmm-js/partial.lenses#compose)
 and the way lensed atoms are defined, we can derive the equation
 
-```js
+```jsx
 a.lens(a_to_b).lens(b_to_c) = a.lens(L.compose(a_to_b, b_to_c))
                             = a.lens(a_to_b, b_to_c)
 ```
@@ -1101,7 +1101,7 @@ basically means that everything will work, or compose, as one should expect.
 
 Let's then proceed to make an editable list of names.  Here is one way to do it:
 
-```js
+```jsx
 const ListOfNames = ({names}) =>
   <ul>
     {fromIds(K(names, R.pipe(R.length, R.range(0))), i =>
