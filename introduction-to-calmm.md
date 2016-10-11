@@ -30,7 +30,7 @@ those libraries can be used to write concise, reactive UI code.
 
 In this document we use the latest incarnation, `karet`.  If you are working on
 a project using an `bacon.react.html` or `kefir.react.html`, then much of this
-document is still relevant.  Only the specific way of embedding observabls into
+document is still relevant.  Only the specific way of embedding observables into
 VDOM has changed.
 
 **Contents**
