@@ -1258,7 +1258,7 @@ A *composition* of components is a VDOM expression that specifies a tree
 structure of component instantiations with their parameters.
 
 ```jsx
-<div>I'm not a <em>component</em>, I'm a <strong>composition</strong>!</div>
+<div>I am not a <em>component</em>! I'm a free <strong>composition</strong>!</div>
 ```
 
 ### Connecting Components with Reactive Variables
