@@ -80,7 +80,7 @@ const ProducesOutput = ({output}) =>
   <input type="text" onChange={e => output.set(e.target.value)}/>
 ```
 
-and we wish to create composition of such components and route the outputs of
+and we wish to create compositions of such components and route the outputs of
 some components to the inputs other components:
 
 ```jsx
@@ -93,8 +93,8 @@ const Composition = ({variable = Atom("")}) =>
 
 There are several important things to note here.  First of all, the
 `ProducesOutput` component takes a *parameter*, a reference to a reactive
-variable, through which it produces output.  The composition then creates a
-variable and uses it to connect the output of `ProducesOutput` to the input of
+variable, through which it produces output.  The `Composition` component then
+uses a variable to connect the output of `ProducesOutput` to the input of
 `DisplaysInput`.  The `Composition` also exposes the variable as a parameter
 with a default.  This allows us to further compose the `Composition` component
 with other components:
@@ -108,8 +108,10 @@ const FurtherComposition = ({variable = Atom("")}) =>
 ```
 
 When components expose their inputs and outputs as parameters, we can use
-reactive variables to flexibly connect components.
+reactive variables to flexibly wire the inputs and outputs of components
+together.
 
-Note that reactive variables do not need to be concrete atoms.  It is perfectly
-possible to connect components together using lensed atoms and make it so that
-the entire state of the application is ultimately stored in just a single atom.
+Note that reactive variables used for wiring components do not need to be
+concrete atoms.  It is perfectly possible to connect components together using
+lensed atoms and make it so that the entire state of the application is
+ultimately stored in just a single atom.
