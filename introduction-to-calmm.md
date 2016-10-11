@@ -1368,5 +1368,5 @@ other UI programming approaches:
 Our production codebase is unfortunately not publicly available.  However, we
 have built some small examples:
 
-* [Examples](https://github.com/calmm-js/kral-examples)
-* [TodoMVC](https://github.com/calmm-js/kral-todomvc)
+* [Examples](https://github.com/calmm-js/karet-examples)
+* [TodoMVC](https://github.com/calmm-js/karet-todomvc)
