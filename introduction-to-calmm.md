@@ -1249,7 +1249,7 @@ Generally the main purpose of any component is to produce output in the form of
 VDOM that will be rendered to DOM.  A component may also produce other kind of
 *output* and perform *side-effects*.
 
-A component can have any number of *parameters*.  A parameter can serve as an
+A component may have any number of *parameters*.  A parameter can serve as an
 *input*, an *output* or *both*.  Components can take components as parameters.
 Parameters, regardless of kind, can be *shared* by any number of components,
 which means that components may *communicate* with each other via parameters.
