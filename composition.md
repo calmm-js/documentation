@@ -53,6 +53,10 @@ which means that components may *communicate* with each other via parameters.
 A *composition* of components is a VDOM expression that specifies a tree
 structure of component instantiations with their parameters.
 
+```jsx
+<div>I'm not a <em>component</em>, I'm a <strong>composition</strong>!</div>
+```
+
 ## Connecting Components with Reactive Variables
 
 The simplest case of creating a component that is the composition of two or more
