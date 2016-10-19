@@ -1212,9 +1212,13 @@ The way components are expressed using only
 * reactive variables, and
 * functions returning VDOM
 
-and then composed as VDOM expressions in Calmm may seem limiting.  Don't we need
-some more exposed scaffolding or wiring to make it possible to create
-composition of components with input-output relationships?
+and then composed as VDOM expressions in Calmm may seem limiting.
+
+> Don't we need some more exposed scaffolding or wiring to make it possible to
+> create composition of components with input-output relationships?
+
+The answer seems to be that it is enough for components to expose their inputs
+and outputs as parameters.  Let's examine what this means.
 
 #### Definitions
 
