@@ -42,13 +42,13 @@ VDOM has changed.
   * [Dependent computations](#dependent-computations)
     * [Observables](#observables)
     * [Combining properties](#combining-properties)
-  * [Embedding Observables into VDOM](#embedding-observables-into-vdom)
+  * [Embedding observables into VDOM](#embedding-observables-into-vdom)
     * [Dispelling the Magic](#dispelling-the-magic)
     * [Taking toll](#taking-toll)
     * [Lists of items](#lists-of-items)
   * [Lenses](#lenses)
     * [Lenses 101](#lenses-101)
-    * [Combining Atoms and Lenses](#combining-atoms-and-lenses)
+    * [Combining atoms and lenses](#combining-atoms-and-lenses)
     * [Editable lists](#editable-lists)
 * [The architecture](#the-architecture)
   * [`Model :: JSON`](#model--json "Model is just simple data.")
@@ -57,9 +57,12 @@ VDOM has changed.
   * [`LensedAtom :: AbstractMutable w -> PLens w p -> LensedAtom p`](#lensedatom--abstractmutable-w---plens-w-p---lensedatom-p "The w and p type variables stand for whole and part.")
   * [`Control :: [Observable p | AbstractMutable m | d]* -> VDOM`](#control--observable-p--abstractmutable-m--d---vdom "Controls take observable state, mutable state and constant data as arguments.")
 * [Advanced topics](#advanced-topics)
-  * [Understanding Components and Composition](#understanding-components-and-composition)
-    * [Definitions](#definitions)
-    * [Connecting Components with Reactive Variables](#connecting-components-with-reactive-variables)
+  * [Definitions](#definitions)
+  * [Understanding composition](#understanding-composition)
+    * [Connecting components with reactive variables](#connecting-components-with-reactive-variables)
+  * [Split vs atomic state](#split-vs-atomic-state)
+    * [Transactions with split state](#split-vs-atomic-state)
+    * [Recomposing atoms as molecules](#split-vs-atomic-state)
 * [Related work](#related-work)
 * [Going further](#going-further)
 
@@ -602,7 +605,7 @@ observable combinators.  However, avoiding boilerplate isn't the only reason to
 use `K`.  As we will see shortly, it also helps to keep things easier to
 understand.
 
-### Embedding Observables into VDOM
+### Embedding observables into VDOM
 
 What we ultimately want is to keep the views of our UI consistent with their
 state and to do that we need to create VDOM that contains values obtained from
@@ -1024,7 +1027,7 @@ elements given a static path.  See the documentation of the
 [`partial.lenses`](https://github.com/calmm-js/partial.lenses) library for
 details.
 
-#### Combining Atoms and Lenses
+#### Combining atoms and lenses
 
 Where things get really interesting is that Atoms support lenses.  Recall the
 list of names:
@@ -1204,23 +1207,7 @@ perform side-effects.
 
 ## Advanced topics
 
-### Understanding Components and Composition
-
-The way components are expressed using only
-
-* reactive properties,
-* reactive variables, and
-* functions returning VDOM
-
-and then composed as VDOM expressions in Calmm may seem limiting.
-
-> Don't we need some more exposed scaffolding or wiring to make it possible to
-> create composition of components with input-output relationships?
-
-The answer seems to be that it is enough for components to expose their inputs
-and outputs as parameters.  Let's examine what this means.
-
-#### Definitions
+### Definitions
 
 A *component* is a *function* that returns React *VDOM*.
 
@@ -1268,7 +1255,23 @@ structure of component instantiations with their parameters.
 <div>I am not a <em>component</em>! I'm a free <strong>composition</strong>!</div>
 ```
 
-#### Connecting Components with Reactive Variables
+### Understanding composition
+
+The way components are expressed using only
+
+* reactive properties,
+* reactive variables, and
+* functions returning VDOM
+
+and then composed as VDOM expressions in Calmm may seem limiting.
+
+> Don't we need some more exposed scaffolding or wiring to make it possible to
+> create composition of components with input-output relationships?
+
+The answer seems to be that it is enough for components to expose their inputs
+and outputs as parameters.  Let's examine what this means.
+
+#### Connecting components with reactive variables
 
 The simplest case of creating a component that is the composition of two or more
 components is when nothing is shared by the composed components:
@@ -1330,6 +1333,38 @@ Note that reactive variables used for wiring components do not need to be
 concrete atoms.  It is perfectly possible to connect components together using
 lensed atoms and make it so that the entire state of the application is
 ultimately stored in just a single atom.
+
+### Split vs atomic state
+
+In the basic Calmm architecture, the [model](#model--json) or state is supposed
+to be represented by a single JSON object transmitted to the component via a
+single [atom](#atom--atom-m--abstract-mutable-m).  This is, in many ways, an
+ideal situation, that can often be achieved with relative ease, and is basically
+the recommended approach to designing components.  Sometimes, however, it might
+be more convenient to split state into multiple atoms or it might be more
+convenient to design components that access state via multiple separate atoms.
+
+#### Transactions with split state
+
+In a lot of cases dividing state into multiple atoms poses no problems, because
+the division of state happens to match the desired state transitions.
+Sometimes, however, it becomes necessary to perform state transitions that
+require manipulating multiple atoms.  Usually, in such a case, the transition
+should ideally be atomic so that, for example, side-effects such as HTTP
+requests performed in response to state changes would only be performed once.
+For those cases, the `kefir.atom` library provides
+the [`holding`](https://github.com/calmm-js/kefir.atom#holding) operation, which
+can be used to perform multiple state changes without intermediate event
+propagation.
+
+#### Recomposing atoms as Molecules
+
+What if we want to reuse a component that expects state as a single object
+stored in a single atom, but the application state has actually been divided
+into multiple objects stored in multiple atoms?  For those situations, the
+`kefir.atom` library provides for a way to compose, with limitations, multiple
+separate atoms into a
+single [`Molecule`](https://github.com/calmm-js/kefir.atom#class-Molecule).
 
 ## Related work
 
