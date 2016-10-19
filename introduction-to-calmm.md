@@ -56,9 +56,10 @@ VDOM has changed.
   * [`Atom :: Atom m :> AbstractMutable m`](#atom--atom-m--abstractmutable-m "The m type variable stands for model.")
   * [`LensedAtom :: AbstractMutable w -> PLens w p -> LensedAtom p`](#lensedatom--abstractmutable-w---plens-w-p---lensedatom-p "The w and p type variables stand for whole and part.")
   * [`Control :: [Observable p | AbstractMutable m | d]* -> VDOM`](#control--observable-p--abstractmutable-m--d---vdom "Controls take observable state, mutable state and constant data as arguments.")
-* [Understanding Components and Composition](#understanding-components-and-composition)
-  * [Definitions](#definitions)
-  * [Connecting Components with Reactive Variables](#connecting-components-with-reactive-variables)
+* [Advanced topics](#advanced-topics)
+  * [Understanding Components and Composition](#understanding-components-and-composition)
+    * [Definitions](#definitions)
+    * [Connecting Components with Reactive Variables](#connecting-components-with-reactive-variables)
 * [Related work](#related-work)
 * [Going further](#going-further)
 
@@ -1201,7 +1202,9 @@ being able to compose VDOM and components liberally.  However, once a control is
 mounted, the function is invoked and the control as a whole is allowed to
 perform side-effects.
 
-## Understanding Components and Composition
+## Advanced topics
+
+### Understanding Components and Composition
 
 The way components are expressed using only
 
@@ -1213,7 +1216,7 @@ and then composed as VDOM expressions in Calmm may seem limiting.  Don't we need
 some more exposed scaffolding or wiring to make it possible to create
 composition of components with input-output relationships?
 
-### Definitions
+#### Definitions
 
 A *component* is a *function* that returns React *VDOM*.
 
@@ -1261,7 +1264,7 @@ structure of component instantiations with their parameters.
 <div>I am not a <em>component</em>! I'm a free <strong>composition</strong>!</div>
 ```
 
-### Connecting Components with Reactive Variables
+#### Connecting Components with Reactive Variables
 
 The simplest case of creating a component that is the composition of two or more
 components is when nothing is shared by the composed components:
