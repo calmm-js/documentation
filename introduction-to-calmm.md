@@ -37,7 +37,7 @@ VDOM has changed.
 
 * [Imagine...](#imagine)
 * [Goals](#goals)
-* [The ingredients](#the-ingredients)
+* [The basic ingredients](#the-basic-ingredients)
   * [Atoms](#atoms)
   * [Dependent computations](#dependent-computations)
     * [Observables](#observables)
@@ -188,7 +188,7 @@ everything.  The selective composition of those parts, while perhaps difficult
 to understand at first, is what gives the ability to solve a variety of problems
 in UI programming.
 
-## The ingredients
+## The basic ingredients
 
 The basic ingredients of the Calmm approach can be summarized, in order of
 importance, as follows:
