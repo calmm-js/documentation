@@ -678,23 +678,21 @@ const Converter = ({value = Atom("0")}) =>
   </p>
 ```
 
-Using the
-[`bind`](https://github.com/calmm-js/karet.util#bind-attribute-template)
-helper from `karet.util`
+Using the `bind` helper from `karet.util`
 
 ```jsx
-import {bind} from "karet.util"
+import * as U from "karet.util"
 ```
 
 we can shorten the `Converter` further:
 
 ```jsx
 const Converter = ({value = Atom("0")}) =>
-  <p><input {...bind({value})}/>°C is {K(value, c => c * 9/5 + 32)}°F</p>
+  <p><input {...U.bind({value})}/>°C is {K(value, c => c * 9/5 + 32)}°F</p>
 ```
 
-This latter version using `bind` evaluates to the exact same functionality as
-the previous version that uses `onChange`.  `bind({x})` is equivalent to `{x,
+This latter version using `U.bind` evaluates to the exact same functionality as
+the previous version that uses `onChange`.  `U.bind({x})` is equivalent to `{x,
 onChange: e => x.set(e.target.x)}`.
 
 #### Dispelling the Magic
@@ -853,13 +851,11 @@ it is not much of a problem, but with more complex components per item, it might
 lead to unacceptable performance.
 
 Fortunately this is not difficult to fix.  We just cache the VDOM between
-changes.  [`karet.util`](https://github.com/calmm-js/karet.util) provides
-the
-[`fromIds`](https://github.com/calmm-js/karet.util#incremental-arrays-fromids)
-observable combinator for this purpose:
+changes.  [`karet.util`](https://github.com/calmm-js/karet.util) provides the
+`mapCached` observable combinator for this purpose:
 
 ```jsx
-import {fromIds} from "karet.util"
+import * as U from "karet.util"
 ```
 
 Using it we can rewrite the `ListOfNames` component:
@@ -867,31 +863,27 @@ Using it we can rewrite the `ListOfNames` component:
 ```jsx
 const ListOfNames = ({names}) =>
   <ul>
-    {fromIds(names, name =>
-       <li key={name}>{name}</li>)}
+    {U.mapCached(name => <li key={name}>{name}</li>, names)}
   </ul>
 ```
 
-The documentation of
-[`fromIds`](https://github.com/calmm-js/karet.util#incremental-arrays-fromids)
-gives more details, but this version of `ListOfNames` works efficiently in the
-sense that, when names in the list change, VDOM is computed only for new names
-with respect to the previously displayed list of names.  What makes that
-possible is that the expression
+This version of `ListOfNames` works efficiently in the sense that, when names in
+the list change, VDOM is computed only for new names with respect to the
+previously displayed list of names.  What makes that possible is that the
+expression
 
 ```jsx
-                    name =>
-       <li key={name}>{name}</li>
+               name => <li key={name}>{name}</li>
 ```
 
-specifies a referentially transparent function, which allows us to use `fromIds`
-to cache the results.
+specifies a referentially transparent function, which allows us to use
+`U.mapCached` to cache the results.
 
 Our Kefir and Calmm based [TodoMVC](https://github.com/calmm-js/karet-todomvc)
-also just uses `fromIds` and seems to be one of the fastest and one of the most
-concise TodoMVC implementations around.  To test the performance of that TodoMVC
-implementation, you can run the following script in your browser's console to
-populate the storage with 2000 todo items:
+also just uses `U.mapCached` and seems to be one of the fastest and one of the
+most concise TodoMVC implementations around.  To test the performance of that
+TodoMVC implementation, you can run the following script in your browser's
+console to populate the storage with 2000 todo items:
 
 ```jsx
 var store = []
@@ -913,7 +905,7 @@ using [`karet`](https://github.com/calmm-js/karet) and assuming that the `value`
 property will be an Atom:
 
 ```jsx
-const TextInput = ({value}) => <input {...bind({value})}/>
+const TextInput = ({value}) => <input {...U.bind({value})}/>
 ```
 
 If we now create an atom
@@ -1109,19 +1101,15 @@ Let's then proceed to make an editable list of names.  Here is one way to do it:
 ```jsx
 const ListOfNames = ({names}) =>
   <ul>
-    {fromIds(K(names, R.pipe(R.length, R.range(0))), i =>
-       <li key={i}><TextInput value={names.view(i)}/></li>)}
+    {U.mapCached(i => <li key={i}><TextInput value={names.view(i)}/></li>,
+                 U.indices(names))}
   </ul>
 ```
 
 Aside from putting the `TextInput` in place, we changed the way elements are
-identified for `fromIds`.  In this case we identity them by their index.  The
-expression `R.pipe(R.length, R.range(0))` simply uses the functions
-[`pipe`](http://ramdajs.com/0.19.0/docs/#pipe),
-[`length`](http://ramdajs.com/0.19.0/docs/#length) and
-[`range`](http://ramdajs.com/0.19.0/docs/#range) from Ramda to create a function
-that maps a list `[x0, ..., xN]` to a list of indices `[0, ..., N]`.  Those
-indices are then used as the ids.
+identified for `U.mapCached`.  In this case we identity them by their index.
+The function `U.indices` from `karet.util` maps a list `[x0, ..., xN]` to a list
+of indices `[0, ..., N]`.  Those indices are then used as the ids.
 
 ## The architecture
 
