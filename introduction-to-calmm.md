@@ -948,7 +948,7 @@ Let's see how lenses work in practice.  First we import the
 [`partial.lenses`](https://github.com/calmm-js/partial.lenses) library:
 
 ```jsx
-import P, * as L from "partial.lenses"
+import * as L from "partial.lenses"
 ```
 
 Now, consider the following JSON:
@@ -972,9 +972,9 @@ to identify the object
 {"id": 101, "level": "Novice"}
 ```
 
-within `db`.  We can confirm this by using
-[`L.get`](https://github.com/calmm-js/partial.lenses#get) to view through the
-lens:
+within `db`.  We can confirm this by
+using [`L.get`](https://github.com/calmm-js/partial.lenses#L-get) to view
+through the lens:
 
 ```jsx
 L.get(L.compose(L.prop("classes"),
@@ -999,24 +999,24 @@ L.set(L.compose(L.prop("classes"),
 //     { id: 303, level: 'Advanced' } ] }
 ```
 
-The [`L.set`](https://github.com/calmm-js/partial.lenses#set) function on lenses
-is a referentially transparent function that does not mutate the target
+The [`L.set`](https://github.com/calmm-js/partial.lenses#L-set) function on
+lenses is a referentially transparent function that does not mutate the target
 value&mdash;it merely creates a new value with the specified changes.
 
 Like with observables, we use lenses a lot, which means that there is value in
 keeping lens definitions concise.  For this purpose we abbreviate
-* [`L.prop(string)`](https://github.com/calmm-js/partial.lenses#prop) as
+* [`L.prop(string)`](https://github.com/calmm-js/partial.lenses#L-prop) as
   `string`,
-* [`L.index(integer)`](https://github.com/calmm-js/partial.lenses#index) as
+* [`L.index(integer)`](https://github.com/calmm-js/partial.lenses#L-index) as
   `integer`, and
-* [`L.compose(...ls)`](https://github.com/calmm-js/partial.lenses#compose) as
-  `P(...ls)`.
+* [`L.compose(...ls)`](https://github.com/calmm-js/partial.lenses#L-compose) as
+  `[...ls]`.
 
 Using the abbreviations, the `set` expression from the previous example can be
 rewritten as:
 
 ```jsx
-L.set(P("classes", 0, "level"),
+L.set(["classes", 0, "level"],
       "Introduction",
       db)
 ```
@@ -1037,11 +1037,11 @@ const names = Atom(["Markus", "Matti"])
 ```
 
 To create a **LensedAtom**, that uses lenses to decompose state, we just call
-the [`lens`](https://github.com/calmm-js/kefir.atom#atomlensls) method with the
+the [`view`](https://github.com/calmm-js/kefir.atom#view) method with the
 desired lens:
 
 ```jsx
-const firstOfNames = names.lens(L.index(0))
+const firstOfNames = names.view(L.index(0))
 ```
 
 Let's take a look at what is going on by using the `log` method:
@@ -1077,25 +1077,26 @@ other kinds of observables, you can write loops.  In our experience this does
 not seem to happen too easily.
 
 Aside from acyclicity, there are a couple of important properties that we should
-mention.  First of all, the `lens` method of atoms and lensed atoms does not
+mention.  First of all, the `view` method of atoms and lensed atoms does not
 create *new* mutable state, it merely creates a reference to existing state,
 namely to the state, represented as an immutable data structure, being referred
-to by the root atom.  This means that we can regard the `lens` method as a
+to by the root atom.  This means that we can regard the `view` method as a
 referentially transparent function.  For example, in
 
 ```jsx
-const b1 = a.lens(a_to_b)
-const b2 = a.lens(a_to_b)
+const b1 = a.view(a_to_b)
+const b2 = a.view(a_to_b)
 ```
 
 we can regard `b1` and `b2` as equivalent.  The other important property is that
-from the
-[compositionality of lenses](https://github.com/calmm-js/partial.lenses#compose)
-and the way lensed atoms are defined, we can derive the equation
+from
+the
+[compositionality of lenses](https://github.com/calmm-js/partial.lenses#L-compose) and
+the way lensed atoms are defined, we can derive the equation
 
 ```jsx
-a.lens(a_to_b).lens(b_to_c) = a.lens(L.compose(a_to_b, b_to_c))
-                            = a.lens(a_to_b, b_to_c)
+a.view(a_to_b).view(b_to_c) = a.view(L.compose(a_to_b, b_to_c))
+                            = a.view(a_to_b, b_to_c)
 ```
 
 for composable lenses `a_to_b` and `b_to_c` and abstract mutable `a`.  This just
@@ -1109,7 +1110,7 @@ Let's then proceed to make an editable list of names.  Here is one way to do it:
 const ListOfNames = ({names}) =>
   <ul>
     {fromIds(K(names, R.pipe(R.length, R.range(0))), i =>
-       <li key={i}><TextInput value={names.lens(i)}/></li>)}
+       <li key={i}><TextInput value={names.view(i)}/></li>)}
   </ul>
 ```
 
