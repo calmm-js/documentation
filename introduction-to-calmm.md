@@ -873,7 +873,7 @@ previously displayed list of names.  What makes that possible is that the
 expression
 
 ```jsx
-               name => <li key={name}>{name}</li>
+                 name => <li key={name}>{name}</li>
 ```
 
 specifies a referentially transparent function, which allows us to use
