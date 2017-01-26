@@ -1088,7 +1088,7 @@ the way lensed atoms are defined, we can derive the equation
 
 ```jsx
 a.view(a_to_b).view(b_to_c) = a.view(L.compose(a_to_b, b_to_c))
-                            = a.view(a_to_b, b_to_c)
+                            = a.view([a_to_b, b_to_c])
 ```
 
 for composable lenses `a_to_b` and `b_to_c` and abstract mutable `a`.  This just
