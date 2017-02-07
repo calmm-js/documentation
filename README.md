@@ -10,3 +10,4 @@ Links to mostly finished documents:
 You may also find the following slides useful:
 
 * [Bacon/Kefir+React+Atom+Lenses: for concise, reactive UI](https://calmm-js.github.io/documentation/training/)
+* [Compositional data manipulation using lenses](https://calmm-js.github.io/documentation/compositional-data-manipulation-using-lenses/)
