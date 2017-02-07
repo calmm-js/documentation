@@ -9,4 +9,4 @@ Links to mostly finished documents:
 
 You may also find the following slides useful:
 
-* [Bacon/Kefir+React+Atom+Lenses: for concise, reactive UI](http://calmm-js.github.io/documentation/training/)
+* [Bacon/Kefir+React+Atom+Lenses: for concise, reactive UI](https://calmm-js.github.io/documentation/training/)
