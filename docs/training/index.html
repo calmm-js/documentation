@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Bacon/Kefir+React+Atom+Lenses for Concise, Reactive UI</title>
+
+    <meta name="description" content="Bacon/Kefir+React+Atom+Lenses for Concise, Reactive UI">
+    <meta name="author" content="Vesa Karvonen">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="app/app.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+	<script src="lib/js/html5shiv.js"></script>
+	<![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <section>
+	  <section>
+	    <h1>Bacon/Kefir+React+Atom+Lenses</h1>
+	    <h3>For Concise, Reactive UI</h3>
+            <small>Vesa Karvonen</small>
+	  </section>
+
+          <section>
+            <h2>Background</h2>
+            <ul>
+              <li>Feenix / OVP UI</li>
+              <ul>
+                <li>CMS, Packaging, Live streams, ...</li>
+              </ul>
+              <li class="fragment">Constraints
+              <ul>
+                <li>JavaScript + React</li>
+                <li>Had a meeting and was suggested</li>
+                <ul>
+                  <li>Redux, FFUX</li>
+                  <li class="fragment">But was given free hands! \o/</li>
+                </ul>
+              </ul>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>History</h2>
+            <p class="fragment">Got empty project from Matti Lankinen.</p>
+            <p class="fragment">Matti had just noticed perf problems with megablob.</p>
+            <p class="fragment">I had just used <a href="https://reagent-project.github.io/">Reagent</a> in production.</p>
+            <p class="fragment">Refactoring Matti's project (createStore) created Atom.</p>
+            <p class="fragment">And with Matti developed ways to embed <a href="https://github.com/baconjs/bacon.js/">Bacon</a> into JSX.</p>
+            <p class="fragment">Later started using <a href="https://github.com/baconjs/bacon.model">Bacon Model</a> and, thanks to it, lenses.</p>
+            <p class="fragment">Realized Bacon Model creates cycles =&gt; <a href="https://github.com/calmm-js/bacon.atom">Bacon Atom</a>.</p>
+            <p class="fragment">And then developed <a href="https://github.com/calmm-js/partial.lenses">Partial Lenses</a> library.</p>
+          </section>
+
+          <section>
+            <h2>Desire</h2>
+            <p class="fragment">Avoid boilerplate and glue</p>
+            <p class="fragment">Avoid all-or-nothing / lock-in</p>
+            <p class="fragment">Prefer declarative</p>
+            <p class="fragment">Avoid unnecessary encoding</p>
+            <p class="fragment">Structural programming</p>
+            <p class="fragment">Components plug-and-play</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <image src="../image/days.png">
+            <small>(Stole the image from a tweet.)</small>
+          </section>
+
+          <section>
+            <h2>Fortunately</h2>
+            <p class="fragment">There is actually <em>nothing</em> new here.</p>
+            <p class="fragment">We are just <em>combining</em> a few old things.</p>
+          </section>
+        </section>
+
+        <section>
+	  <section>
+	    <h2>What is difficult in UI Programming?</h2>
+	    <p class="fragment">Maintaining consistent state in the face of async
+	      inputs.</p>
+	  </section>
+
+	  <section>
+	    <h2>Our Approach</h2>
+            <p class="fragment"><em>In order of importance:</em></p>
+            <ol>
+              <li class="fragment">Specify dependent computations as <em>observables</em>.</li>
+              <li class="fragment"><em>Embed</em> observables directly into JSX.</li>
+              <li class="fragment">Store state in mutable observable <em>atoms</em>.</li>
+              <li class="fragment">Use <em>lenses</em> to selectively transmit state via atoms.</li>
+            </ol>
+            <p class="fragment"><em>All optional!</em></p>
+            <p class="fragment">And can mix with other React components.</p>
+	  </section>
+
+          <section>
+            <h2>Not Cool, but Calmm</h2>
+            <image style="background: white; width:40%; height:40%;" src="../image/CALMM.svg">
+
+            <p>Model is just JSON.  Meta contains operations on JSON.<p/>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Examples</h2>
+          </section>
+
+          <section>
+            <h2>Libraries</h2>
+            <pre><code data-trim class="js">
+import Atom                                  from "kefir.atom"
+import K,{bind, classes, fromIds, fromKefir} from "kefir.react.html"
+import Kefir                                 from "kefir"
+            </code></pre>
+            <p>or</p>
+            <pre><code data-trim class="js">
+import Atom                                  from "bacon.atom"
+import B,{bind, classes, fromIds, fromBacon} from "bacon.react.html"
+import Bacon                                 from "baconjs"
+            </code></pre>
+            <p>and</p>
+            <pre><code data-trim class="js">
+import L from "partial.lenses"
+import R from "ramda"
+            </code></pre>
+          </section>
+
+          <section>
+            <pre style="display: inline"><code style="display: inline" data-trim class="jsx">
+&lt;Clock/&gt;
+            </code></pre>
+            <div style="margin-top: 1rem" id="sample-clock"></div>
+            <pre><code data-trim class="jsx">
+const Clock = () =&gt; &lt;K.div&gt;
+    {K(oncePerSec, () =&gt; new Date().toString())}
+  &lt;/K.div&gt;
+
+const oncePerSec = Kefir.constant().merge(Kefir.interval(1000))
+            </code></pre>
+          </section>
+
+          <section>
+            <pre style="display: inline"><code style="display: inline" data-trim class="jsx">
+&lt;InputAdd/&gt;
+            </code></pre>
+            <div style="margin-top: 1rem" id="sample-input-add"></div>
+          </section>
+
+          <section>
+            <pre><code data-trim class="jsx">
+const InputAdd = ({elems = Atom([]), entry = Atom("")}) =&gt; &lt;div&gt;
+    &lt;div&gt;
+      &lt;K.input type="text" {...bind({value: entry})}/&gt;
+      &lt;button onClick={() =&gt; {const elem = entry.get().trim()
+                              if (elem) {
+                                elems.modify(R.append(elem))
+                                entry.set("")}}}&gt;Add&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;K.ul&gt;
+      {K(elems, es =&gt; es.map((e, i) =&gt; &lt;li key={i}&gt;{e}&lt;/li&gt;))}
+    &lt;/K.ul&gt;
+  &lt;/div&gt;
+            </code></pre>
+          </section>
+
+          <section>
+            <pre style="display: inline"><code style="display: inline" data-trim class="jsx">
+&lt;BMI/&gt;
+            </code></pre>
+            <div style="margin-top: 1rem" id="sample-bmi"></div>
+          </section>
+
+          <section>
+            <image style="background: white; width:75%; height:75%;" src="../image/BMI.svg">
+          </section>
+
+          <section>
+            <pre style="font-size: 1.2rem"><code data-trim class="jsx">
+const BMI = ({bmi = Atom(M.mock)}) =&gt;
+  &lt;Augmented bmi={bmi.lens(M.BMI.augment)}/&gt;
+
+const Augmented = ({bmi}) =&gt;
+  &lt;K.div {...classes("bmi", K(bmi, M.BMI.classification))}&gt;
+    &lt;Slider title="Weight" units="kg" min={40}  max={140}
+            value={bmi.lens(M.BMI.weight)}/&gt;
+    &lt;Slider title="Height" units="cm" min={140} max={210}
+            value={bmi.lens(M.BMI.height)}/&gt;
+    &lt;div&gt;BMI: &lt;K.span className="bmi-value"&gt;
+      {K(bmi, M.BMI.bmi)}&lt;/K.span&gt;&lt;/div&gt;
+  &lt;/K.div&gt;
+
+const Slider = ({title, units, value, ...props}) =&gt; &lt;div&gt;
+    &lt;K.div&gt;{title}: {value}{units}&lt;/K.div&gt;
+    &lt;K.input type="range" {...bind({value})} {...props}/&gt;
+  &lt;/div&gt;
+            </code></pre>
+          </section>
+
+          <section>
+            <pre><code data-trim class="js">
+export const BMI = {
+  augment: L.augment({
+    bmi: ({height, weight}) =&gt;
+      Math.round(weight/(height * height * 0.0001))}),
+  bmi: R.prop("bmi"),
+  height: "height",
+  weight: "weight",
+  classification: ({bmi}) =&gt;
+      bmi < 15   ? "bmi-underweight bmi-underweight-severely"
+    : bmi < 18.5 ? "bmi-underweight"
+    : bmi < 25   ? "bmi-normal"
+    : bmi < 30   ? "bmi-overweight"
+    : bmi < 35   ? "bmi-obese"
+    : bmi < 40   ? "bmi-obese bmi-obese-severely"
+    :              "bmi-obese bmi-obese-very"
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <pre style="display: inline"><code style="display: inline" data-trim class="jsx">
+&lt;Phonebook/&gt;
+            </code></pre>
+            <div id="sample-phonebook"></div>
+          </section>
+
+          <section>
+            <image style="background: white; width:75%; height:75%;" src="../image/Phonebook.svg">
+          </section>
+
+          <section>
+            <pre style="font-size: 1.2rem"><code data-trim class="jsx">
+const Phonebook = ({phonebook: pb = Atom(M.mock)}) =&gt; &lt;div&gt;
+    &lt;button onClick={() =&gt; pb.modify(M.Phonebook.addContact())}&gt;
+      New&lt;/button&gt;
+    &lt;Contacts contacts={pb.lens(M.Phonebook.contacts)}/&gt;
+  &lt;/div&gt;
+
+const Contacts = ({contacts}) =&gt; &lt;K.div&gt;
+    {fromIds(K(contacts, M.Contacts.indices), i =&gt;
+     &lt;Contact key={i} contact={contacts.lens(i)}/&gt;)}
+  &lt;/K.div&gt;
+
+const Contact = ({contact}) =&gt; &lt;div&gt;
+    &lt;TextInput value={contact.lens(M.Contact.name)}/&gt;
+    &lt;TextInput value={contact.lens(M.Contact.number)}/&gt;
+    &lt;button onClick={() =&gt; contact.modify(M.Contact.remove)}&gt;
+      Remove&lt;/button&gt;
+  &lt;/div&gt;
+            </code></pre>
+          </section>
+
+          <section>
+            <pre><code data-trim class="jsx">
+const TextInput = ({value = Atom("")}) =&gt; {
+  const editing = Atom(false)
+  const exit = () =&gt; editing.set(false)
+  const save = e =&gt; {value.set(e.target.value); exit(e)}
+  return fromKefir(K(editing, e =&gt; e
+    ? &lt;K.input key="1" type="text" autoFocus
+               defaultValue={value}
+               onFocus={({target: t}) =&gt;
+                          t.selectionStart = t.value.length}
+               onKeyDown={({key}) =&gt key === "Enter"  && save(e)
+                                  || key === "Escape" && exit(e)}
+               onBlur={save}/&gt;
+    : &lt;K.input key="0" type="text" disabled
+               {...{value}}
+               onDoubleClick={() =&gt; editing.set(true)}/>))
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <pre><code data-trim class="js">
+export const mock =
+  [{name: "Mr Digits", number: "1-23-456789"}]
+export const Contact = {
+  create: ({name = "", number = ""} = {}) =&gt; ({name, number}),
+  remove: () =&gt; {},
+  id: "id",
+  name: "name",
+  number: "number"
+}
+export const Contacts = {
+  indices: R.pipe(R.length, R.range(0))
+}
+export const Phonebook = {
+  contacts: L.define([]),
+  addContact: R.pipe(Contact.create, R.append)
+}
+            </code></pre>
+          </section>
+
+          <script type="text/javascript" src="app/app.js"></script>
+          <script type="text/javascript">
+            const Atom     = require("kefir-atom").default
+            const K        = require("kefir-react-html").default
+            const L        = require("partial.lenses").default
+            const Kefir    = require("kefir")
+            const R        = require("ramda")
+            const React    = require("react")
+            const ReactDOM = require("react-dom")
+          </script>
+
+        </section>
+
+	<section>
+          <section>
+	    <h2>Atoms</h2>
+          </section>
+
+          <section>
+            <h2>Create new</h2>
+            <pre><code class="js">Atom(vInitial)</code></pre>
+            <p class="fragment">For example:
+              <pre class="fragment"><code class="js">const counter = Atom(0)</code></pre>
+            </p>
+          </section>
+
+          <section>
+	    <h2>Inspect</h2>
+            <pre><code class="js">atom.get()</code></pre>
+            <p class="fragment">For example:
+              <pre class="fragment"><code class="js">counter.get() === 0</code></pre>
+            </p>
+          </section>
+
+          <section>
+	    <h2>Mutate</h2>
+	    <pre><code class="hljs">atom.modify(vOld =&gt; vNew)</code></pre>
+            <p class="fragment">For example:
+              <pre class="fragment"><code class="js">counter.modify(c =&gt; c + 1)</code></pre>
+            </p>
+            <p class="fragment">Now:
+              <pre class="fragment"><code class="js">counter.get() === 1</code></pre>
+            </p>
+            <p class="fragment">Also for convenience:
+              <pre class="fragment"><code class="js">atom.set(vNew) === atom.modify(() =&gt; vNew)</code></pre>
+            </p>
+          </section>
+
+          <section>
+            <h2>Atoms are <em>first class objects</em></h2>
+            <p class="fragment">
+              Can store in data structures, pass to and return from functions.
+            </p>
+            <p class="fragment">
+              Want multiple things to always share the same value?
+            </p>
+            <p class="fragment">
+              Put the value in an Atom and share it.
+            </p>
+          </section>
+
+          <section>
+            <h2>Atoms are <em>observable</em></h2>
+            <small>(Technically Atoms are <em>Properties</em>, a subclass of Observables.)</small>
+            <p class="fragment">
+              Avoid <code>get</code>.
+            </p>
+            <p class="fragment">
+              Use "FRP" combinators to express <em>dependent computations</em>.
+            </p>
+          </section>
+	</section>
+
+        <section>
+	  <section>
+	    <h2>Dependent Computations</h2>
+	  </section>
+
+	  <section>
+            <h2>Concepts</h2>
+            <image style="background: white; width:50%; height:50%;" src="../image/Observables.svg" />
+	  </section>
+
+          <section>
+            <h2>Observables</h2>
+            <p class="fragment">Stream</p>
+            <pre class="fragment"><code class="asciidoc">A B CD       E F             G      HIJ K L   M  N   O  P     QR   S</code></pre>
+            <small class="fragment">e.g. key down events, mouse clicks, ...</small>
+            <small class="fragment">filter, skip, merge, <em>combine</em>, <em>scan</em>, <em>toProperty</em>, ...</small>
+            <p class="fragment">Property</p>
+            <pre class="fragment"><code class="asciidoc">AABBCDDDDDDDDEEFFFFFFFFFFFFFFGGGGGGGHIJJKKLKKKMMMNNNNOOOPPPPPPQRRRRS</code></pre>
+            <small class="fragment">e.g. text accumulated, position of pointer, ...</small>
+            <small class="fragment">combine, <em>sample</em>, <em>changes</em>, <em>toEventStream</em>, ...</small>
+            <p class="fragment">Both are used.  We are mostly concerned with properties.</p>
+          </section>
+
+          <section>
+            <h2>Combining Properties</h2>
+            <pre><code data-trim class="jsx">
+Bacon.combineWith(p1, ..., pN, (v1, ..., vN) =&gt; result)
+Kefir.combine(p1, ..., pN, (v1, ..., vN) =&gt; result)
+            </code></pre>
+            <p class="fragment">We abbreviate:
+            <pre class="fragment"><code data-trim class="jsx">
+B(p1, ..., pN, (v1, ..., vN) =&gt; result)
+K(p1, ..., pN, (v1, ..., vN) =&gt; result)
+            </code></pre></p>
+            <p class="fragment">For example:
+            <pre class="fragment"><code data-trim class="jsx">
+const input = Atom("This is an example.")
+const words = K(input, R.split(" "))
+const numWords = K(words, R.length)
+const unique = K(words, R.uniqBy(R.toUpper))
+const numUnique = K(unique, R.length)
+            </code></pre></p>
+            <script>
+const input = Atom("This is an example.")
+const words = K(input, R.split(" "))
+const numWords = K(words, R.length)
+const unique = K(words, R.uniqBy(R.toUpper))
+const numUnique = K(unique, R.length)
+            </script>
+          </section>
+
+          <section>
+            <h2>What do we gain?</h2>
+            <p>Properties being observed are kept in sync.</p>
+            <p>We just decide which properties to observe.</p>
+          </section>
+
+          <section>
+            <h2>Encoding mutation via streams...</h2>
+            <pre><code data-trim class="js">
+const counter = increment.map(() =&gt; +1)
+         .merge(decrement.map(() =&gt; -1))
+         .scan(0, (sum, delta) =&gt; sum + delta)
+            </code></pre>
+            <p>...became fashionable when reactive became popular.</p>
+            <p class="fragment">What do you gain by that?</p>
+            <p class="fragment">Typically not a thing.</p>
+            <a class="fragment" href="https://en.wikipedia.org/wiki/Cargo_cult_programming">Cargo cult programming</a>
+            <p class="fragment">Don't use streams to encode simple <em>synchronous</em> properties.</p>
+          </section>
+
+          <section>
+            <h2>Use streams to deal with...</h2>
+            <pre><code data-trim class="js">
+const delayedCounter =
+         increment.map(() =&gt; +1)
+  .merge(decrement.map(() =&gt; -1).delay(100))
+  .scan(0, (sum, delta) =&gt; sum + delta)
+            </code></pre>
+            <p>...<em>asynchronous</em> processes when you actually <em>need</em> them.</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Embedding Observables into JSX</h2>
+          </section>
+
+          <section>
+            <h2>What happens?</h2>
+            <pre><code data-trim class="jsx">
+const greetingsTarget = Atom("world")
+...
+&lt;div&gt;Hello, {greetingsTarget}!&lt;/div&gt;
+            </code></pre>
+            <p class="fragment">It crashes.  React cannot render observables.</p>
+          </section>
+
+          <section>
+            <h2>Lifted elements</h2>
+            <pre><code data-trim class="jsx">
+const greetingsTarget = Atom("world")
+...
+&lt;K.div&gt;Hello, {greetingsTarget}!&lt;/K.div&gt;
+            </code></pre>
+            <div id="hello-world">x</div>
+            <script>
+        const greetingsTarget = Atom("world")
+        ReactDOM.render(React.createElement(K.div, null, ["Hello, ", greetingsTarget, "!"]), document.getElementById("hello-world"))
+            </script>
+          </section>
+
+          <section>
+            <h2>Continued</h2>
+            <pre><code data-trim class="jsx">
+&lt;K.input type="text"
+         value={greetingsTarget}
+         onChange={e =&gt; greetingsTarget.set(e.target.value)}/&gt;
+            </code></pre>
+            <div id="hello-world-cont">x</div>
+            <script>
+        ReactDOM.render(React.createElement("div", null,
+                             [React.createElement(K.div, {key: "a"}, ["Hello, ", greetingsTarget, "!"]),
+                              React.createElement(K.input, {key: "b", type: "text", value: greetingsTarget, onChange: e => greetingsTarget.set(e.target.value)})]),
+                        document.getElementById("hello-world-cont"))
+            </script>
+          </section>
+
+          <section>
+            <h2>How?</h2>
+            <p>JSX, e.g.</p>
+            <pre><code data-trim class="jsx">
+&lt;div someProp="a value"&gt;&lt;p&gt;Child&lt;/p&gt;&lt;/div&gt;
+            </code></pre>
+            <p>evaluates into a tree of objects, roughly</p>
+            <pre><code data-trim class="js">
+{ "type": "div",
+  "props":
+   { "someProp": "a value",
+     "children":
+      { "type": "p",
+        "props": { "children": "Child" } } } }
+            </code></pre>
+            <p>and the props are passed to the React class.</p>
+          </section>
+
+          <section>
+            <h2>The class of a lifted element</h2>
+            <pre><code data-trim class="js">
+componentWillMount() {
+   ... subscribe ...
+}
+
+componentWillUnmount() {
+   ... dispose ...
+}
+
+render() {
+  return this.state.rendered
+}
+            </code></pre>
+            <p>Subscribe creates a stream to update <code>rendered</code> state.</p>
+          </section>
+
+          <section>
+            <h2>Performance?</h2>
+            <p>Everything can be made to work <a href="http://www.umut-acar.org/self-adjusting-computation">incrementally</a>.</p>
+            <p class="fragment">Mount and unmount take a little extra.</p>
+            <p class="fragment">But then you only recompute changed VDOM.</p>
+            <p class="fragment">Asymptotically better than recomputing all VDOM.</p>
+            <p class="fragment">Never write another React class or shouldComponentUpdate.</p>
+          </section>
+
+          <section>
+            <h2>Performance (continued)</h2>
+            <p>Properties and streams everywhere.</p>
+            <p class="fragment">Possibly thousands upon thousands.</p>
+            <p class="fragment"><a href="https://github.com/baconjs/bacon.js/">Bacon</a> is neither space nor time optimal. :(</p>
+            <p class="fragment"><a href="https://github.com/rpominov/kefir">Kefir</a> uses significantly less (~5x).</p>
+            <p class="fragment">With Kefir performance seems <em>very</em> competitive.</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Lenses</h2>
+          </section>
+
+          <section>
+            <h2>Lenses</h2>
+            <p>Let you declare a <em>path</em> to an element.</p>
+            <ul>
+              <li>That you can then use to
+                <ul>
+                  <li class="fragment"><em>view</em>, and</li>
+                  <li class="fragment"><em>update</em></li>
+                </ul>
+                the element.
+              </li>
+              <li class="fragment"><a href="https://github.com/calmm-js/partial.lenses">Partial lenses</a> also allow one to
+                <ul>
+                  <li class="fragment"><em>insert</em>, and</li>
+                  <li class="fragment"><em>delete</em></li>
+                </ul>
+                the element.
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Example</h2>
+            <p>Given:</p>
+            <pre><code data-trim class="js">
+const data = {items: [{id: "a", value: 20}, {id: "b", value: 10}]}
+            </code></pre>
+            <p class="fragment">We could write a parameterized lens to access values:</p>
+            <pre class="fragment"><code data-trim class="js">
+const valueOf = id =&gt; L("items",
+                        L.required([]),
+                        L.find(R.whereEq({id})),
+                        L.default({id}),
+                        "value")
+            </code></pre>
+            <p class="fragment">Let's take a moment to read each line above!</p>
+          </section>
+
+          <section>
+            <h2>Example (continued)</h2>
+            <p>We can now view values:</p>
+            <pre><code data-trim class="js">
+> L.get(valueOf("a"), data)
+20
+            </code></pre>
+            <p class="fragment">And we can set values:</p>
+            <pre class="fragment"><code data-trim class="js">
+> L.set(valueOf("a"), 15, data)
+{items: [{id: "a", value: 15}, {id: "b", value: 10}]}
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Example (continued)</h2>
+            <p>And we can delete values:</p>
+            <pre><code data-trim class="js">
+> L.delete(valueOf("a"), data)
+{items: [{id: "b", value: 10}]}
+            </code></pre>
+            <p class="fragment">And we can insert values:</p>
+            <pre class="fragment"><code data-trim class="js">
+> L.set(valueOf("c"), 15, data)
+{items: [{id: "a", value: 20},
+         {id: "b", value: 10},
+         {id: "c", value: 15}]}
+            </code></pre>
+            <p class="fragment">Including the <em>whole</em> item.</p>
+          </section>
+
+          <section>
+            <h2>Partial lenses...</h2>
+            <p>...allow one to, e.g.
+              <ul>
+                <li class="fragment">Define default and required values.</li>
+                <li class="fragment">Normalize data (e.g. sort items).</li>
+                <li class="fragment">Filter from a list.</li>
+                <li class="fragment">Augment data when viewed.</li>
+                <li class="fragment">Choose item to view conditionally.</li>
+                <li class="fragment">And more...</li>
+              </ul>
+            </p>
+            <p class="fragment">See <a href="https://github.com/calmm-js/partial.lenses">documentation</a> for more examples and details.</p>
+          </section>
+
+          <section>
+            <h2>Atom also supports lenses</h2>
+            <pre><code data-trim class="js">
+atom.lens(partial-lens)
+            </code></pre>
+            <p class="fragment">For example:
+              <pre class="fragment"><code data-trim class="js">
+const names = Atom(["first"])
+const first = names.lens(L.index(0))
+              </code></pre>
+            </p>
+            <p class="fragment">Now you can, e.g.
+              <pre class="fragment"><code data-trim class="js">
+first.set("Still first")
+              </code></pre>
+            </p>
+          </section>
+
+          <section>
+            <h2>Atoms + Lenses = Powertool</h2>
+            <p class="fragment">Allows your code to directly <em>follow the structure</em></p>
+            <ul>
+              <li class="fragment">of the produced HTML view, and</li>
+              <li class="fragment">of the underlying JSON model</li>
+            </ul>
+            <p class="fragment">to create a functioning, composable component.</p>
+          </section>
+
+          <section>
+            <h2>Structural Programming</h2>
+            <p>The JSON model structure is unique.</p>
+            <p>The HTML view structure is unique.</p>
+            <blockquote class="fragment">Write down the structure of the problem and you have a solution.</blockquote>
+            <p class="fragment">Does your UI framework make you invent new structure?</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Undo</h2>
+          </section>
+
+          <section>
+            <image style="background: white; width:75%; height:75%;" src="../image/Undo.svg">
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Best practises</h2>
+          </section>
+
+          <section>
+            <h2>Use Atoms for simple data-binding</h2>
+            <p class="fragment">Don't overuse Atoms: leads to imperative spaghetti.</p>
+            <p class="fragment">Setting the value of an atom in response to a change of an atom is a smell.</p>
+            <p class="fragment"><em>Remember:</em> You can use other kinds of wiring!</p>
+            <p class="fragment">But more complex wiring seems to be <em>rarely</em> needed.</p>
+          </section>
+
+          <section>
+            <h2>Clearly separate meta model</h2>
+            <p>Atoms and Observable embedding make it easy to have: component = 1 function.</p>
+            <p class="fragment">But you really dont want to clump everything together.</p>
+            <p class="fragment">Separate the model, meta-model, control.</p>
+            <p class="fragment">It makes code conceptually clearer.</p>
+            <p class="fragment">It makes the models more easily testable and usable.</p>
+          </section>
+
+          <section>
+            <h2>Don't overdo components</h2>
+            <p>It is easy to go overboard with components.</p>
+            <p class="fragment">Wrapping basic HTML elements, e.g. textarea or select, as components.</p>
+            <p class="fragment">You end up making them difficult to customize.</p>
+            <p class="fragment">Your components should do something substantial.</p>
+            <p class="fragment">Does it have a non-trivial model?</p>
+            <p class="fragment">Is it a combination of elements you use in lots of places?</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>What about...</h2>
+          </section>
+
+          <section>
+            <h2>Routing?</h2>
+          </section>
+
+          <section>
+            <h2>Http requests / IO?</h2>
+          </section>
+
+          <section>
+            <h2>Two-Way Binding</h2>
+            <p>Issues raised in <a href="http://larseidnes.com/2014/11/05/angularjs-the-bad-parts/">AngularJS: The Bad Parts</a>:</p>
+            <dl>
+              <dt>Dynamic scoping and Parameter name based DI</dt>
+              <dd class="fragment">We use ordinary JavaScript with <em>lexical scoping</em>.</dd>
+              <dd class="fragment">Data is <em>explicitly routed</em> using lenses and properties.</dd>
+              <dt>The digest loop</dt>
+              <dd class="fragment">Property <em>updates are done incrementally</em> by the underlying "FRP" library.</dd>
+              <dt>Redefining terminology</dt>
+              <dd class="fragment"><em>All</em> concepts have been around for a long time (Observable, Property, Atom, Lens).</dd>
+            </dl>
+          </section>
+        </section>
+
+        <section>
+          <h2>Questions?</h2>
+        </section>
+
+        <section>
+          <section>
+            <h2>Exercises</h2>
+          </section>
+
+          <section>
+            <h2>Prepare the project</h2>
+            <p><a href="https://github.com/calmm-js/bral-exercise">Bacon based project</a></p>
+            <p><a href="https://github.com/calmm-js/kral-exercise">Kefir based project</a></p>
+          </section>
+
+          <section>
+            <h2>Add unit tests for the meta-model</h2>
+            <p>The meta model is just a bunch of operations on model.</p>
+            <p>Add e.g. <a href="https://github.com/mochajs/mocha">mocha</a> to the project and tycittele a few tests.</p>
+          </section>
+
+          <section>
+            <h2>Add homepage -link field</h2>
+            <p>Make editable link component.</p>
+            <p>Look at TextInput.</p>
+            <p>When not editing, render as a link.</p>
+          </section>
+
+          <section>
+            <h2>Add birthday field</h2>
+            <p>Select some <a href="https://react.rocks/tag/DatePicker">React datepicker</a> component.</p>
+            <p>Bind it to the model.</p>
+          </section>
+
+          <section>
+            <h2>Add filtering</h2>
+            <p>Add a text input for a search text.</p>
+            <p>Only show items containing matching text.</p>
+          </section>
+
+          <section>
+            <h2>Add scrolling</h2>
+            <p>Limit the number of simultaneously shown items.</p>
+            <p>Let the user scroll through the list.</p>
+          </section>
+
+          <section>
+            <h2>Add local storage and Undo</h2>
+            <p>For undo, you can use <a href="https://github.com/calmm-js/atom.undo">Atom.Undo</a>.</p>
+            <p>For storage, you can use <a href="https://github.com/calmm-js/atom.storage">Atom.Storage</a>.</p>
+            <p>Do you store history to local storage or not?</p>
+          </section>
+
+          <section>
+            <h2>Add external storage</h2>
+            <p>You will likely need to add Node (<a href="https://github.com/expressjs/express/">Express</a>) to the project.</p>
+          </section>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+
+      transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+      // Optional reveal.js plugins
+      dependencies: [
+      { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: 'plugin/zoom-js/zoom.js', async: true },
+      { src: 'plugin/notes/notes.js', async: true }
+      ]
+      });
+
+    </script>
+
+  </body>
+</html>
