@@ -162,7 +162,7 @@ effective way to do the plumbing and make that free of boilerplate.
 Testability is especially important in a language such as JavaScript that is
 notorious for its YOLO roots.  As much as possible, we want parts of our UI
 logic to be unit-testable in addition to being amenable to other forms of
-testing.  Besides having parts than can be tested, it is also important to avoid
+testing.  Besides having parts that can be tested, it is also important to avoid
 having to make testing otherwise difficult.  For example, if an approach
 requires everything to be asynchronous, it means that unit-tests also have to be
 asynchronous, which tends to complicate things.
