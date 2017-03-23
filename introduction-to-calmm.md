@@ -3,8 +3,8 @@
 Calmm is an architecture and a concrete collection of libraries for implementing
 reactive UIs with JavaScript and [React](https://facebook.github.io/react/).  It
 was born when we started a project to implement a custom CMS for a customer.  To
-help with writing UI code we wrote a few small libraries (a few hundred lines of
-code total):
+help with writing UI code we wrote a few small libraries (initially a few
+hundred lines of code total):
 
 * [`bacon.react.html`](https://github.com/calmm-js/bacon.react.html)
 * [`bacon.atom`](https://github.com/calmm-js/bacon.atom)
