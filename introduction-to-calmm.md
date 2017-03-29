@@ -4,7 +4,13 @@ Calmm is an architecture and a concrete collection of libraries for implementing
 reactive UIs with JavaScript and [React](https://facebook.github.io/react/).  It
 was born when we started a project to implement a custom CMS for a customer.  To
 help with writing UI code we wrote a few small libraries (initially a few
-hundred lines of code total):
+hundred lines of code total).  This document introduces the concepts behind
+those libraries and explains how those libraries can be used to write concise,
+reactive UI code.
+
+## Historical note
+
+To help with writing UI code we wrote a few small libraries:
 
 * [`bacon.react.html`](https://github.com/calmm-js/bacon.react.html)
 * [`bacon.atom`](https://github.com/calmm-js/bacon.atom)
@@ -12,21 +18,22 @@ hundred lines of code total):
 * [`atom.undo`](https://github.com/calmm-js/atom.undo)
 * [`atom.storage`](https://github.com/calmm-js/atom.storage)
 
-And we also use [Bacon](https://github.com/baconjs/bacon.js) and
-[Ramda](http://ramdajs.com/).  Later, as an alternative to Bacon, we ported the
-relevant libraries to [Kefir](http://rpominov.github.io/kefir/):
+And we also used [Bacon](https://github.com/baconjs/bacon.js)
+and [Ramda](http://ramdajs.com/).  Later, as an alternative to Bacon, we ported
+the relevant libraries to [Kefir](http://rpominov.github.io/kefir/):
 
 * [`kefir.react.html`](https://github.com/calmm-js/kefir.react.html)
 * [`kefir.atom`](https://github.com/calmm-js/kefir.atom)
 
 Currently Calmm is being revised in the form of a new way to embed observables
-into VDOM.  The relevant libraries, replacing `kefir.react.html`, are:
+into VDOM.  The relevant libraries are
 
-* [`karet`](https://github.com/calmm-js/karet)
+* [`karet`](https://github.com/calmm-js/karet), replacing `kefir.react.html`, and
+* [`baret`](https://github.com/calmm-js/baret), replacing `bacon.react.html`.
+
+There is also a utility library for `karet`:
+
 * [`karet.util`](https://github.com/calmm-js/karet.util)
-
-This document introduces the concepts behind those libraries and explains how
-those libraries can be used to write concise, reactive UI code.
 
 In this document we use the latest incarnation, `karet`.  If you are working on
 a project using an `bacon.react.html` or `kefir.react.html`, then much of this
