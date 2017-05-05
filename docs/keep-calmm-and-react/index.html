@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="icon" href="https://avatars1.githubusercontent.com/u/17234211"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <title>Keep Calmm and React!</title>
+
+    <link rel="stylesheet" href="css/reveal.css"/>
+    <link rel="stylesheet" href="css/theme/black.css"/>
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css"/>
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<section>
+          <section>
+            <h1>Keep Calmm and React!</h1>
+            <p>Vesa Karvonen</p>
+            <p><a style="font-family: Jungka;" href="https://www.reaktor.com/">Reaktor</a></p>
+          </section>
+
+          <section>
+            <h2>About Me</h2>
+            <ul>
+              <li>Senior programmer <em class="fragment">— daily hobby 1990-, work 1996-</em></li>
+              <li>Polyglot <em class="fragment">— Asm, C++, ML, Java, Scheme, C#, Swift, JS, ...</em></li>
+              <li>Multi-paradigm <em class="fragment">— OO, FP (01), concurrent, reactive, logic, ...</em></li>
+              <li>Multi-platform <em class="fragment">— 16-bit, PC, Dreamcast, Mobile, Web, ...</em></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>But really</h2>
+            <p>My special interest</p>
+            <p><em class="fragment">Programming languages and techniques</em></p>
+            <blockquote class="fragment">
+              ``it is possible to make the structure of the program match the
+              structure of the problem being solved.´´ — <a href="http://jmct.cc/burge.html">Burge</a>
+            </blockquote>
+          </section>
+
+          <section>
+            <h2><a href="https://github.com/calmm-js">Calmm</a>? (1/2)</h2>
+
+            <ul>
+              <li class="fragment">Architecture and libs for writing reactive UIs</li>
+              <li class="fragment">CMS project at a client</li>
+              <li class="fragment">Not just another React utility library: unified story</li>
+              <li class="fragment">A combination of old concepts:<br/><span class="fragment">observables, VDOM++, atoms, lenses</span></li>
+              <li class="fragment">Nothing new! <span class="fragment">e.g. <a href="http://intellifactory.github.io/websharper.ui.next.samples/#home">WebSharper UI.Next</a></span></li>
+              <li class="fragment">Juha Paananen and Matti Lankinen</li>
+            </ul>
+
+          </section>
+
+          <section>
+            <h2><a href="https://github.com/calmm-js">Calmm</a>? (2/2)</h2>
+            <div style="display: flex; justify-content: space-around; align-items: center;">
+              <img style="width: 25%; height: 25%;" src="img/calmm.png"/>
+              <img style="width: 20%; height: 20%;" src="img/decompose-and-compose.png"/>
+            </div>
+          </section>
+
+          <section>
+            <h2>Goals</h2>
+            <ul>
+              <li class="fragment">See state and UI programming in new ways 🤔</li>
+              <li class="fragment">See modern functional programming 😎</li>
+              <li class="fragment">Get you interested to try Calmm 😏</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <h2>Show me the Code!</h2>
+          <p>Some live coding magic!</p>
+        </section>
+
+        <section>
+          <section>
+            <h2>Ingredients and Principles</h2>
+          </section>
+
+          <section>
+            <h2>Some Non-Ingredients</h2>
+            <ul>
+              <li>Class Components</li>
+              <li><code>this</code></li>
+              <li><a href="https://awelonblue.wordpress.com/2012/10/21/local-state-is-poison/">Local state</a> (<code>setState</code>)</li>
+              <li><a href="https://github.com/garbles/yolk#yolk-">Streams</a> of <a href="https://awelonblue.wordpress.com/2012/07/01/why-not-events/">events</a> (<code>merge</code>, <code>scan</code>, ...)</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Ingredients</h2>
+            <ul>
+              <li>Observables <span class="fragment">— stay consistent by construction</span></li>
+              <li>Reactive VDOM <span class="fragment">— compose UI and eliminate manual subscription</span></li>
+              <li>Atoms <span class="fragment">— flexible state storage</span></li>
+              <li>Lenses <span class="fragment">— decompose state giving reusable components</span></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Guiding principles</h2>
+            <ul>
+              <li class="fragment">Structural programming</li>
+              <li class="fragment">Composability</li>
+              <li class="fragment">Decomposability</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Taking toll</h2>
+          </section>
+
+          <section>
+            <h2>Properties</h2>
+
+            <ul>
+              <li>Consistent <span class="fragment">— views stay consistent with state by construction</span></li>
+              <li>Concise <span class="fragment">— often 2x-4x less code vs more popular alternatives</span></li>
+              <li>Efficient <span class="fragment">— typically performs nearly optimal VDOM updates</span></li>
+              <li>Declarative <span class="fragment">— applicative combinations of properties are stateless</span></li>
+              <li>Flexible with state <span class="fragment">— choose between local and global state</span></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Compared to</h2>
+
+            <ul>
+              <li>WebSharper UI.Next</li>
+              <li>React (<code>setState</code>) <span class="fragment">— lures you to dark side: <span class="fragment">local state</span></span></li>
+              <li>Cycle.js <span class="fragment">— <a href="https://github.com/garbles/yolk#yolk-">streams</a> lure you to local state</span></li>
+              <li>Reagent ( Knockout.js )
+              <ul>
+                <li class="fragment">Atoms, but no lenses <span class="fragment">— non-compositional</span></li>
+                <li class="fragment">Rerenders more (dependency hack)</li>
+              </ul>
+              </li>
+              <li>Redux or Elm
+              <ul>
+                <li class="fragment">Everything is global state <span class="fragment">— can be inconvenient</span></li>
+                <li class="fragment">Actions</li>
+                <li class="fragment">Asynchrony <span class="fragment">— cottage industry of extensions</span></li>
+                <li class="fragment">Compositional? Decompositional?</li>
+              </ul>
+              </li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Conclusion</h2>
+          </section>
+
+          <section>
+            <h2>Lessons</h2>
+            <ul>
+              <li class="fragment">Think about where you want to store state</li>
+              <li class="fragment">And how to keep components consistent with state</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Calmm Future Work</h2>
+            <ul>
+              <li class="fragment">Support multiple VDOMs</li>
+              <li class="fragment">Validation utility library</li>
+              <li class="fragment">More documentation and examples</li>
+              <li class="fragment">Support other observable libraries</li>
+              <li class="fragment">Upcoming talks: <a href="https://www.meetup.com/Reaktor-Events-Helsinki/events/239350913/">10.5. Reaktor meetup:</a> What is my state?</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Questions?</h2>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script type="text/javascript">
+      // More info about config and dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+      history: true,
+      help: false,
+
+      width: 1280,
+      height: 800,
+
+      margin: 0,
+
+      dependencies: [
+      { src: 'plugin/markdown/marked.js' },
+      { src: 'plugin/markdown/markdown.js' },
+      { src: 'plugin/notes/notes.js', async: true },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+      ]
+      });
+    </script>
+  </body>
+</html>
