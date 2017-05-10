@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="icon" href="https://avatars1.githubusercontent.com/u/17234211"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <title>What is my state?</title>
+
+    <link rel="stylesheet" href="css/reveal.css"/>
+    <link rel="stylesheet" href="css/theme/black.css"/>
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css"/>
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+	<section>
+          <section>
+            <h1>What is my state?</h1>
+            <p>Vesa Karvonen</p>
+            <p><a style="font-family: Jungka;" href="https://www.reaktor.com/">Reaktor</a></p>
+          </section>
+
+          <section>
+            <h2>About Me</h2>
+            <ul>
+              <li>Senior programmer
+              <ul>
+                <li>~27 years of programming</li>
+                <li>~21 years since professional</li>
+                <li>~16 years of "functional first" programming</li>
+                <li>Computer Graphics, Games, ... Web Apps are new to me!</li>
+              </ul>
+              </li>
+              <li class="fragment">Special interest in programming languages and techniques
+              <ul>
+                <li class="fragment">Type systems, semantics, compilers</li>
+                <li class="fragment">Domain Specific Embedded Languages</li>
+              </ul>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Poll</h2>
+            <h4 class="fragment">Stateless vs Stateful?</h4>
+            <p><small  class="fragment">Programs are about state. It can't be completely eliminated. It must be managed.</small></p>
+            <h4 class="fragment">Mutable state vs Immutable state?</h4>
+            <p><small  class="fragment">State changes over time so immutable state is an oxymoron.</small>
+            <small  class="fragment">One can capture state at a point as an immutable value but that is not all.</small></p>
+            <h4 class="fragment">Global state vs Local state?</h4>
+            <p><small  class="fragment">One of the points of this talk is to argue that external shared global
+            state is actually better than internal encapsulated local state.</small></p>
+          </section>
+
+          <section>
+            <h2>What is this talk about? (1/2)</h2>
+            <p class="fragment">There are no new "innovations" in this talk.</p>
+            <blockquote class="fragment">Most papers in computer science describe how their author learned what someone else already knew. — Peter Landin</blockquote>
+          </section>
+
+          <section>
+            <h2>What is this talk about? (2/2)</h2>
+            <ul>
+              <li class="fragment">My experience with <a href="https://github.com/calmm-js">Calmm</a>
+              <ul>
+                <li class="fragment">An architecture and libraries for writing Reactive UIs</li>
+                <li class="fragment">Encourages use of external shared state and continuous observable properties</li>
+              </ul>
+              </li>
+              <li class="fragment">Why does <a href="https://github.com/calmm-js">Calmm</a> work?
+              <ul>
+                <li class="fragment">It is certainly not the only approach to employ observables</li>
+                <li class="fragment"><a href="https://awelonblue.wordpress.com/2012/10/21/local-state-is-poison/">Local state is Poison</a></li>
+                <li class="fragment"><a href="https://awelonblue.wordpress.com/2012/07/01/why-not-events/">Why not events?</a></li>
+              </ul>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Goals</h2>
+            <ul>
+              <li class="fragment">Think about state — hopefully in new ways 🤔</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>What is state?</h2>
+          </section>
+
+          <section>
+            <h2>State</h2>
+            <ul>
+              <li class="fragment">Has value</li>
+              <li class="fragment">Has identity</li>
+              <li class="fragment">Can change over time</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>State is hard</h2>
+            <p class="fragment">State complects: <b>Value</b> and <b>Identity</b> and <b>Time</b></p>
+            <p class="fragment">Both identity and time are subtly complex!</p>
+            <p class="fragment">Tracking identities often complicates algorithms<span class="fragment"> e.g. React keys.</span></p>
+            <p class="fragment">Change over time invalidates computations dependent on state.</p>
+            <p class="fragment">Bugs, bugs, and more bugs!</p>
+          </section>
+
+          <section>
+            <h2>Support in typical language</h2>
+            <ul>
+              <li class="fragment">Mutable <b>variables</b> and mutable <b>fields in objects</b></li>
+              <li class="fragment">Fundamentally second-class
+              <ul class="fragment">
+                <li>Cannot be returned from functions</li>
+                <li>Cannot be passed as parameters</li>
+              </ul>
+              </li>
+              <li class="fragment">Cannot be composed</li>
+              <li class="fragment">Cannot be decomposed</li>
+              <li class="fragment">Cannot be observed for changes (over time)</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Limitations (1/2)</h2>
+            <pre><code data-trim="1" class="js">
+let x = 1       // Creates mutable state
+let y = 2
+let sum = x + y // Takes snapshots of state
+
+x = 3
+
+sum             // No longer valid
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Limitations (2/2)</h2>
+            <pre><code data-trim="1" class="js">
+function foo() {
+  let x = 1 // Creates mutable state
+
+  bar(x)    // Doesn't pass state - only value
+
+  x = 2     // Mutates state - not visible to `bar`
+
+  return x  // Doesn't return state - only value
+}
+            </code></pre>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>Making state fun again!</h2>
+          </section>
+
+          <section>
+            <h2>Interface for state</h2>
+            <pre><code data-trim="1" class="typescript">
+interface State&lt;T&gt; {
+  get(): T;
+  set(value: T): void;
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>First-class state</h2>
+            <pre><code data-trim="1" class="js">
+class Atom {
+  constructor(value) {
+    this.value = value
+  }
+  get() {
+    return this.value
+  }
+  set(value) {
+    this.value = value
+  }
+}
+            </code></pre>
+
+            <p>First-class: can pass as arguments and return as results</p>
+            <p>Program components can declare state as parameters</p>
+          </section>
+
+          <section>
+            <h2>Observable state</h2>
+            <pre><code data-trim="1" class="js">
+class Atom {
+  constructor(value) {
+    this.value = value
+    this.observers = []
+  }
+  get() { return this.value }
+  set(value) {
+    this.value = value
+    this.observers.forEach(observer => observer(value))
+  }
+  subscribe(observer) {
+    observer(this.get())
+    this.observers.push(observer)
+  }
+}
+            </code></pre>
+            <p>Independence from time</p>
+          </section>
+
+          <section>
+            <h2>Decomposable state</h2>
+            <pre><code data-trim="1" class="js">
+class LensedAtom {
+  constructor({getter, setter}, source) {
+    this.getter = getter
+    this.setter = setter
+    this.source = source
+  }
+  get() {
+    return this.getter(this.source.get())
+  }
+  set(value) {
+    this.source.set(this.setter(value, this.source.get()))
+  }
+}
+            </code></pre>
+            <p>Store state as a whole and slice elements of said state to components</p>
+          </section>
+
+          <section>
+            <h2>Composable state</h2>
+            <pre><code data-trim="1" class="js">
+class PairAtom {
+  constructor([lhs, rhs]) {
+    this.lhs = lhs
+    this.rhs = rhs
+  }
+  get() {
+    return [this.lhs.get(), this.rhs.get()]
+  }
+  set([lhs, rhs]) {
+    this.lhs.set(lhs)
+    this.rhs.set(rhs)
+  }
+}
+            </code></pre>
+            <p>Transactionality</p>
+            <p>Independence from storage</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>The case for global state</h2>
+          </section>
+          <section>
+            <h2>Why global state?</h2>
+            <ul>
+              <li class="fragment">Components can then be stateless and easily composed</li>
+              <li class="fragment">Global state can be inspected</li>
+              <li class="fragment">Operations on global state can be tested simply</li>
+              <li class="fragment">Robust "single source of truth"</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Why not local state?</h2>
+            <ul>
+              <li class="fragment">Local state is inaccessible</li>
+              <li class="fragment">Makes composition harder</li>
+              <li class="fragment">Can only be tested indirectly</li>
+              <li class="fragment">Diverges easily</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Common misconseptions</h2>
+          </section>
+
+          <section>
+            <h2>Streams are stateless</h2>
+            <ul>
+              <li class="fragment">Is <a href="https://github.com/garbles/yolk#yolk-">this</a> stateless?</li>
+              <li class="fragment">Merge + Scan introduces local state</li>
+              <li class="fragment">Diverges easily</li>
+              <li class="fragment">Timing is significant</li>
+              <li class="fragment">On the positive side
+              <ul>
+                <li class="fragment">Observable</li>
+                <li class="fragment">Can make deps more explicit: "What contributes to this stream?"
+                <ul><li class="fragment">But not necessarily.</li>
+                </ul>
+                </li>
+              </ul>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Anyone can mutate state — Mess</h2>
+            <p class="fragment"><b>Yes:</b> Anyone who has access to a slice of state can mutate it.</p>
+            <h4 class="fragment">But</h4>
+            <p class="fragment"><b>Scope:</b> <i>A component that is given a slice of state as a parameter can only mutate that slice — not everything.</i></p>
+            <p class="fragment"><b>Intent:</b> <i>If you give mutable state to a component, the intention is that the component can mutate it.</i></p>
+            <p class="fragment"><b>Observe:</b> <i>Even if someone mutates the state, components can observe the state change and act accordingly.</i></p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Conclusion</h2>
+          </section>
+
+          <section>
+            <h2>Homework</h2>
+            <ul>
+              <li class="fragment">Think about where you want to store state</li>
+              <li class="fragment">And how to keep components consistent with state</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Questions?</h2>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script type="text/javascript">
+      // More info about config and dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+      history: true,
+      help: false,
+
+      width: 1280,
+      height: 800,
+
+      margin: 0,
+
+      dependencies: [
+      { src: 'plugin/markdown/marked.js' },
+      { src: 'plugin/markdown/markdown.js' },
+      { src: 'plugin/notes/notes.js', async: true },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+      ]
+      });
+    </script>
+  </body>
+</html>
