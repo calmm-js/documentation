@@ -1376,9 +1376,11 @@ originality in any way.  All of the ingredients of Calmm are actually old news:
 * Lenses for decomposing state
 
 In fact, much of Calmm was initially shaped by a search of way to make it
-possible to program in ways similar to what could be done using
-[Reagent](https://reagent-project.github.io/) and (early versions of)
-[WebSharper UI.Next](http://websharper.com/docs/ui.next).
+possible to program in ways similar to what could be done
+using [Reagent](https://reagent-project.github.io/) and (early versions
+of) [WebSharper UI.Next](http://websharper.com/docs/ui.next).  Calmm in
+turn [served as inspiration](https://github.com/grammarly/focal#prior-art)
+for [Focal](https://github.com/grammarly/focal).
 
 The idea of combining atoms and lenses came from
 [Bacon.Model](https://github.com/baconjs/bacon.model), which we used initially.
