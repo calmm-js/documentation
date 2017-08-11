@@ -1408,5 +1408,7 @@ other UI programming approaches:
 Our production codebase is unfortunately not publicly available.  However, we
 have built some small examples:
 
+* [Wiki](https://github.com/calmm-js/documentation/wiki/Links-to-live-examples)
+  has links to some live example.
 * [Examples](https://github.com/calmm-js/karet-examples)
 * [TodoMVC](https://github.com/calmm-js/karet-todomvc)
