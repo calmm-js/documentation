@@ -396,7 +396,7 @@ window.klipse_settings = {
             <p>My special interest: <em class="fragment">Programming languages and techniques</em></p>
             <blockquote class="fragment">
               ``it is possible to make the structure of the program match the
-              structure of the problem being solved.´´ — <a href="http://jmct.cc/burge.html">Burge</a>
+              structure of the problem being solved.´´ — <a target="_blank" href="http://jmct.cc/burge.html">Burge</a>
             </blockquote>
           </section>
 
@@ -405,9 +405,9 @@ window.klipse_settings = {
             <ul>
               <li class="fragment">Get you interested in the concept of lenses</li>
               <li class="fragment">Understand the basic idea of lenses</li>
+              <li class="fragment">Get a sense of how lenses are implemented</li>
               <li class="fragment">Get a sense of the range of applicability of lenses</li>
               <li class="fragment">Learn to demand more from "composable" abstractions</li>
-              <li class="fragment">Get a sense of how lenses are implemented</li>
             </ul>
           </section>
         </section>
@@ -447,43 +447,18 @@ L.get(L.prop("x"), {x: 1})
           </section>
 
           <section>
-            <h2><code><a href="https://github.com/calmm-js/partial.lenses/#contents">partial.lenses</a></code></h2>
-            <p>Is my <em>optics</em> library used in these slides:</p>
-            <ul>
-              <li class="fragment">A comprehensive API</li>
-              <li class="fragment">Interactive documentation</li>
-              <li class="fragment">Optimized fairly carefully</li>
-              <li class="fragment">Used in production</li>
-              <li class="fragment">Designed for JS: <em>partiality</em></li>
-            </ul>
-            <p>But there are also many other optics libraries!</p>
-          </section>
-
-          <section>
-            <h2>Optics?</h2>
-            <p>All composable with each other:</p>
-            <ul>
-              <li>Traversals <em class="fragment">— operate on multiple focuses</em></li>
-              <li>Lenses <em class="fragment">— operate on 1 focus</em></li>
-              <li>Isomorphisms <em class="fragment">— are invertible and focus on whole</em></li>
-            </ul>
-            <p class="fragment">And others such as <em>prisms, folds, getters, setters, ...</em></p>
-            <p class="fragment">In <code>partial.lenses</code> we do without those.</p>
-          </section>
-
-          <section>
             <h2>Forward? (1/2)</h2>
-            <p>Optics are actually more like mapping functions:</p>
+            <p>Lenses are actually mapping functions:</p>
 
             <pre style="text-align: center;"><code class="lang-haskell">map :: (a -> b) -> s -> t</code></pre>
 
-            <p>Like list map:</p>
+            <p class="fragment">Like list map:</p>
 
-            <pre style="text-align: center;"><code class="lang-haskell">map :: (a -> b) -> [a] -> [b]</code></pre>
+            <pre class="fragment" style="text-align: center;"><code class="lang-haskell">map :: (a -> b) -> [a] -> [b]</code></pre>
 
-            <p>Lifted in some fashion, e.g.</p>
+            <p class="fragment">Except lifted in some fashion, e.g.</p>
 
-            <pre style="text-align: center;"><code class="lang-haskell">map :: Functor f => (a -> f b) -> s -> f t
+            <pre class="fragment" style="text-align: center;"><code class="lang-haskell">map :: Functor f => (a -> f b) -> s -> f t
 map :: Profunctor p => p a b -> p s t</code></pre>
           </section>
 
@@ -503,14 +478,68 @@ mapListLhs = mapList . mapLhs</code></pre>
             <pre class="fragment"><code>mapLhsList :: (a -> b) -> ([a], c) -> ([b], c)
 mapLhsList = mapLhs . mapList</code></pre>
 
-            <p class="fragment">And this is how we get the direction of optics.</p>
+            <p class="fragment">And this is how we get the direction of lenses.</p>
+          </section>
+
+          <section>
+            <h2>Lenses generalize to optics</h2>
+            <ul>
+              <li>Traversals <em class="fragment">— operate on multiple focuses</em></li>
+              <li>Lenses <em class="fragment">— operate on 1 focus</em></li>
+              <li>Isomorphisms <em class="fragment">— are invertible and focus on whole</em></li>
+            </ul>
+            <p class="fragment">And others such as <em>prisms, folds, getters, setters, ...</em></p>
+            <p class="fragment">They can all share the same type (*)</p>
+            <p class="fragment">And compose with each other</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Let's play with...</h2>
+          </section>
+
+          <section>
+            <h2><code><a target="_blank" href="https://github.com/calmm-js/partial.lenses/#partial-lenses">partial.lenses</a></code></h2>
+            <p>which is my <em>optics</em> library and used in these slides:</p>
+            <ul>
+              <li class="fragment"><a target="_blank" href="https://github.com/calmm-js/partial.lenses/#contents">A comprehensive API</a></li>
+              <li class="fragment">Designed for JS: <a target="_blank" href="https://github.com/calmm-js/partial.lenses/#on-partiality">partiality</a></li>
+              <li class="fragment"><a target="_blank" href="https://calmm-js.github.io/partial.lenses/">Interactive documentation</a></li>
+              <li class="fragment"><a target="_blank" href="https://codecov.io/gh/calmm-js/partial.lenses/src/master/dist/partial.lenses.cjs.js">High test coverage</a></li>
+              <li class="fragment"><a target="_blank" href="https://github.com/calmm-js/partial.lenses/#benchmarks">Optimized fairly carefully</a></li>
+              <li class="fragment">Used in production</li>
+            </ul>
+            <p class="fragment">But there are also <a target="_blank"
+            href="https://github.com/calmm-js/partial.lenses/#related-work">many
+            other optics libraries</a>!</p>
+          </section>
+
+          <section>
+            <pre><code class="lang-js">// Nesting, Param, Organizing, Removal, Traversal, Fold
+const sampleTitles = {
+  titles: [{ language: "en", text: "Title" },
+           { language: "sv", text: "Rubrik" }]}
+
+
+
+
+
+L.get([], sampleTitles)
+</code></pre>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>So, when and why?</h2>
           </section>
 
           <section>
             <h2>When might lenses help you?</h2>
-            <p>You have a <em>data structure</em> that...</p>
-            <p>...is more <em>complex</em> than just a single object or array.</p>
-            <p>And you need to <em>update</em> parts of that data structure.</p>
+            <p>You have a <em style="color: khaki;">data structure</em> that...</p>
+            <p>...is more <em style="color: aquamarine;">complex</em> than just a single object or array.</p>
+            <p>And you need to <em style="color: gold;">update</em> parts of that data structure.</p>
           </section>
 
           <section>
@@ -531,6 +560,80 @@ mapLhsList = mapLhs . mapList</code></pre>
               <li>Immutability <em class="fragment">— get persistence for free</em></li>
             </ul>
           </section>
+
+          <section>
+            <h2>But why optics?</h2>
+            <p class="fragment">
+              Optics decouple <i style="color: khaki;">the operation to
+              perform</i> on element(s) of a data structure
+              from <i style="color: aquamarine;">the details of selecting the
+              element(s)</i> and <i style="color: aquamarine;">the details of
+              maintaining data structure invariants</i>.
+            </p>
+            <p class="fragment">
+              In other words, a selection algorithm and data structure invariant
+              maintenance can be expressed as a composition of optics
+              and <i style="color: gold;">used with many different
+              operations</i>.
+            </p>
+            <small class="fragment">
+              <a target="_blank" href="https://stackoverflow.com/questions/11947151/why-is-there-a-separation-of-algorithms-iterators-and-containers-in-c-stl">Compare
+              to e.g. containers, iterators, and algorithms in the C++ STL.</a>
+            </small>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>An application: Data Binding</h2>
+          </section>
+
+          <section>
+            <h2>Decomposable first-class state</h2>
+            <p><code>Atom</code></p>
+            <ul>
+              <li class="fragment">Actually stores state</li>
+              <li class="fragment">Can be <code>get</code> and <code>set</code></li>
+              <li class="fragment">First-class and observable</li>
+            </ul>
+            <p><code>LensedAtom</code></p>
+            <ul>
+              <li class="fragment">Does not store state</li>
+              <li class="fragment">View of an atom through a lens</li>
+            </ul>
+            <p class="fragment">
+              <a href="https://github.com/calmm-js/kefir.atom">Kefir.Atom</a> and
+              <a href="https://github.com/calmm-js/karet.util">Karet.Util</a> libs
+            </p>
+          </section>
+
+          <section>
+            <pre><code class="lang-js">var state = U.atom({
+  titles: [{ language: "en", text: "Title" },
+           { language: "sv", text: "Rubrik" }]})
+
+var titleIn = language => ["titles",
+                           L.find(R.whereEq({language})),
+                           "text"]
+
+var enTitle = U.view(titleIn("en"), state)
+var svTitle = U.view(titleIn("sv"), state)
+
+enTitle.log("en")
+svTitle.log("sv")
+
+state.modify(L.set(["titles", 0, "text"], "The title"))
+</code></pre>
+          </section>
+
+          <section>
+            <h2>UI sans boilerplate</h2>
+            <div style="display: flex; justify-content: space-around; align-items: center;">
+              <img style="background: white; width: 30%; height:30%;" src="https://camo.githubusercontent.com/7104ee11aed23ad9498af8501c69336135fbcbb5/687474703a2f2f63616c6d6d2d6a732e6769746875622e696f2f646f63756d656e746174696f6e2f696d6167652f43414c4d4d2e737667"/>
+              <img style="background: white; width: 30%; height:30%;" src="https://camo.githubusercontent.com/e82070baa18a6bfd166dd6a24d47cc3210e86687/687474703a2f2f63616c6d6d2d6a732e6769746875622e696f2f646f63756d656e746174696f6e2f696d6167652f6465636f6d706f73652d616e642d636f6d706f73652e737667"/>
+            </div>
+          </section>
+
         </section>
 
         <section>
@@ -546,19 +649,19 @@ mapLhsList = mapLhs . mapList</code></pre>
           <section>
             <h2>What is composable?</h2>
 
-            <p>There is a/are composition operator(s).</p>
-            <pre><code>(+) :: T -> T -> T</code></pre>
+            <p class="fragment">There is a/are composition operator(s).</p>
+            <pre class="fragment"><code>(+) :: T -> T -> T</code></pre>
 
-            <p>There are simple universal laws that specify how they work.</p>
+            <p class="fragment">There are simple universal laws that specify how they work.</p>
 
-            <pre><code>zero :: T
+            <pre class="fragment"><code>x + (y + z) = (x + y) + z</code></pre>
+
+            <pre class="fragment"><code>zero :: T
 
 x + zero = x
-zero + x = x
+zero + x = x</code></pre>
 
-x + (y + z) = (x + y) + z</code></pre>
-
-            <p><small><em>Monoid</em> is just an example!</small></p>
+            <p class="fragment"><small><em>Monoid</em> is just an example!</small></p>
           </section>
 
           <section>
@@ -586,6 +689,8 @@ R.identity({
   SetGet: eq( L.get(lens, L.set(lens, elem, data)), elem )
 })
             </code></pre>
+
+            <small class="fragment">(It can sometimes be useful to break some laws)</small>
           </section>
 
           <section>
@@ -602,75 +707,28 @@ R.identity({
 
         <section>
           <section>
-            <h2>Let's play</h2>
-          </section>
-
-          <section>
-            <pre><code class="lang-js">// Nesting, Param, Organizing, Removal, Traversal, Fold
-const sampleTitles = {
-  titles: [{ language: "en", text: "Title" },
-           { language: "sv", text: "Rubrik" }]}
-
-
-
-
-
-L.get([], sampleTitles)
-</code></pre>
-          </section>
-        </section>
-
-        <section>
-          <section>
-            <h2>Applications</h2>
-          </section>
-
-          <section>
-            <h2>Data manipulation</h2>
-            <p>Server side</p>
-            <p>Client side</p>
-          </section>
-
-          <section>
-            <h2>Data binding</h2>
-            <p>(My original application)</p>
-            <p>Client side</p>
-            <p>By combining with observables</p>
-            <p>=> Reactive variables</p>
-            <p>Multiple discovery / Old idea! (F#, [Ocaml,] JS, Haskell, ...)</p>
-          </section>
-
-          <section>
-            <h2>UI sans boilerplate</h2>
-            <div style="display: flex; justify-content: space-around; align-items: center;">
-              <img style="background: white; width: 30%; height:30%;" src="https://camo.githubusercontent.com/7104ee11aed23ad9498af8501c69336135fbcbb5/687474703a2f2f63616c6d6d2d6a732e6769746875622e696f2f646f63756d656e746174696f6e2f696d6167652f43414c4d4d2e737667"/>
-              <img style="background: white; width: 30%; height:30%;" src="https://camo.githubusercontent.com/e82070baa18a6bfd166dd6a24d47cc3210e86687/687474703a2f2f63616c6d6d2d6a732e6769746875622e696f2f646f63756d656e746174696f6e2f696d6167652f6465636f6d706f73652d616e642d636f6d706f73652e737667"/>
-            </div>
-          </section>
-        </section>
-
-        <section>
-          <section>
             <h2>Finishing</h2>
           </section>
 
           <section>
             <h2>Why lenses?</h2>
 
-            <p>You have a data structure to manipulate</p>
+            <p>Prerequisite: You have a data structure to update</p>
+
+            <p class="fragment">Optics can make it...</p>
 
             <ul>
-              <li>Simple? Just map functions in disguise. ;)</li>
-              <li>Composable</li>
-              <li>Reasonable</li>
-              <li>Can be <a href="https://github.com/calmm-js/partial.lenses/#performance">performant</a></li>
+              <li class="fragment">Structural</li>
+              <li class="fragment">Composable</li>
+              <li class="fragment">Reasonable</li>
+              <li class="fragment"><a target="_blank" href="https://github.com/calmm-js/partial.lenses/#performance">Performant</a></li>
             </ul>
           </section>
 
           <section>
             <h2>Links</h2>
 
-            <a href="https://github.com/calmm-js/partial.lenses">
+            <a target="_blank" href="https://github.com/calmm-js/partial.lenses">
               https://github.com/calmm-js/partial.lenses
             </a>
             <p>(Has links to other libraries and resources.)</p>
