@@ -458,8 +458,8 @@ L.get(L.prop("x"), {x: 1})
 
             <p class="fragment">Except lifted in some fashion, e.g.</p>
 
-            <pre class="fragment" style="text-align: center;"><code class="lang-haskell">map :: Functor f => (a -> f b) -> s -> f t
-map :: Profunctor p => p a b -> p s t</code></pre>
+            <pre class="fragment" style="text-align: center;"><code class="lang-haskell">map :: Functor f => (a -> f b) -> s -> f t</code></pre>
+            <pre class="fragment" style="text-align: center;"><code class="lang-haskell">map :: Profunctor p => p a b -> p s t</code></pre>
           </section>
 
           <section>
@@ -467,8 +467,8 @@ map :: Profunctor p => p a b -> p s t</code></pre>
 
             <p>Mapping functions:</p>
 
-            <pre><code>mapList :: (a -> b) -> [a] -> [b]
-mapLhs :: (a -> b) -> (a, c) -> (b, c)</code></pre>
+            <pre class="fragment"><code>mapList :: (a -> b) -> [a] -> [b]</code></pre>
+            <pre class="fragment"><code>mapLhs :: (a -> b) -> (a, c) -> (b, c)</code></pre>
 
             <p class="fragment">compose:</p>
 
