@@ -668,11 +668,11 @@ zero + x = x</code></pre>
           <section>
             <h2>Composing optics</h2>
             <ul>
-              <li>Nesting    <span class="fragment">— <code>L.compose(...os)</code></span>   <em class="fragment">— Monoid (unityped)</em></li>
+              <li>Nesting    <span class="fragment">— <code>L.compose(...os)</code></span>   <em class="fragment">— Monoid (<a href="https://cs.stackexchange.com/questions/18847/if-dynamically-typed-languages-are-truly-statically-typed-unityped-languages-w">unityped</a>)</em></li>
               <li>Recursing  <span class="fragment">— <code>L.lazy(o => o)</code></span>     <em class="fragment">— Fixed point</em></li>
               <li>Adapting   <span class="fragment">— <code>L.choices(...ls)</code></span>   <em class="fragment">— Semigroup</em></li>
-              <li>Choosing   <span class="fragment">— <code>L.choice(...ls)</code></span>    <em class="fragment">— Monoid</em></li>
-              <li>Querying   <span class="fragment">— <code>L.chain(x => o, o)</code></span> <em class="fragment">— MonadPlus</em></li>
+              <li>Querying/1 <span class="fragment">— <code>L.choice(...ls)</code></span>    <em class="fragment">— Monoid</em></li>
+              <li>Querying/2 <span class="fragment">— <code>L.chain(x => o, o)</code></span> <em class="fragment">— MonadPlus</em></li>
               <li>Picking    <span class="fragment">— <code>L.pick({...p:l})</code></span>   <em class="fragment">— Product</em></li>
               <li>Branching  <span class="fragment">— <code>L.branch({...p:t})</code></span> <em class="fragment">— Coproduct</em></li>
               <li>Sequencing <span class="fragment">— <code>L.seq(...ts)</code></span>       <em class="fragment">— Monad</em></li>
