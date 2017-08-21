@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Observables are Elephants</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css">
+    <link rel="icon" href="https://avatars1.githubusercontent.com/u/17234211"/>
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+	  <section>
+            <h1>Observables are Elephants</h1>
+            <p>Vesa Karvonen</p>
+          </section>
+
+          <section>
+            <img width="40%" height="40%" src="Blind_men_and_elephant.jpg">
+          </section>
+          
+          <section>
+            <h2>Premise</h2>
+            <p class="fragment">
+              Observables are a rather flexible mechanism and allow for many
+              <span style="color: aquamarine;">different styles of
+              programming</span> with very <span style="color: khaki;">different
+              properties</span>.
+            </p>
+            <p class="fragment">
+              It seems that often people learn only a style or two and have
+              <span style="color: gold;">misconceptions about the
+              properties</span> of observables.
+            </p>
+            <p class="fragment">
+              The indented audience for this is programmers recently introduced
+              to Observables.
+            </p>
+            <p class="fragment">
+              <small>I assure you that it was not all immediately obvious to
+                me when I first learned of observables.
+            </small></p>
+          </section>
+
+          <section>
+            <h2>Goals</h2>
+            <p class="fragment">
+              Give a sense of the depth and breadth of programming with
+              observables...
+            </p>
+            <p class="fragment">
+              ...by briefly discussing a few different ways to program with
+              observables.
+            </p>
+            <p class="fragment">
+              <em>No claim is made regarding the completeness of this treatment!</em>
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Observables?</h2>
+          </section>
+
+          <section>
+            <h2>Interfaces</h2>
+
+            <pre class="fragment"><code class="ts">interface Observable&lt;T&gt; {
+  subscribe(observer: Observer&lt;T&gt;);
+  unsubscribe(observer: Observer&lt;T&gt;);
+}
+</code></pre>
+
+            <pre class="fragment"><code class="ts">interface Observer&lt;T&gt; {
+  onValue(value: T): void;
+  onError(error: any): void;
+  onEnd(): void;
+}
+</code></pre>
+          </section>
+
+          <section>
+            <h2>Combinators</h2>
+            <ul>
+              <li class="fragment"><code>constant(value)</code></li>
+              <li class="fragment"><code>error(value)</code></li>
+              <li class="fragment"><code>o1.flatMap(v => o2)</code></li>
+              <li class="fragment"><code>combine([...os])</code></li>
+              <li class="fragment"><code>merge([...os])</code></li>
+              <li class="fragment"><code>o.scan((s, x) => s1, s0)</code></li>
+              <li class="fragment"><code>o.debounce(ms)</code></li>
+              <li class="fragment"><code>o.skipDuplicates(equals)</code></li>
+              <li class="fragment"><em>...and more</em></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Why observables?</h2>
+            <p class="fragment">Asynchronous operations, time, state are very difficult</p>
+            <p class="fragment">Observables can make such code more declarative</p>
+            <p class="fragment">Observables are highly composable (4+ monads)</p>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>Asynchronous programming</h2>
+          </section>
+
+          <section>
+            <h2>What is async programming?</h2>
+            <p class="fragment">Like what you do with <code>async-await</code></p>
+            <p class="fragment">Linear thread of control with asynchronous ops</p>
+
+            <pre class="fragment"><code class="js">const foo = async (...xs) => {
+  const r = await bar(...xs)
+  return baz(r)
+}
+</code></pre>
+
+            <pre class="fragment"><code class="js">const mapAsync = async (fnA, xs) => {
+  const ys = []
+  for (let i = 0; i < xs.length; ++i)
+    ys.push(await fnA(xs[i]))
+  return ys
+}
+</code></pre>
+
+          </section>
+
+          <section>
+            <h2>Ingredients for async programming?</h2>
+
+            <ul>
+              <li><code>o1.flatMap(v => o2)</code> <em class="fragment">&mdash; to await</em></li>
+              <li><code>constant(v)</code> <em class="fragment">&mdash; to introduce constants</em></li>
+              <li>Recursion <em class="fragment">&mdash; instead of loops</em></li>
+              <li><code>subscribe(observer)</code> <em class="fragment">&mdash; to start</em></li>
+              <li><code>fromNodeCallback(fn)</code> <em class="fragment">&mdash; interop</em></li>
+              <li><code>lazy(() => o)</code> <em class="fragment">&mdash; to avoid over eagerness</em></li>
+            </ul>
+
+            <pre class="fragment"><code class="js">const lazy = toObservable =>
+  constant(undefined).flatMap(() => toObservable())
+</code></pre>
+
+          </section>
+
+          <section>
+            <h2>So...</h2>
+
+<pre class="fragment"><code class="js">const foo = (...) => lazy(() =>
+  bar(...)
+  .flatMap(r =>
+    constant(baz(r))))
+</code></pre>
+
+<pre class="fragment"><code class="js">const mapObs = (fnO, xs) => lazy(() => {
+  const ys = []
+  const loop = i => lazy(() => {
+    if (i &lt; xs.length)
+      return fnO(xs[i])
+             .flatMap(y => {
+               ys.push(y)
+               return loop(i+1)
+             })
+    else
+      return constant(ys)
+  })
+  return loop(0)
+})
+</code></pre>
+          </section>
+
+          <section>
+            <h2>Why you'd want to do that?</h2>
+
+            <p class="fragment">Observables compose</p>
+            <p class="fragment">Observables are cancellable</p>
+            <p class="fragment"><a href="https://github.com/fluture-js/Fluture/wiki/Comparison-of-Future-Implementations">Sound familiar?</a></p>
+            <p class="fragment">And observables can do other things beyond promises</p>
+          </section>
+
+
+        </section>
+
+        <section>
+          <section>
+            <h2>Programming with discrete events</h2>
+          </section>
+
+          <section>
+            <h2>What are discrete events?</h2>
+
+            <p class="fragment">Something has happened or something has changed</p>
+            <p class="fragment">Examples</p>
+            <ul>
+              <li class="fragment">Mouse clicks</li>
+              <li class="fragment">Button presses</li>
+              <li class="fragment">Change events</li>
+            </ul>
+            <p class="fragment">This is probably what comes to mind when you think of observables?</p>
+          </section>
+
+          <section>
+            <h2>Ingredients for discrete events</h2>
+            <ul>
+              <li><code>merge([...os])</code> <em class="fragment">&mdash; gather events</em></li>
+              <li><code>o.scan((s, v) => s1, s0)</code> <em class="fragment">&mdash; state</em></li>
+              <li><code>update(...)</code> <em class="fragment">&mdash; generalization of <code>scan</code></em></li>
+              <li><code>o1.flatMap(v => o2)</code> <em class="fragment">&mdash; do async after event</em></li>
+              <li><code>o1.flatMapConcat(v => o2)</code> <em class="fragment">&mdash; don't drop</em></li>
+              <li><code>fromEvents(target, name)</code> <em class="fragment">&mdash; interop</em></li>
+              <li><em>...and others</em></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Examples</h2>
+            <ul>
+              <li><a target="_blank" href="https://github.com/laurilehmijoki/unistack/blob/examples/online-shop/app/pages/frontPage.js#L112-L121">from Unistack</a></li>
+              <li><a target="_blank" href="https://github.com/cyclejs/cyclejs/blob/master/examples/counter/src/main.js">from Cycle.js</a></li>
+              <li><a target="_blank" href="https://github.com/garbles/yolk#example">from Yolk</a></li>
+              <li><a target="_blank" href="https://baconjs.github.io/">from Bacon.js</a></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Great!</h2>
+            <p class="fragment">Much preferable to traditional use of callbacks</p>
+            <p class="fragment">Powerful combinators for dealing with time</p>
+          </section>
+
+          <section>
+            <h2>Difficulties</h2>
+            <ul>
+              <li class="fragment">Leads to local state</li>
+              <ul>
+                <li class="fragment">Notification of change or event is not enough</li>
+                <li class="fragment">Accumulate <a target="_blank" href="https://awelonblue.wordpress.com/2012/10/21/local-state-is-poison/">local state</a> based on events</li>
+              </ul>
+              <li class="fragment">Fragile</li>
+              <ul>
+                <li class="fragment">Miss an <a target="_blank" href="https://awelonblue.wordpress.com/2012/07/01/why-not-events/">event</a>?</li>
+                <li class="fragment">Get events in unexpected order?</li>
+                <li class="fragment">Duplicate events?</li>
+              </ul>
+              <li class="fragment">Accidental complexity</li>
+              <ul>
+                <li class="fragment">Merging and scanning boilerplate</li>
+                <li class="fragment">Must deal with timing and consistency</li>
+              </ul>
+            </ul>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>Programming with applicative stateless properties</h2>
+          </section>
+
+          <section>
+            <h2>What are properties</h2>
+            <p class="fragment">What something is</p>
+            <ul>
+              <li class="fragment">Mouse position</li>
+              <li class="fragment">Accumulated input</li>
+              <li class="fragment">State</li>
+            </ul>
+            <p class="fragment"><em>Independence from time</em></p>
+            <p class="fragment">Source of truth</p>
+          </section>
+
+          <section>
+            <h2>Ingredients for properties</h2>
+            <ul>
+              <li><code>o.map(i => o)</code> <em class="fragment">&mdash; derived property</em></li>
+              <li><code>o1.flatMapLatest(v => o2)</code> <em class="fragment">&mdash; async derived</em></li>
+              <li><code>combine([...os])</code> <em class="fragment">&mdash; derived from many props</em></li>
+              <li><em>...and others</em></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Example</h2>
+<pre class="fragment"><code class="js">export default U.withContext(({phase}, {user_state}) =&gt; {
+  const done  = US.doneCount(phase, user_state)
+  const total = US.itemCount(phase, user_state)
+
+  const percentage = U.round(U.multiply(U.divide(done, total), 100))
+  const completed = U.ifte(U.equals(done, total), "completed", "")
+
+  return &lt;div className={U.string`progress ${completed}`}&gt;
+    &lt;div className="progress__bar"/&gt;
+    &lt;div className="progress__progressed"
+         style={{width: U.string`${percentage}%`}}/&gt;
+    &lt;div className="progress__label"&gt;
+      &lt;span&gt;{done}/{total} valmis&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+})
+</code></pre>
+          </section>
+
+          <section>
+            <h2>Advantages</h2>
+            <p class="fragment">Simple &mdash; just map</p>
+            <p class="fragment">Stateless properties are RT &mdash; can be reconstructed</p>
+            <p class="fragment">Time is largely out of the equations</p>
+            <p class="fragment">Robust &mdash; skip, dup, ... don't matter much</p>
+            <p class="fragment">Often less boilerplate</p>
+          </section>
+
+          <section>
+            <h2>Disadvantages</h2>
+            <p class="fragment">Different mode of thinking</p>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>Monadic- and Direct-style programming</h2>
+          </section>
+
+          <section>
+            <h2>What styles?</h2>
+
+            <p class="fragment">Direct-style</p>
+
+<pre class="fragment"><code class="js">f(x1, x2)
+x + y * z
+R.add(x, R.multiply(y, z))
+</code></pre>
+
+            <p class="fragment">Monadic-style</p>
+
+<pre class="fragment"><code class="js">x1.flatMapLatest(x1 =>
+x2.flatMapLatest(x2 =>
+constant(f(x1, x2))))
+</code></pre>
+
+            <p class="fragment">Cumbersome, isn't it?</p>
+
+<pre class="fragment"><code class="js">combine([x1, x2], f)
+</code></pre>
+
+            <p class="fragment">As good as it gets?</p>
+          </section>
+
+          <section>
+            <h2>Lifting</h2>
+
+<pre class="fragment"><code class="js">const lift = f => (...xs) => combine(xs, f)
+</code></pre>
+
+<pre class="fragment"><code class="js">const fL = lift(f)
+</code></pre>
+
+<pre class="fragment"><code class="js">fL(x1, x2)
+</code></pre>
+
+            <p class="fragment"><a target="_blank" href="https://github.com/calmm-js/karet.util/blob/32588ad89e4e438b936301f8ab162708a89dcc8b/src/karet.util.js#L347-L605">A prelifted utility library?</a></p>
+          </section>
+
+          <section>
+            <h2>Conditionals</h2>
+
+<pre class="fragment"><code class="js">const ifte = (c, t, e) =>
+  c.flatMapLatest(c => c ? t : e)
+</code></pre>
+          </section>
+
+          <section>
+            <h2>Examples</h2>
+            <ul>
+              <li><a target="_blank" href="https://github.com/calmm-js/karet-examples/blob/master/src/big-table-control.js">Big table control</a></li>
+              <li><a target="_blank" href="https://stackblitz.com/edit/calmm-movie-search">Movie search</a></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Advantages</h2>
+            <p class="fragment">Can be significantly more legible than monadic-style</p>
+          </section>
+
+          <section>
+            <h2>Disadvantages</h2>
+            <p class="fragment">Need to lift combinators for legibility</p>
+            <p class="fragment">Gotchas with lifting techniques &mdash; need to fully apply</p>
+            <p class="fragment">More limited &mdash; you'll occasionally need monadic-style</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>IO</h2>
+          </section>
+
+          <section>
+            <h2>IO?</h2>
+            <p class="fragment">Side-effects</p>
+            <p class="fragment">Asynchronous HTTP requests</p>
+            <p class="fragment">In response to events or state changes</p>
+            <p class="fragment">Also just async programming on backend (skipped)</p>
+          </section>
+
+          <section>
+            <h2>Examples</h2>
+
+            <p><a target="_blank" href="https://stackblitz.com/edit/calmm-movie-search">Online search</a></p>
+            <p><a target="_blank" href="https://github.com/calmm-js/karet-express-boilerplate/blob/master/src/client/request.js">Cancellable HTTP requests</a></p>
+            <p><a target="_blank" href="https://github.com/calmm-js/karet-express-boilerplate/blob/master/src/public/pages/contacts/ui.js">Various</a></p>
+            <p><a target="_blank" href="https://cycle.js.org/api/http.html#cycle-http-usage">Cycle HTTP driver</a></p>
+          </section>
+
+          <section>
+            <h2>Ingredients</h2>
+            <ul>
+              <li><code>o1.flatMapLatest(v => o2)</code> <em class="fragment">&mdash; do async IO</em></li>
+              <li><code>o.debounce(ms)</code> <em class="fragment">&mdash; avoid too many requests</em></li>
+              <li><code>o.throttle(ms)</code> <em class="fragment">&mdash; avoid too many requests</em></li>
+              <li><del><code>fromPromise( ??? )</code></del> <em class="fragment">&mdash; broken, don't use</em></li>
+              <li><code>fromBinder(subscribe)</code> or <code> stream(emitter => ...)</code> <em class="fragment">&mdash; wrap <code>XMLHttpRequest</code></em></li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Limitations of Observables</h2>
+          </section>
+
+          <section>
+            <h2>Push and Pull</h2>
+            <p class="fragment">Observables are (typically) push-based: An observable (source) synchronously calls the observer (sink)</p>
+            <p class="fragment">What if observer is not ready?  What about concurrency?  Locking?</p>
+            <p class="fragment">Back pressure - <a target="_blank" href="https://github.com/ReactiveX/RxJava/blob/84965829df9d24a65c4e4afce473fdec3efdf4c3/src/main/java/rx/internal/operators/OperatorMerge.java#L75">complex with pushy-style</a></p>
+            <p class="fragment">Pull-style puts consumer in charge</p>
+            <p class="fragment">Pull-style is fundamentally different, dual</p>
+          </section>
+
+          <section>
+            <h2>Broken abstraction</h2>
+            <p class="fragment">Glitches</p>
+            <p class="fragment">Recursion limitations</p>
+          </section>
+
+          <section>
+            <h2>Rendezvous</h2>
+            <p class="fragment">Observables are like asynchronous message passing</p>
+            <p class="fragment">Rendezvous, like in CSP, is not directly supported</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Questions</h2>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        history: true,
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+  </body>
+</html>
