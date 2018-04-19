@@ -18,17 +18,18 @@ To help with writing UI code we wrote a few small libraries:
 * [`atom.undo`](https://github.com/calmm-js/atom.undo)
 * [`atom.storage`](https://github.com/calmm-js/atom.storage)
 
-And we also used [Bacon](https://github.com/baconjs/bacon.js)
-and [Ramda](http://ramdajs.com/).  Later, as an alternative to Bacon, we ported
-the relevant libraries to [Kefir](http://rpominov.github.io/kefir/):
+And we also used [Bacon](https://github.com/baconjs/bacon.js) and
+[Ramda](http://ramdajs.com/).  Later, as an alternative to Bacon, we ported the
+relevant libraries to [Kefir](http://rpominov.github.io/kefir/):
 
 * [`kefir.react.html`](https://github.com/calmm-js/kefir.react.html)
 * [`kefir.atom`](https://github.com/calmm-js/kefir.atom)
 
-Currently Calmm is being revised in the form of a new way to embed observables
-into VDOM.  The relevant libraries are
+More recently Calmm has been revised with a new way to embed observables into
+VDOM.  The relevant libraries are
 
-* [`karet`](https://github.com/calmm-js/karet), replacing `kefir.react.html`, and
+* [`karet`](https://github.com/calmm-js/karet), replacing `kefir.react.html`,
+  and
 * [`baret`](https://github.com/calmm-js/baret), replacing `bacon.react.html`.
 
 There is also a utility library for `karet`:
@@ -139,8 +140,8 @@ ways.  That is clearly something we want to avoid.  We want our approach to be
 able to work both as subordinate and as a master in conjunction with other
 approaches.
 
-By declarative programming we refer to the idea of writing
-[referentially transparent](https://en.wikipedia.org/wiki/Referential_transparency)
+By declarative programming we refer to the idea of writing [referentially
+transparent](https://en.wikipedia.org/wiki/Referential_transparency)
 descriptions of programs or program components.  To use those declarations one
 has to run or instantiate them.  Declarative programming tends to have many
 desirable properties such as composability and testability, but that is not
@@ -185,19 +186,19 @@ Note that we have not explicitly listed simplicity as a goal.  We have yet to
 see an approach to programming that claims to be complex and therefore
 desirable.  But what is
 [simple](https://twitter.com/RaezzM/status/708760222735704065)?  Is an approach
-based on one
-[Golden Hammer](https://en.wikipedia.org/wiki/Law_of_the_instrument) concept
-simple?  Not necessarily.  In his talk,
-[Simple made Easy](https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/SimpleMadeEasy.md),
+based on one [Golden
+Hammer](https://en.wikipedia.org/wiki/Law_of_the_instrument) concept simple?
+Not necessarily.  In his talk, [Simple made
+Easy](https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/SimpleMadeEasy.md),
 Rich Hickey makes the point that:
 
 > [...] when you simplify things, you often end up with more things.
 
-In our approach, we have identified several parts, all of
-which are quite simple on their own and solve a particular problem well, but not
-everything.  The selective composition of those parts, while perhaps difficult
-to understand at first, is what gives the ability to solve a variety of problems
-in UI programming.
+In our approach, we have identified several parts, all of which are quite simple
+on their own and solve a particular problem well, but not everything.  The
+selective composition of those parts, while perhaps difficult to understand at
+first, is what gives the ability to solve a variety of problems in UI
+programming.
 
 ## The basic ingredients
 
@@ -208,6 +209,7 @@ importance, as follows:
 2. We *embed* observables directly into React VDOM.
 3. We store state in modifiable observable *atoms*.
 4. We use *lenses* to selectively decompose state in atoms.
+5. We use *lifted functions* to operate on observables.
 
 The following subsections go into the details of the above ingredients.
 However, let's briefly describe how these ingredients relate to our problem and
@@ -231,22 +233,24 @@ To make the use of observables convenient we extend VDOM to allow observables as
 direct properties and children.  This eliminates a ton of boilerplate and glue
 and helps to keep the code declarative, because the side-effects of observable
 life-cycle management can be implemented once and for all by exploiting the
-[React VDOM life-cycle mechanism](https://facebook.github.io/react/docs/component-specs.html).
-This also allows us to obtain an amount of algorithmic efficiency, because we
-can make it so that VDOM is updated
+[React VDOM life-cycle
+mechanism](https://facebook.github.io/react/docs/component-specs.html).  This
+also allows us to obtain an amount of algorithmic efficiency, because we can
+make it so that VDOM is updated
 [incrementally](http://www.umut-acar.org/self-adjusting-computation) only when
 the values produced by observables actually change.  Like with so called
-[stateless React components](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions),
+[stateless React
+components](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions),
 we only use simple functions and never use `createClass`&mdash;that has been
 done once and for all for us.  The React VDOM itself adheres to the structural
 programming paradigm, which we preserve by embedding observables directly into
 VDOM.
 
 Storing state in modifiable observable atoms allows the state to be both
-observed and modified.  Atoms are actually used to store
-[immutable data](https://en.wikipedia.org/wiki/Immutable_object).  To modify an
-atom means that the immutable data structure stored by the atom is replaced by
-some new immutable data structure.  Modifications are serialized by the Atom
+observed and modified.  Atoms are actually used to store [immutable
+data](https://en.wikipedia.org/wiki/Immutable_object).  To modify an atom means
+that the immutable data structure stored by the atom is replaced by some new
+immutable data structure.  Modifications are serialized by the Atom
 implementation.  Unlike in fundamentalist declarative approaches, we only
 partially encode mutation of state.  Once a component is instantiated (or
 mounted) it can directly attach callbacks to VDOM that call operations to modify
@@ -260,8 +264,8 @@ selectively decompose state to be passed to components.  A component, that is
 given a modifiable atom to access state, does not need to know whether that atom
 actually stores the root state or whether the atom is in fact only a small
 portion of root state or even a property computed from state.  Lenses allow
-state to be stored as a whole, to reap benefits such as
-[trivial undo-redo](https://github.com/calmm-js/atom.undo), and then selectively
+state to be stored as a whole, to reap benefits such as [trivial
+undo-redo](https://github.com/calmm-js/atom.undo), and then selectively
 decomposed and passed step-by-step all the way trough the component hierarchy to
 leaf components that are only interested in some specific part of the state.
 Like VDOM, lenses enable structural programming, but in this case following the
@@ -269,6 +273,18 @@ structure of the data rather than that of the desired display elements.
 
 The combination of atoms and lenses realizes the plug-and-play vision for
 components.  The passing of state to components becomes concise and effective.
+
+Suppose we wish to add numbers from two observables, `a` and `b`, together.  We
+cannot just add them together.  The traditional way to deal with observables is
+to use higher-order functions like `flatMap` and `combine`.  To add two numbers,
+one could write e.g. `combine([a, b], R.add)`.  That is basically just a
+systematic approach to programming with callbacks and it quickly gets cumbersome
+when everything is an observable.  The idea of lifted functions is that we can
+avoid such callbacks and simply express the operations as usual.  To add numbers
+from two observables together, we could simply use a [lifted version of
+Ramda](https://github.com/calmm-js/kefir.ramda)'s
+[`R.add`](http://ramdajs.com/docs/#add) and write `R.add(a, b)`, which gives us
+an observable of the results.
 
 It must be emphasized that all parts of the above are essentially optional.  For
 example, a component that only needs to display state, and doesn't need to
@@ -290,26 +306,26 @@ simple way to create root observables, which is what we will need in order to
 talk about dependent computations.  Therefore we will first take a brief look at
 atoms and later take a another look when we talk about lenses.
 
-Let's start by importing an implementation of Atoms.  In this introduction we
-will be using [Kefir](http://rpominov.github.io/kefir/) as our observable
-implementation.  Therefore we will import the Kefir based
-[Atom](https://github.com/calmm-js/kefir.atom) implementation:
+In this introduction we will be using [Kefir](https://kefirjs.github.io/kefir/)
+as our observable implementation.  The [Karet
+Util](https://github.com/calmm-js/karet.util/) library brings together the core
+utilities for programming with Kefir based Calmm.  So, let's import the library:
 
 ```jsx
-import Atom from "kefir.atom"
+import * as U from 'karet.util'
 ```
 
-There also exists a [Bacon](https://baconjs.github.io/) based
-[Atom](https://github.com/calmm-js/bacon.atom) implementation, which is actually
-the implementation that our original project uses in production, and it should
-be possible to port the concept to pretty much any observable framework
+There also exists a [Bacon](https://baconjs.github.io/) based implementation of
+[atoms](https://github.com/calmm-js/bacon.atom), which is actually the
+implementation that our original project used in production, and it should be
+possible to port the concept to pretty much any observable framework
 (e.g. [Rx](https://github.com/Reactive-Extensions/RxJS)).
 
 Atoms are essentially first-class storage locations or variables.  We can create
-a new atom using the `Atom` constructor function:
+a new atom using the `U.atom` function:
 
 ```jsx
-const elems = Atom(["earth", "water", "air", "fire"])
+const elems = U.atom(['earth', 'water', 'air', 'fire'])
 ```
 
 And we can get the value of an atom:
@@ -322,7 +338,7 @@ elems.get()
 And we can also set the value of an atom:
 
 ```jsx
-elems.set(["observables", "embedding", "atoms"])
+elems.set(['observables', 'embedding', 'atoms'])
 elems.get()
 // [ 'observables', 'embedding', 'atoms' ]
 ```
@@ -338,7 +354,7 @@ is an example where we use Ramda's
 list:
 
 ```jsx
-elems.modify(R.append("lenses"))
+elems.modify(R.append('lenses'))
 elems.get()
 // [ 'observables', 'embedding', 'atoms', 'lenses' ]
 ```
@@ -431,7 +447,7 @@ notifications is one way to distinguish observables:
   will get notifications whenever new events occur.
 
 The concepts **Observable**, **Stream** and **Property** can be directly found
-in Bacon and [Kefir](http://rpominov.github.io/kefir/#about-observables), but
+in Bacon and [Kefir](https://kefirjs.github.io/kefir/#about-observables), but
 many other observable frameworks, such as Rx, which can be considered as a lower
 level framework, do not identify the concepts of streams and properties.
 However, in most of those other frameworks it is possible to create observables
@@ -475,43 +491,49 @@ case.  Let's just import the Kefir based version of the combinator from
 the [`karet.util`](https://github.com/calmm-js/karet.util) library:
 
 ```jsx
-import K from "karet.util"
+import {liftRec} from 'karet.util'
 ```
 
-The basic semantics of the combinator can be described as
+The basic semantics of
+[`liftRec`](https://github.com/calmm-js/karet.util/#U-liftRec) can be described
+as
 
 ```jsx
-K(x1, ..., xN, fn) === combine([x1, ..., xN], fn).skipDuplicates(equals)
+liftRec(fn) === (...args) => combine(args, fn).skipDuplicates(identical)
 ```
 
-where [`combine`](http://rpominov.github.io/kefir/#combine) and
-[`skipDuplicates`](http://rpominov.github.io/kefir/#skip-duplicates) come from
-Kefir and [`equals`](http://ramdajs.com/0.19.0/docs/#equals) from Ramda.  We
-skip duplicates, because that avoids some unnecessary updates.  Ramda's `equals`
-provides a semantics of equality that works, for immutable data, just the way we
-like.
+where [`combine`](https://kefirjs.github.io/kefir/#combine) and
+[`skipDuplicates`](https://kefirjs.github.io/kefir/#skip-duplicates) come from
+Kefir and [`identical`](http://ramdajs.com/0.19.0/docs/#identical) from Ramda.
+We skip duplicates, because that avoids some unnecessary updates.
 
 Suppose, for example, that we define two atoms representing independent
 variables:
 
 ```jsx
-const x = Atom(1)
-const y = Atom(2)
+const x = U.atom(1)
+const y = U.atom(2)
 ```
 
-Using `K` we could specify their sum as a
-[dependent variable](https://en.wikipedia.org/wiki/Dependent_and_independent_variables)
-as follows:
+Using `liftRec` we can define functions to perform arithmetic on numbers from
+observables:
 
 ```jsx
-const x_plus_y = K(x, y, (x, y) => x + y)
+const add = liftRec((x, y) => x + y)
+const subtract = liftRec((x, y) => x - y)
+```
+
+And we can then use `add` to express the sum of the two atoms:
+
+```jsx
+const x_plus_y = add(x, y)
 ```
 
 To see the value, we can use Kefir's
-[`log`](http://rpominov.github.io/kefir/#log) method:
+[`log`](https://kefirjs.github.io/kefir/#log) method:
 
 ```jsx
-x_plus_y.log("x + y")
+x_plus_y.log('x + y')
 // x + y <value:current> 3
 ```
 
@@ -527,90 +549,80 @@ y.set(3)
 We can, of course, create computations that depend on dependent computations:
 
 ```jsx
-const z = Atom(1)
-const x_plus_y_minus_z = K(x_plus_y, z, (x_plus_y, z) => x_plus_y - z)
-x_plus_y_minus_z.log("(x + y) - z")
+const z = U.atom(1)
+const x_plus_y_minus_z = sub(x_plus_y, z)
+x_plus_y_minus_z.log('(x + y) - z')
 // (x + y) - z <value:current> 0
 x.modify(x => x + 1)
 // x + y <value> 2
 // (x + y) - z <value> 1
 ```
 
-The `K` combinator is actually somewhat more powerful, or complex, than what the
-previous basic semantics claimed.  First of all, as we are using `K` to compute
-properties to be embedded to VDOM, we don't usually care whether we are really
-dealing with constants or with observable properties.  For this reason any
-argument of `K` is allowed to be a constant.  For example:
+The `liftRec` function is actually somewhat more powerful, or complex, than what
+the previous basic semantics claimed.  First of all, as we are using lifted
+function to compute properties to be embedded to VDOM, we don't usually care
+whether we are really dealing with constants or with observable properties.  For
+this reason any argument of a lifted function is allowed to be a constant.  For
+example:
 
 ```jsx
 const a = 2
-const b = Atom(3)
-K(a, b, (a, b) => a * b).log("a * b")
-// a * b <value:current> 6
+const b = U.atom(3)
+add(a, b).log('a + b')
+// a + b <value:current> 5
 ```
 
-Even further, when all the arguments to `K` are constants, the value is simply
-computed immediately:
+Even further, when all the arguments to a lifted function are constants, the
+result is simply computed immediately:
 
 ```jsx
-K("there", who => "Hello, " + who + "!")
-// 'Hello, there!'
+add(1, 2)
+// 3
 ```
 
-This reduces the construction of unnecessary observables.
+This reduces the unnecessary construction observables and memory usage.
 
-The second special feature of `K` is that when the constructor of an argument is
-`Array` or `Object`, then that argument is treated as a template that may
-contain observables.  The values from observables found inside the template are
-substituted into the template to form an instance of the template that is then
-passed to the combiner function.  For example:
+The second special feature of `liftRec` is that when the constructor of an
+argument to a lifted function is `Array` or `Object`, then that argument is
+treated as a template that may contain observables.  The values from observables
+found inside the template are substituted into the template to form an instance
+of the template that is then passed to the combiner function.  For example:
 
 ```jsx
-K({i: Atom(1), xs: ["a", Atom("b"), Atom("c")]}, r => r.xs[r.i]).log()
-// result <value:current> b
+const includes = liftRec((xs, x) => xs.includes(x))
+
+includes([42, U.atom(101)], 101).log()
+// result <value:current> true
 ```
 
-In other words, `K` also includes the functionality of
+In other words, `liftRec` also includes the functionality of
 [`combineTemplate`](https://github.com/baconjs/bacon.js#bacon-combinetemplate).
 
-Unlike with Kefir's [`combine`](http://rpominov.github.io/kefir/#combine), the
-combiner function is also allowed to be an observable.  For example:
+Furthermore, `liftRec` only lifts functions, preserves the arity of given
+functions and works recursively so that if the function call returns a function,
+then that function will be lifted as well.  This actually makes it so that
+`liftRec` can be used rather mechanically.  For example, the [Kefir
+Ramda](https://github.com/calmm-js/kefir.ramda) provides a readily lifted
+version of Ramda that is [automatically
+generated](https://github.com/calmm-js/kefir.ramda/blob/master/src/kefir.ramda.js).
+This allows us to just say
 
-```jsx
-const f = Atom(x => x + 1)
-K(1, f).log("result")
-// result <value:current> 2
-f.set(x => x * 2 + 1)
-// result <value> 3
+```js
+import * as R from 'kefir.ramda'
 ```
 
-Finally, like with Kefir's [`combine`](http://rpominov.github.io/kefir/#combine)
-the combiner function is optional.  If the combiner is omitted, the result is an
-array.  For example:
+and get an arsenal of lifted functions to compute with.
 
-```jsx
-K()
-// []
-K(1, 2, 3)
-// [ 1, 2, 3 ]
-K({x: Atom(1)}, 2, [Atom(3)]).log("result")
-// result <value:current> [ { x: 1 }, 2, [ 3 ] ]
-```
+Phew!  This might be overwhelming at first, but lifted functions gives us a lot
+of leverage to reduce boilerplate and also helps by avoiding some unnecessary
+updates.
 
-Phew!  This might be overwhelming at first, but the `K` combinator gives us a
-lot of leverage to reduce boilerplate and also helps by avoiding some
-unnecessary updates.  The Kefir based implementation of `K` is actually
-carefully optimized for space.  For example, `K(x, f)`, which, assuming `x` is a
-property and `f` is a function, is equivalent to
-`x.map(f).skipDuplicates(equals)`.  Of those two, `K(x, f)` takes less space.
-
-It should be mentioned, however, there is nothing magical about `K`.  We use it,
-because it helps to eliminate boilerplate.  We also use other observable
+It should be mentioned, however, there is nothing magical about lifted
+functions.  We use them, because they help to eliminate boilerplate and keep
+computations using observables readable.  We also use other observable
 combinators when they are needed.  There is no requirement in Calmm to use
-`K`&mdash;all the same functionality can be obtained by using just basic
-observable combinators.  However, avoiding boilerplate isn't the only reason to
-use `K`.  As we will see shortly, it also helps to keep things easier to
-understand.
+lifted functions&mdash;all the same functionality can be obtained by using just
+basic observable combinators.
 
 ### Embedding observables into VDOM
 
@@ -626,7 +638,7 @@ extend VDOM to admit observables as properties and children.  Consider the
 following example:
 
 ```jsx
-import React from "react"
+import * as React from 'react'
 
 const Hello = ({who}) => <div>Hello, {who}!</div>
 ```
@@ -640,7 +652,7 @@ If we'd create VDOM that specifies an ordinary constant for the `Hello` class
 it would render as expected.  If, instead, we'd specify an observable
 
 ```jsx
-const who = Atom("world")
+const who = U.atom('world')
 ...
 <Hello who={who}/>
 ```
@@ -651,7 +663,7 @@ JSX that would also allow observables as properties and children?  We can do
 that importing `React` from [`karet`](https://github.com/calmm-js/karet):
 
 ```jsx
-import React from "karet"
+import * as React from 'karet'
 
 const Hello = ({who}) => <div>Hello, {who}!</div>
 ```
@@ -675,32 +687,17 @@ From here on we assume that `React` has been imported
 from [`karet`](https://github.com/calmm-js/karet).
 
 Now that we have the tools for it, let's create something just a little bit more
-interesting.  Here is a toy React class that converts Celcius to Fahrenheit:
+interesting.  Here is a toy component that converts Celcius to Fahrenheit:
 
 ```jsx
-const Converter = ({value = Atom("0")}) =>
+const toFahrenheit = U.liftRec(c => c * 9/5 + 32)
+
+const Converter = ({c = U.atom(0)}) =>
   <p>
-    <input onChange={e => value.set(e.target.value)}
-           value={value}/>°C is {K(value, c => c * 9/5 + 32)}°F
+    <input onChange={e => c.set(e.target.valueAsNumber)}
+           value={c}/>°C is {toFahrenheit(c)}°F
   </p>
 ```
-
-Using the `bind` helper from `karet.util`
-
-```jsx
-import * as U from "karet.util"
-```
-
-we can shorten the `Converter` further:
-
-```jsx
-const Converter = ({value = Atom("0")}) =>
-  <p><input {...U.bind({value})}/>°C is {K(value, c => c * 9/5 + 32)}°F</p>
-```
-
-This latter version using `U.bind` evaluates to the exact same functionality as
-the previous version that uses `onChange`.  `U.bind({x})` is equivalent to `{x,
-onChange: e => x.set(e.target.x)}`.
 
 #### Dispelling the Magic
 
@@ -714,35 +711,30 @@ that allows them to be robustly combined with observables.
 React's VDOM itself is just a tree of JavaScript objects.  That tree can be
 traversed and its elements analyzed.  This allows us to find the observables
 from VDOM.  Inside the [`karet`](http://calmm-js.github.io/karet) library is an
-implementation of a React class that implements the life-cycle methods:
+implementation of a React class that implements the life-cycle methods roughly
+like this:
 
 ```jsx
 ...
-componentWillReceiveProps(nextProps) {
-  this.doUnsubscribe()
-  this.doSubscribe(nextProps)
+componentDidMount() {
+  this.doSubscribe()
 },
-componentWillMount() {
-  this.doUnsubscribe()
-  this.doSubscribe(this.props)
-},
-shouldComponentUpdate(np, ns) {
-  return ns.rendered !== this.state.rendered
+componentDidUpdate(prevProps) {
+  this.doUnsubscribe(prevProps)
+  this.doSubscribe()
 },
 componentWillUnmount() {
-  this.doUnsubscribe()
-  this.setState( /* empty state */ )
+  this.doUnsubscribe(this.props)
 },
 render() {
   return this.state.rendered
 },
-doSubcribe( /* ... */ ) {
+doSubcribe() {
   // Extracts observables from own VDOM properties and direct children.
-  // Combines them into an observable skipping duplicates and producing VDOM.
-  // Subscribes to the VDOM observable to setState with the results.
+  // Subscribes to the observables to forceUpdate the component.
 },
-doUnsubscribe( /* ... */ ) {
-  // Unsubscribes from the observable created by doSubscribe.
+doUnsubscribe( props ) {
+  // Unsubscribes from the observables in props.
 }
 ...
 ```
@@ -795,51 +787,23 @@ approach.
 We previously mentioned the problem of displaying a list of items.  Let's
 suppose we indeed have a list of items, say names, and we want to create a
 component that displays such a list.  Here is perhaps a straightforward
-solution:
+solution using lifted `R.map` from the Kefir Ramda library:
 
 ```jsx
-const ListOfNames = ({names}) =>
+import * as R from 'kefir.ramda'
+
+const ListOfNames = ({names}) => (
   <ul>
-    {K(names, R.map(name =>
-       <li key={name}>{name}</li>))}
+    {R.map(name => <li key={name}>{name}</li>, names)}
   </ul>
+)
 ```
 
-Note that above we use `K` when we are dealing with an observable and we use
-Ramda's [`map`](http://ramdajs.com/0.19.0/docs/#map) to map over the array of
-names.  Instead of `K`, one could also use the `map` method of observables:
+Well, it works.  We can give `List` an observable that produces an array of
+names
 
 ```jsx
-const ListOfNames = ({names}) =>
-  <ul>
-    {names.map(R.map(name =>
-       <li key={name}>{name}</li>))}
-  </ul>
-```
-
-And one could also just use the built-in `map` method of arrays:
-
-```jsx
-const ListOfNames = ({names}) =>
-  <ul>
-    {names.map(names => names.map(name =>
-       <li key={name}>{name}</li>))}
-  </ul>
-```
-
-We actually initially did this, but we found it unnecessarily confusing and
-limiting.  The use of `R.map`, rather than the `map` method of arrays,
-eliminates an odd looking `xs => xs.map(x => ...` pattern from our code.  The
-use of `K`, rather than the `map` method of observables, helps to avoid
-confusing properties with arrays.  It also makes the code more flexible, because
-it now allows the arguments to be both constants and observables.  Finally, it
-also helps with efficiency, as it also skips duplicates.
-
-Back to the `ListOfNames`.  It already works.  We can give `List` an observable
-that produces an array of names
-
-```jsx
-const names = Atom(["Markus", "Matti"])
+const names = U.atom(['Markus', 'Matti'])
 ...
 <ListOfNames {...{names}}/>
 ```
@@ -847,7 +811,7 @@ const names = Atom(["Markus", "Matti"])
 and if we would modify the list of names
 
 ```jsx
-names.modify(R.append("Vesa"))
+names.modify(R.append('Vesa'))
 ```
 
 the list would be rerendered.
@@ -859,19 +823,21 @@ lead to unacceptable performance.
 
 Fortunately this is not difficult to fix.  We just cache the VDOM between
 changes.  [`karet.util`](https://github.com/calmm-js/karet.util) provides the
-`mapCached` observable combinator for this purpose:
+[`mapElems`](https://github.com/calmm-js/karet.util/#U-mapElems) observable
+combinator for this purpose:
 
 ```jsx
-import * as U from "karet.util"
+import * as U from 'karet.util'
 ```
 
 Using it we can rewrite the `ListOfNames` component:
 
 ```jsx
-const ListOfNames = ({names}) =>
+const ListOfNames = ({names}) => (
   <ul>
-    {U.mapCached(name => <li key={name}>{name}</li>, names)}
+    {U.mapElems('id', (name, i) => <li key={i}>{name}</li>, names)}
   </ul>
+)
 ```
 
 This version of `ListOfNames` works efficiently in the sense that, when names in
@@ -880,11 +846,11 @@ previously displayed list of names.  What makes that possible is that the
 expression
 
 ```jsx
-                 name => <li key={name}>{name}</li>
+                      (name, i) => <li key={i}>{name}</li>
 ```
 
 specifies a referentially transparent function, which allows us to use
-`U.mapCached` to cache the results.
+`U.mapElems` to cache the results.
 
 Our Kefir and Calmm based [TodoMVC](https://github.com/calmm-js/karet-todomvc)
 also just uses `U.mapCached` and seems to be one of the fastest and one of the
@@ -918,7 +884,7 @@ const TextInput = ({value}) => <input {...U.bind({value})}/>
 If we now create an atom
 
 ```jsx
-const text = Atom("initial")
+const text = U.atom("initial")
 ```
 
 and give it as the `value` property to `TextInput`
@@ -1032,7 +998,7 @@ Where things get really interesting is that Atoms support lenses.  Recall the
 list of names:
 
 ```jsx
-const names = Atom(["Markus", "Matti"])
+const names = U.atom(["Markus", "Matti"])
 ```
 
 To create a **LensedAtom**, that uses lenses to decompose state, we just call
@@ -1226,7 +1192,7 @@ by the instance.  IOW, state generally only exists within the lifetime of an
 instance of a component.
 
 ```jsx
-const A = ({state = Atom("")}) =>
+const A = ({state = U.atom("")}) =>
   <input value={state}
          onChange={e => state.set(e.target.value)}/>
 ```
@@ -1298,7 +1264,7 @@ and we wish to create compositions of such components and route the outputs of
 some components to the inputs other components:
 
 ```jsx
-const Composition = ({variable = Atom("")}) =>
+const Composition = ({variable = U.atom("")}) =>
   <div>
     <ProducesOutput output={variable}/>
     <DisplaysInput input={variable}/>
@@ -1314,7 +1280,7 @@ with a default.  This allows us to further compose the `Composition` component
 with other components:
 
 ```jsx
-const FurtherComposition = ({variable = Atom("")}) =>
+const FurtherComposition = ({variable = U.atom("")}) =>
   <div>
     <Composition {...{variable}}/>
     <DisplaysInput input={variable}/>
