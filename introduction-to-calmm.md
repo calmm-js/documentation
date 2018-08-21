@@ -835,7 +835,7 @@ Using it we can rewrite the `ListOfNames` component:
 ```jsx
 const ListOfNames = ({names}) => (
   <ul>
-    {U.mapElems('id', (name, i) => <li key={i}>{name}</li>, names)}
+    {U.mapElems((name, i) => <li key={i}>{name}</li>, names)}
   </ul>
 )
 ```
