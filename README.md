@@ -14,6 +14,7 @@ You may also find the following slides useful:
 * [Keep Calmm and React!](https://calmm-js.github.io/documentation/keep-calmm-and-react/)
 * [What is my state?](https://calmm-js.github.io/documentation/what-is-my-state/)
 * [Observables are Elephants](https://calmm-js.github.io/documentation/observables-are-elephants/)
+* [Your mental model of optics &mdash; shattered](https://calmm-js.github.io/documentation/mental-optics/)
 
 **Note** that the [Wiki](https://github.com/calmm-js/documentation/wiki) has some
 additional material, including [links to live examples](https://github.com/calmm-js/documentation/wiki/Links-to-live-examples).
